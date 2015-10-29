@@ -78,7 +78,6 @@
 (depends-on "rainbow-mode")
 (depends-on "rich-minority")
 (depends-on "s")
-(depends-on "sass-mode")
 (depends-on "scss-mode")
 (depends-on "sequential-command")
 (depends-on "shut-up")
