@@ -1,12 +1,17 @@
 #+TITLE: 使用 dotfiles 和 stow 管理你的 dotfiles
 #+AUTHOR: 欧阳继超
+#+Date: <2015-10-29 Thu>
 
 可能看标题你觉得我疯了，什么叫用 dotfiles 管理你的 dotfiles。
 
-第一个 [[http://dotfiles.github.io/][dotfiles]] 指将 HOME 目录下的 =.XXX= (它们是真的字面意思dotfiles) 文件同步到 Github 上的方式。
+第一个单词 [[http://dotfiles.github.io/][dotfiles]] 指将 HOME 目录下的 =.XXX= (它们是真的字面意思dotfiles) 文件同步到 Github 上的方式。
 通常情况下，我们在开发过程中装的大部分工具，都会在 HOME 目录下创建一个以 =.= 开头的文件或目录，放置配置或者状态。
 
 因此我们希望的是用 github 版本管理这些 *配置* ，而不是 *状态* 。
+
+#+BEGIN_QUOTE
+ 下面例子中的 dotfiles repo 在[[https://github.com/jcouyang/dotfiles][这里]]
+#+END_QUOTE
 
 好吧，让我们来看看到底如何版本管理这些 “dotfiles”。
 
@@ -31,6 +36,7 @@ brew install stow
     └── theme
 #+END_EXAMPLE
 
+*** stow 文件
  注意看我们需要版本管理文件应该是 config.fish 和 omf 下的所有文件，于是，我将这些文件考到我新建
 的 =~/dotfiles= 目录下
 
@@ -57,11 +63,13 @@ stow fish
 │   └── fishd.a45e60d0d7e3
 #+END_EXAMPLE
 
-=config.fish= 被链到了我创建的 =dotfiles/fish= 底下同样的目录中。
+=config.fish= 被链到了我创建的 =dotfiles/fish= 底下同样的目录中。 重要的是两个状态文件 =fish_history= 和
+=fish.blahblah= 任然在 =~/.config/fish= 下，我们并不想要他们到我们的 dotfiles 中来。
 
-这样其实每次修改 =config.fish= 都实际上是在修改 =~/dotfiles=  下的 =config.fish=
+于是，这样其实每次修改 =config.fish= 都实际上是在修改 =~/dotfiles=  下的 =config.fish=
 
- 另外我们在试试管理 omf(oh-my-fish)，似乎 omf下面没有什么状态，bundle 和 theme 都是配置，所以
+*** stow 目录
+另外我们在试试管理 omf(oh-my-fish)，似乎 omf下面没有什么状态，bundle 和 theme 都是配置，所以
 与其 symlink 文件，不如 symlink 整个 omf 目录。同样在 =~/dotfiles=  目录下运行
 
 #+BEGIN_EXAMPLE
@@ -78,8 +86,11 @@ stow omf
 │   └── fishd.a45e60d0d7e3
 └── omf -> ../dotfiles/omf/.config/omf
 #+END_EXAMPLE
+我们把整个 omf 目录都链到了 dotfile 目录下
 
 ** push to github
+下面看如何用 github 来管理这些 dotfiles
+
 强烈推荐先安装 [[http://hub.github.com/][hub]]
 #+BEGIN_SRC shell-script
 brew install hub
