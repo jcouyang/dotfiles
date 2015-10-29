@@ -1,0 +1,133 @@
+#+TITLE: 使用 dotfiles 和 stow 管理你的 dotfiles
+#+AUTHOR: 欧阳继超
+
+可能看标题你觉得我疯了，什么叫用 dotfiles 管理你的 dotfiles。
+
+第一个 [[http://dotfiles.github.io/][dotfiles]] 指将 HOME 目录下的 =.XXX= (它们是真的字面意思dotfiles) 文件同步到 Github 上的方式。
+通常情况下，我们在开发过程中装的大部分工具，都会在 HOME 目录下创建一个以 =.= 开头的文件或目录，放置配置或者状态。
+
+因此我们希望的是用 github 版本管理这些 *配置* ，而不是 *状态* 。
+
+好吧，让我们来看看到底如何版本管理这些 “dotfiles”。
+
+** 使用 stow 管理 symlink
+GNU stow 是管理符号链接（symlink）的一个小公举。只需要
+#+BEGIN_SRC shell-script
+brew install stow
+#+END_SRC
+ 或者如果你非 mac 机器，请访问[[http://www.gnu.org/software/stow/][官网]]看看如何安装
+
+安装了 stow 之后，我们可以开始 symlink 一些 dotfiles 了。以 fish 和 omf 为例，它们本来的 HOME 目录下
+的结构应该是这样的：
+#+BEGIN_EXAMPLE -r -n
+⋊> ~/dotfiles on master ⨯ tree ~/.config                                             22:25:34
+/Users/jcouyang/.config
+├── fish
+│   ├── config.fish
+│   ├── fish_history
+│   └── fishd.a45e60d0d7e3
+└── omf
+    ├── bundle
+    └── theme
+#+END_EXAMPLE
+
+ 注意看我们需要版本管理文件应该是 config.fish 和 omf 下的所有文件，于是，我将这些文件考到我新建
+的 =~/dotfiles= 目录下
+
+#+BEGIN_EXAMPLE
+mkdir ~/dotfiles/
+cd ~/dotfiles
+mkdir -p fish/.config/fish
+mv ~/.config/fish/config.fish fish/.config/fish/
+ls fish/.config/fish/
+#+END_EXAMPLE
+
+现在可以使用 stow 创建 symlink 了。
+#+BEGIN_SRC shell-script
+stow fish
+#+END_SRC
+
+瞅瞅 现在 =~/.config= 变什么样了
+#+BEGIN_EXAMPLE
+⋊> ~/dotfiles on master ⨯ tree ~/.config                                             22:33:55
+/Users/jcouyang/.config
+├── fish
+│   ├── config.fish -> ../../dotfiles/fish/.config/fish/config.fish
+│   ├── fish_history
+│   └── fishd.a45e60d0d7e3
+#+END_EXAMPLE
+
+=config.fish= 被链到了我创建的 =dotfiles/fish= 底下同样的目录中。
+
+这样其实每次修改 =config.fish= 都实际上是在修改 =~/dotfiles=  下的 =config.fish=
+
+ 另外我们在试试管理 omf(oh-my-fish)，似乎 omf下面没有什么状态，bundle 和 theme 都是配置，所以
+与其 symlink 文件，不如 symlink 整个 omf 目录。同样在 =~/dotfiles=  目录下运行
+
+#+BEGIN_EXAMPLE
+mkdir -p ~/dotfiles/omf/.config
+mv ~/.config/omf ~/dotfiles/omf/.config/omf
+stow omf
+#+END_EXAMPLE
+ 这时候再看看 =~/.config=
+#+BEGIN_EXAMPLE
+/Users/jcouyang/.config
+├── fish
+│   ├── config.fish -> ../../dotfiles/fish/.config/fish/config.fish
+│   ├── fish_history
+│   └── fishd.a45e60d0d7e3
+└── omf -> ../dotfiles/omf/.config/omf
+#+END_EXAMPLE
+
+** push to github
+强烈推荐先安装 [[http://hub.github.com/][hub]]
+#+BEGIN_SRC shell-script
+brew install hub
+hub create dotfiles
+git add .
+git commit -m "my awesome dotfiles"
+git push origin master
+#+END_SRC
+
+就这么简单，你的配置文件就安全的放到了 github 上，并且以后每一次改动都再也不怕改挂了。
+
+** submodule vs subtree
+但是我有些配置文件其实在另外一个 repo 上，这时候我怎么能跟这个 =dotfiles= repo 合到一起呢？
+
+比如[[https://github.com/jcouyang/.emacs.d][我的 emacs 配置文件]]，其实是单独管理在另一 repo 的。
+
+这时候 git 为我们提供了两种方式来管理 submodule 和 subtree。 我用的是后一种，至于 submodule
+为什么不适用，网上有[[http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/][大量文章]]解释，我就懒得翻译了。
+
+#+BEGIN_SRC shell-script
+⋊> ~/dotfiles on master ⨯ git subtree add --prefix emacs/.emacs.d git@github.com:jcouyang/.emacs.d.git master --squash
+#+END_SRC
+这行 subtree 命令把我的 emacs 配置从我的 repo 下下来作为 subtree，并 squash(合成一个) commits
+
+ 这时我的 git树是这样的
+#+BEGIN_EXAMPLE 
+\* commit b33c46bfebe4a28849aa967222555a4676fdb9f4 (HEAD -> master)
+|\  Merge: 1b240f8 e6dacdc
+| | Author: Jichao Ouyang <oyanglulu@gmail.com>
+| | Date:   Thu Oct 29 21:33:06 2015 +0800
+| |
+| |     Merge commit 'e6dacdcd1f85cdcb3b5fa488edb7b8f31c297b3f' as 'emacs/.emacs.d'
+| |
+| * commit e6dacdcd1f85cdcb3b5fa488edb7b8f31c297b3f
+#+END_EXAMPLE
+
+可以看见把 我的 emacs repo merge 了进来，这样就跟在 =dotfiles= repo 的代码一样，该 commit 的 commit 该
+ push 的 push。
+
+下面看如何 push 回我的 emacs repo。
+
+比如我现在对 subtree emacs 做了改动并 commit 了。然后
+
+#+BEGIN_EXAMPLE
+git remote add emacs git@github.com:jcouyang/.emacs.d.git
+git subtree push --prefix emacs/.emacs.d emacs master
+#+END_EXAMPLE
+1. 先把 emacs 的 repo 加到我的 remote 里，给个名字 emacs
+2. 用 subtree push 直接 push 到 remote emacs，branch master
+
+*LLAP 🖖*
