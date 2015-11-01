@@ -29,6 +29,50 @@ also, there're several of popular themes of your choice
 
 http://emacsthemes.caisah.info/installed-emacs-themes/
 
+* Fonts
+
+#+BEGIN_SRC emacs-lisp
+
+  ;;      (set-fontset-font t 'han '("PingFang SC"))
+  (require 'unicode-fonts)
+  (unicode-fonts-setup)
+  (set-default-font "Fira Mono-14:width=condensed:weight=light")
+
+  (defun darwin-set-emoji-font (frame)
+    "Adjust the font settings of FRAME so Emacs NS/Cocoa can display emoji properly."
+    (if (eq system-type 'darwin)
+        (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)))
+  ;; For when emacs is started with Emacs.app
+  (darwin-set-emoji-font nil)
+  ;; Hook for when a cocoa frame is created with emacsclient
+  ;; see https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Frames.html
+  (add-hook 'after-make-frame-functions 'darwin-set-emoji-font)
+
+
+
+  (defun my-add-pretty-lambda ()
+    "make some word or string show as pretty Unicode symbols"
+    (setq prettify-symbols-alist
+          '(
+            ("lambda" . ?λ)
+            ("->" . ?→)
+            ("=>" . ?⇒)
+            ("!=" . ?≠)
+            (">=" . ?⩾)
+            ("<=" . ?⩽)
+            )))
+
+  (add-hook 'clojure-mode-hook 'my-add-pretty-lambda)
+  (add-hook 'haskell-mode-hook 'my-add-pretty-lambda)
+  (add-hook 'js2-mode-hook 'my-add-pretty-lambda)
+
+  (global-prettify-symbols-mode 1)
+
+#+END_SRC
+
+#+RESULTS:
+: t
+
 * Global General Modes
 有一些全局基本设置，可以让emacs能基本适应我的习惯
 - 开启server，方便从terminal使用 =emacsclient=  [[(server)]]
@@ -46,7 +90,6 @@ http://emacsthemes.caisah.info/installed-emacs-themes/
     (delete-selection-mode 1) ; delete selection when paste
     (keyboard-translate ?\C-h ?\C-?); (ref:delete-key)
     (global-auto-revert-mode 1)  ;auto revert buffers when changed on dis
-    (global-prettify-symbols-mode 1)
   (global-diff-hl-mode)
 #+END_SRC
 
@@ -78,17 +121,8 @@ http://emacsthemes.caisah.info/installed-emacs-themes/
        c-hungry-delete-key t                  ;delete more than one space
        electric-pair-mode nil
        )
-  (set-fontset-font "fontset-default" 'han '("PingFang SC"))
       (electric-indent-mode t)
-  (defun darwin-set-emoji-font (frame)
-  "Adjust the font settings of FRAME so Emacs NS/Cocoa can display emoji properly."
-    (if (eq system-type 'darwin)
-      (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)))
-  ;; For when emacs is started with Emacs.app
-  (darwin-set-emoji-font nil)
-  ;; Hook for when a cocoa frame is created with emacsclient
-  ;; see https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Frames.html
-  (add-hook 'after-make-frame-functions 'darwin-set-emoji-font)
+
 #+END_SRC
 
 #+RESULTS:
@@ -164,7 +198,6 @@ emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自
 | C-x C-b       | Windows   | use ido to switch buffers                                 | 'ido-switch-buffer                                                |
 | C-0           | Windows   | Select previous window                                    | (lambda () (interactive) (select-window (previous-window)))       |
 | C-9           | Windows   | Select next window                                        | (lambda () (interactive) (select-window (next-window)))           |
-| <f4>          | Windows   | Delete current window (not the buffer)                    | 'delete-window                                                    |
 | M-k           | Windows   | Only keep the current window and delete all others        | 'delete-other-windows                                             |
 | <f7>          | Windows   | Toggle arrangement of two windows horizontally/vertically | 'toggle-window-split                                              |
 | M-w           | Windows   | close window                                              | 'kill-buffer-and-window                                           |

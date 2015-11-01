@@ -89,6 +89,7 @@
 (depends-on "tern")
 (depends-on "textmate")
 (depends-on "ucs-utils")
+(depends-on "unicode-fonts")
 (depends-on "use-package")
 (depends-on "visual-regexp")
 (depends-on "web-mode")
