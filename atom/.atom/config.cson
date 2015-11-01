@@ -6,6 +6,7 @@
   core: {}
   editor:
     invisibles: {}
+    fontFamily: "fira code"
   "atom-typescript": {}
   linter: {}
   "language-babel": {}
