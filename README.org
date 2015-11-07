@@ -15,7 +15,7 @@
 
 好吧，让我们来看看到底如何版本管理这些 “dotfiles”。
 
-** 使用 stow 管理 symlink
+* 使用 stow 管理 symlink
 GNU stow 是管理符号链接（symlink）的一个小公举。只需要
 #+BEGIN_SRC shell-script
 brew install stow
@@ -36,7 +36,7 @@ brew install stow
     └── theme
 #+END_EXAMPLE
 
-*** stow 文件
+** stow 文件
  注意看我们需要版本管理文件应该是 config.fish 和 omf 下的所有文件，于是，我将这些文件考到我新建
 的 =~/dotfiles= 目录下
 
@@ -68,7 +68,7 @@ stow fish
 
 于是，这样其实每次修改 =config.fish= 都实际上是在修改 =~/dotfiles=  下的 =config.fish=
 
-*** stow 目录
+** stow 目录
 另外我们在试试管理 omf(oh-my-fish)，似乎 omf下面没有什么状态，bundle 和 theme 都是配置，所以
 与其 symlink 文件，不如 symlink 整个 omf 目录。同样在 =~/dotfiles=  目录下运行
 
@@ -88,7 +88,7 @@ stow omf
 #+END_EXAMPLE
 我们把整个 omf 目录都链到了 dotfile 目录下
 
-** push to github
+* push to github
 下面看如何用 github 来管理这些 dotfiles
 
 强烈推荐先安装 [[http://hub.github.com/][hub]]
@@ -102,7 +102,7 @@ git push origin master
 
 就这么简单，你的配置文件就安全的放到了 github 上，并且以后每一次改动都再也不怕改挂了。
 
-** submodule vs subtree
+* submodule vs subtree
 但是我有些配置文件其实在另外一个 repo 上，这时候我怎么能跟这个 =dotfiles= repo 合到一起呢？
 
 比如[[https://github.com/jcouyang/.emacs.d][我的 emacs 配置文件]]，其实是单独管理在另一 repo 的。
@@ -140,5 +140,43 @@ git subtree push --prefix emacs/.emacs.d emacs master
 #+END_EXAMPLE
 1. 先把 emacs 的 repo 加到我的 remote 里，给个名字 emacs
 2. 用 subtree push 直接 push 到 remote emacs，branch master
+
+
+* ㊙ Sensitive dotfiles
+有些 dotfiles  中可能涉及一些 token 或者密码，如果把他们 push 到 public 的 github 上， +有可能+ 肯定会对你个人或者公司造成巨大的损失（最近公司就开始扫描个人 github 账户了🙀 好紧张）。于是我们需要对这些敏感的 dotfiles 做加密。
+
+比如 =~/.config/hub= 里面，有我和公司的 github 的 token，我可不像这玩意被弄到 github 上。
+
+目前最广泛使用的加密手段是 Gnupg，简称 gpg，一样使用 brew 装就好了
+#+BEGIN_SRC sh
+brew install gnupg
+#+END_SRC
+
+安装完之后需要生成一个 keypair
+#+BEGIN_SRC sh
+gpg --gen-key
+#+END_SRC
+
+ 输入名字，邮箱，密码之后，就 ok 了
+
+ 然后呢，我并不希望手动的每次加密完再push 到我的私有 git 上（对，即使是私有 git，安全考虑我还是需要加密，绝对不能明文存储，就是这么任性）。
+
+那么到底去哪弄一个私有 git 呢？如果没有，dropbox 就可以，然后现在的问题是如何在 push 的时候自动的 gpg 加密。
+
+现在 git remote crypt  大法就该登场了，到这里 https://github.com/joeyh/git-remote-gcrypt  把 repo 下下来执行 =./install.sh=, 之后就应该有 =git-remote-gcrypt= 这样一个命令，先别跑
+
+关键在于见 remote 的时候。当我在 home 目录建了一个 =dotfiles-private= 的文件夹，stow 完各种敏感 dotfiles 之后
+#+BEGIN_SRC sh
+git init
+git add .
+git commit -m "some private dotfiles"
+git remote add dropbox gcrypt::rsync:///Users/jcouyang/Dropbox/dotfiles-private.git
+git push
+#+END_SRC
+
+你会被问到刚才创建 gpg keypair 时输入的密码，然后...
+
+看，两坨 gpg 加密过的文件
+[[https://www.evernote.com/l/ABezPtVV1YxHFrYpAsVE_G_oc5-O0bmzqYMB/image.png]]
 
 *LLAP 🖖*
