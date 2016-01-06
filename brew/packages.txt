@@ -5,6 +5,7 @@ boost
 cask
 chromedriver
 cmake
+ditaa
 docbook
 editorconfig
 elasticsearch
@@ -20,6 +21,8 @@ graphviz
 heroku-toolbelt
 hub
 ispell
+jmeter
+jq
 lastpass-cli
 leiningen
 libpng
@@ -27,6 +30,7 @@ makedepend
 mysql
 node
 nvm
+oniguruma
 openssl
 pandoc
 pcre
