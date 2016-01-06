@@ -1,15 +1,19 @@
 "*":
+  "atom-typescript": {}
+  core:
+    themes: [
+      "one-dark-ui"
+      "base16-tomorrow-dark-theme"
+    ]
+  editor:
+    fontFamily: "fira code"
+    invisibles: {}
   "exception-reporting":
     userId: "d5dbca53-dc7f-b03b-1803-53c629afda3e"
-  welcome:
-    showOnStartup: false
-  core: {}
-  editor:
-    invisibles: {}
-    fontFamily: "fira code"
-  "atom-typescript": {}
-  linter: {}
-  "language-babel": {}
-  "markdown-preview": {}
   glist:
     githubToken: "**********"
+  "language-babel": {}
+  linter: {}
+  "markdown-preview": {}
+  welcome:
+    showOnStartup: false
