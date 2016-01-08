@@ -1,5 +1,6 @@
 package bundler
+package export
+package fasd
 package gi
 package rbenv
-package z
 theme default
