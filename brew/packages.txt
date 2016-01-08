@@ -10,6 +10,7 @@ docbook
 editorconfig
 elasticsearch
 emacs
+fasd
 fish
 freetds
 gdbm
