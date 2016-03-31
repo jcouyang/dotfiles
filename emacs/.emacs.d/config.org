@@ -1,7 +1,16 @@
-# Created 2016-03-31 Thu 00:48
 #+OPTIONS: H:2
 #+TITLE: Literal Programming Emacs Configure
 #+AUTHOR: Jichao Ouyang
+
+* Install
+安装这个config再容易不过了
+#+BEGIN_SRC sh
+  cd ~
+  git clone git@github.com:jcouyang/.emacs.d.git
+  cd .emacs.d
+  cask install
+#+END_SRC
+打开 emacs, 问啥都说 yes, yeah
 
 
 * Theme
@@ -46,27 +55,25 @@ also, there're several of popular themes of your choice
             ("->" . ?→)
             ("=>" . ?⇒)
             ("!=" . ?≠)
+            ("===" . ?≡)
+            ("!==" . ?≢)
             (">=" . ?⩾)
             ("<=" . ?⩽)
+            ("<|" . ?⊲)
+            ("|>" . ?⊳)
+            (">->" . ?↣)
+            ("~>" . ?↝)
+            (">=>" . ?⟾)
             )))
 
   (add-hook 'clojure-mode-hook 'my-add-pretty-lambda)
   (add-hook 'haskell-mode-hook 'my-add-pretty-lambda)
   (add-hook 'js2-mode-hook 'my-add-pretty-lambda)
+  (add-hook 'javascript-mode-hook 'my-add-pretty-lambda)
   (add-hook 'coffee-mode-hook 'my-add-pretty-lambda)
 
   (global-prettify-symbols-mode 1)
 #+END_SRC
-
-* Install
-安装这个config再容易不过了
-#+BEGIN_SRC sh
-  cd ~
-  git clone git@github.com:jcouyang/.emacs.d.git
-  cd .emacs.d
-  cask install
-#+END_SRC
-打开 emacs, 问啥都说 yes, yeah
 
 
 * Global General Modes
@@ -454,35 +461,34 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 *** DONE Capture
 #+BEGIN_SRC emacs-lisp
   (require 'org-trello)
+  (setq org-default-notes-file (concat org-directory "/todo.org"))
+  (custom-set-variables '(org-trello-files `(,org-default-notes-file)))
 
-      (setq org-default-notes-file (concat org-directory "/todo.org"))
-    (custom-set-variables '(org-trello-files `(,org-default-notes-file)))
-
-      (setq org-capture-templates
-            '(
-              ("t" "Todo" entry (file org-default-notes-file) "* TODO %?\n  %u\n  %a")
-              ("s" "Simple Task" entry (file org-default-notes-file) "* TODO %?\n  %U\n")
-              ))
-      (setq org-todo-keywords
-            '((sequence
-               "TODO(t)"
-               "IN PROGRESS(p!)"
-               "HOLD(h!)"
-               "WAITING(w)"
-               "SOMEDAY(s)"
-               "|"
-               "DONE(d!)"
-               "CANCELLED(c)"
-               )))
-      (setq org-todo-keyword-faces
-            '(
-              ("IN PROGRESS" . 'warning)
-              ("DOING" . 'warning)
-              ("HOLD" . 'font-lock-keyword-face)
-              ("WAITING" . 'font-lock-builtin-face)
-              ("SOMEDAY" . 'font-lock-doc-face)
-              ))
-    (setq org-log-into-drawer t)
+  (setq org-capture-templates
+        '(
+          ("t" "Todo" entry (file org-default-notes-file) "* TODO %?\n  %u\n  %a")
+          ("s" "Simple Task" entry (file org-default-notes-file) "* TODO %?\n  %U\n")
+          ))
+  (setq org-todo-keywords
+        '((sequence
+           "TODO(t)"
+           "IN PROGRESS(p!)"
+           "HOLD(h!)"
+           "WAITING(w)"
+           "SOMEDAY(s)"
+           "|"
+           "DONE(d!)"
+           "CANCELLED(c)"
+           )))
+  (setq org-todo-keyword-faces
+        '(
+          ("IN PROGRESS" . 'warning)
+          ("DOING" . 'warning)
+          ("HOLD" . 'font-lock-keyword-face)
+          ("WAITING" . 'font-lock-builtin-face)
+          ("SOMEDAY" . 'font-lock-doc-face)
+          ))
+  (setq org-log-into-drawer t)
 #+END_SRC
 
 *** DONE Publish
