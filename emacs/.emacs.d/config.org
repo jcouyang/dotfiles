@@ -1,33 +1,22 @@
-#+TITLE: Literal Programming Emacs Configure
+# Created 2016-03-31 Thu 00:48
 #+OPTIONS: H:2
-#+author: Jichao Ouyang
-* Install
-安装这个config再容易不过了
-#+BEGIN_SRC sh
-cd ~
-git clone git@github.com:jcouyang/.emacs.d.git
-cd .emacs.d
-cask install
-#+END_SRC
-打开 emacs, 问啥都说 yes, yeah
+#+TITLE: Literal Programming Emacs Configure
+#+AUTHOR: Jichao Ouyang
+
 
 * Theme
 
 我的最爱 tomorrow theme eighties
 
-https://github.com/purcell/color-theme-sanityinc-tomorrow
+[[https://github.com/purcell/color-theme-sanityinc-tomorrow]]
 
 #+BEGIN_SRC emacs-lisp
   (load-theme 'sanityinc-tomorrow-eighties t)
 #+END_SRC
 
-#+RESULTS:
-: t
-
 also, there're several of popular themes of your choice
 
-http://emacsthemes.caisah.info/installed-emacs-themes/
-
+[[http://emacsthemes.caisah.info/installed-emacs-themes/]]
 * Fonts
 
 #+BEGIN_SRC emacs-lisp
@@ -67,11 +56,18 @@ http://emacsthemes.caisah.info/installed-emacs-themes/
   (add-hook 'coffee-mode-hook 'my-add-pretty-lambda)
 
   (global-prettify-symbols-mode 1)
-
 #+END_SRC
 
-#+RESULTS:
-: t
+* Install
+安装这个config再容易不过了
+#+BEGIN_SRC sh
+  cd ~
+  git clone git@github.com:jcouyang/.emacs.d.git
+  cd .emacs.d
+  cask install
+#+END_SRC
+打开 emacs, 问啥都说 yes, yeah
+
 
 * Global General Modes
 有一些全局基本设置，可以让emacs能基本适应我的习惯
@@ -95,41 +91,37 @@ http://emacsthemes.caisah.info/installed-emacs-themes/
 
 #+BEGIN_SRC emacs-lisp -n -r
 
-    (setq tex-compile-commands '(("xelatex %r")))
-    (setq tex-command "xelatex")
-    (setq-default TeX-engine 'xelatex)
+  (setq tex-compile-commands '(("xelatex %r")))
+  (setq tex-command "xelatex")
+  (setq-default TeX-engine 'xelatex)
 
-    (setq org-latex-pdf-process
-          '("xelatex -interaction nonstopmode -output-directory %o %f"
-            "xelatex -interaction nonstopmode -output-directory %o %f"
-            "xelatex -interaction nonstopmode -output-directory %o %f"))
+  (setq org-latex-pdf-process
+        '("xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"))
 
-      (setq locate-command "mdfind")
-     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/share/npm/bin:/usr/local/bin:/usr/texbin"))
-      (setq exec-path (append exec-path '("/usr/local/bin" "/usr/texbin")))
-      (add-hook 'local-write-file-hooks
-                (lambda ()
-                  (delete-trailing-whitespace)
-                  nil))
-      (setq-default
-    make-backup-files nil ; stop creating those backup~ file
-    auto-save-default nil
+    (setq locate-command "mdfind")
+   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/share/npm/bin:/usr/local/bin:/usr/texbin"))
+    (setq exec-path (append exec-path '("/usr/local/bin" "/usr/texbin")))
+    (add-hook 'local-write-file-hooks
+              (lambda ()
+                (delete-trailing-whitespace)
+                nil))
+    (setq-default
+  make-backup-files nil ; stop creating those backup~ file
+  auto-save-default nil
 
-       indent-tabs-mode nil                   ;use spaces instead of tabs
-       c-hungry-delete-key t                  ;delete more than one space
-       electric-pair-mode nil
-       )
-      (electric-indent-mode t)
-
+     indent-tabs-mode nil                   ;use spaces instead of tabs
+     c-hungry-delete-key t                  ;delete more than one space
+     electric-pair-mode nil
+     )
+    (electric-indent-mode t)
 #+END_SRC
-
-#+RESULTS:
-: t
 
 * User Settings
 
 #+BEGIN_SRC emacs-lisp
- (when (file-readable-p ".user.el") (load ".user.el"))
+  (when (file-readable-p ".user.el") (load ".user.el"))
 #+END_SRC
 
 用户设置, 放一些不想密码或敏感内容
@@ -140,26 +132,55 @@ http://emacsthemes.caisah.info/installed-emacs-themes/
 emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自身爱好定义最高效的
 快捷键, 因此, 把这些定义都放到这里定义更方便与管理,更新,和查找.
 
-#+NAME: gen-keys
-#+BEGIN_SRC emacs-lisp :var keys=keys :results output :tangle no :exports none :colnames nil
-  (mapcar (lambda (l)
-            (let* ((key (car l))
-                   (def (if (string-match "^[[:alnum:]]\\{2\\}$" (format "%s" key))
-                            (format "key-chord-define-global \"%s\"" key)
-                          (format "global-set-key (kbd \"%s\")" key)))
-                   (command (car (last l))))
-              (princ (format "(%s %s)\n" def command))))
-          keys)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp :noweb yes :results silent
-  <<gen-keys()>>
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-q") 'save-buffers-kill-terminal)
+  (key-chord-define-global "cg" 'customize-group)
+  (global-set-key (kbd "M-S-8") 'flyspell-check-previous-highlighted-word)
+  (global-set-key (kbd "C-c h o") 'helm-occur)
+  (global-set-key (kbd "C-c h x") 'helm-register)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "C-x b") 'helm-mini)
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (global-set-key (kbd "M-0") 'helm-git-find-files)
+  (global-set-key (kbd "M-z") 'undo)
+  (global-set-key (kbd "M-S-z") 'redo)
+  (global-set-key (kbd "C-8") 'er/expand-region)
+  (global-set-key (kbd "M-8") 'er/contract-region)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-x r") 'vr/query-replace)
+  (global-set-key (kbd "C-c h d") 'howdoi-query-insert-code-snippet-at-point)
+  (key-chord-define-global "vr" 'vr/replace)
+  (key-chord-define-global "ln" 'linum-mode)
+  (global-set-key (kbd "M--") 'text-scale-decrease)
+  (global-set-key (kbd "M-=") 'text-scale-increase)
+  (global-set-key (kbd "C-c i") (lambda () (interactive) (indent-region (point-min) (point-max))))
+  (global-set-key (kbd "M-<backspace>") 'kill-whole-line)
+  (global-set-key (kbd "C-c r") 'revert-buffer)
+  (global-set-key (kbd "C-3") 'back-button-global-backward)
+  (global-set-key (kbd "C-4") 'back-button-global-forward)
+  (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+  (global-set-key (kbd "M-2") 'highlight-symbol-occur)
+  (global-set-key (kbd "M-3") (lambda () (interactive) (highlight-symbol-jump -1)))
+  (global-set-key (kbd "M-4") (lambda () (interactive) (highlight-symbol-jump 1)))
+  (global-set-key (kbd "C-c h o") 'helm-occur)
+  (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+  (global-set-key (kbd "C-0") (lambda () (interactive) (select-window (previous-window))))
+  (global-set-key (kbd "C-9") (lambda () (interactive) (select-window (next-window))))
+  (global-set-key (kbd "M-k") 'delete-other-windows)
+  (global-set-key (kbd "<f7>") 'toggle-window-split)
+  (global-set-key (kbd "M-w") 'kill-buffer-and-window)
+  (global-set-key (kbd "M-c") 'kill-ring-save)
+  (global-set-key (kbd "C-c a") (lambda () (interactive) (org-agenda nil "n")))
+  (global-set-key (kbd "C-c c") 'deft)
+  (global-set-key (kbd "C-x t") 'org-capture)
 #+END_SRC
 
 这些快捷键绑定在一个table里定义, 这样便于管理和更新.
 
-****                                                            :noexport:
-#+TBLNAME: keys
+**** :noexport:
+#+NAME: keys
 | Combo         | Category  | Desciption                                                | Command                                                           |
 |---------------+-----------+-----------------------------------------------------------+-------------------------------------------------------------------|
 | M-q           | General   | Kill emacs (including the daemon if it is running)        | 'save-buffers-kill-terminal                                       |
@@ -179,6 +200,7 @@ emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自
 | C->           | Editing   | Multiple cursors down                                     | 'mc/mark-next-like-this                                           |
 | C-*           | Editing   | Mark all like "this" with multiple cursors                | 'mc/mark-all-like-this                                            |
 | C-x r         | Editing   | Query and replace text                                    | 'vr/query-replace                                                 |
+| C-c h d       | Editing   | howdoiquery insert code snippet at point                  | 'howdoi-query-insert-code-snippet-at-point                        |
 | vr            | Editing   | Visual regexp/replace                                     | 'vr/replace                                                       |
 | ln            | Interface | Show/hide the line numbers                                | 'linum-mode                                                       |
 | M--           | Interface | Decrease the font size                                    | 'text-scale-decrease                                              |
@@ -204,11 +226,16 @@ emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自
 | C-c c         | Open      | Open deft (quick notes tool)                              | 'deft                                                             |
 | C-x t         | Open      | Org mode capture (todo)                                   | 'org-capture                                                      |
 * Modes [42%]
+** dot
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
+#+END_SRC
+
 ** IN PROGRESS cider
 
 Cider 是 clojure 的repl插件
 
-看参照https://github.com/clojure-emacs/cider#keyboard-shortcuts 默认的一些快捷键
+看参照[[https://github.com/clojure-emacs/cider#keyboard-shortcuts]] 默认的一些快捷键
 
 #+BEGIN_SRC emacs-lisp
   (setq org-babel-clojure-backend 'cider)
@@ -220,9 +247,6 @@ Cider 是 clojure 的repl插件
   ;;       nrepl-hide-special-buffers t
   ;;       cider-overlays-use-font-lock t)
 #+END_SRC
-
-#+RESULTS:
-: t
 
 ** DONE company
 - State "DONE"       from ""           [2015-03-09 Mon 22:54]
@@ -252,9 +276,6 @@ document
   (setq company-tooltip-align-annotations t)
 #+END_SRC
 
-#+RESULTS:
-: t
-
 ** DONE deft
 #+BEGIN_SRC emacs-lisp
   (setq
@@ -266,38 +287,32 @@ document
    )
 #+END_SRC
 
-#+RESULTS:
-: t
-
 ** IN PROGRESS helm
 - State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
-this is worth reading when you just start using helm http://tuhdo.github.io/helm-intro.html
+this is worth reading when you just start using helm [[http://tuhdo.github.io/helm-intro.html]]
 
 helm 可以让你很方便的在项目里快速浏览文件
 #+BEGIN_SRC emacs-lisp -n -r
-        (require 'helm-config)
-        (require 'helm-git-grep)
-        (helm-mode 1)
-        (helm-autoresize-mode 1)
-        (projectile-global-mode)
-        (global-set-key (kbd "C-c h") 'helm-command-prefix)
-        (global-unset-key (kbd "C-x c"))
-        (setq projectile-completion-system 'helm
-              helm-M-x-fuzzy-match t
-              helm-buffers-fuzzy-matching t
-              helm-recentf-fuzzy-match t
-              helm-ag-fuzzy-match t ;(ref: ag-fuzzy-match)
-              projectile-enable-caching t; (ref:caching)
-              helm-locate-fuzzy-match t
-              projectile-indexing-method 'alien); (ref:indexing)
-        (helm-projectile-on)
-        (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-        (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-        (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+  (require 'helm-config)
+  (require 'helm-git-grep)
+  (helm-mode 1)
+  (helm-autoresize-mode 1)
+  (projectile-global-mode)
+  (global-set-key (kbd "C-c h") 'helm-command-prefix)
+  (global-unset-key (kbd "C-x c"))
+  (setq projectile-completion-system 'helm
+        helm-M-x-fuzzy-match t
+        helm-buffers-fuzzy-matching t
+        helm-recentf-fuzzy-match t
+        helm-ag-fuzzy-match t ;(ref: ag-fuzzy-match)
+        projectile-enable-caching t; (ref:caching)
+        helm-locate-fuzzy-match t
+        projectile-indexing-method 'alien); (ref:indexing)
+  (helm-projectile-on)
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+  (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 #+END_SRC
-
-#+RESULTS:
-: helm-select-action
 
 其中第[[(caching)]]和[[(indexing)]]两行能加速projectile index一个大的repo时的速度。
 
@@ -319,9 +334,6 @@ helm 可以让你很方便的在项目里快速浏览文件
                         '(json-jsonlist)))
 #+END_SRC
 
-#+RESULTS:
-| javascript-jshint | json-jsonlist | javascript-jshint | json-jsonlist |
-
 ** js2-mode
 
 #+BEGIN_SRC emacs-lisp
@@ -342,7 +354,6 @@ helm 可以让你很方便的在项目里快速浏览文件
   (setq js2-rebind-eol-bol-keys nil)
   (setq js2-mode-show-parse-errors t)
   (setq js2-mode-show-strict-warnings nil)
-
 #+END_SRC
 
 Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js2-mode.el][Magnars' .emacs.d]].
@@ -353,12 +364,7 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
     (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
     (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode))
-
-
 #+END_SRC
-
-#+RESULTS:
-| lambda | nil | (setq js-indent-level 2) |
 
 =json-mode= adds a bit better syntax highlighting for =.json= files.
 
@@ -368,13 +374,11 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
   (add-to-list 'auto-mode-alist '("\\.asciidoc\\'" . adoc-mode))
 #+END_SRC
 
-#+RESULTS:
-
 ** DONE Nyancati
 彩虹猫滚动条，萌萌哒滚动条
 
 #+BEGIN_SRC emacs-lisp
-(nyan-mode t)
+  (nyan-mode t)
 #+END_SRC
 
 ** on-screen
@@ -386,14 +390,22 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 ** key chord
 #+BEGIN_SRC emacs-lisp
-(key-chord-mode 1)
-(setq key-chord-two-keys-delay 0.03)
+  (key-chord-mode 1)
+  (setq key-chord-two-keys-delay 0.03)
 #+END_SRC
 
-#+RESULTS:
-: 0.03
-
 ** TODO org
+
+*** latex
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-latex)
+    (add-to-list 'org-latex-classes
+                 '("tufte" "\\documentclass[11pt,twoside,openright]{tufte-book}"
+                    ("\\chapter{%s}" . "\\chapter*{%s}")
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+#+END_SRC
 
 *** TODO Default Settings
 =org-agenda-files= 是很有意思的一个参数，agenda的todo list会扫描这里面的文件，并把所有的 =TODO= 列出来。
@@ -429,62 +441,51 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
   (setq org-default-notes-file (concat org-directory "/todo.org"))
 #+END_SRC
 
-#+RESULTS:
-: ~/Dropbox/org/todo.org
-
 *** structure template
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'org-structure-template-alist '("E" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("S" "#+BEGIN_SRC shell-script\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("J" "#+BEGIN_SRC js\n?\n#+END_SRC\n"))
-(add-to-list 'org-structure-template-alist '("jm" "#+BEGIN_SRC js :session mozilla\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("C" "#+BEGIN_SRC clojure\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("d" "#+BEGIN_SRC ditaa :file ? :exports results\n?#+END_SRC\n"))
-
-
+    (add-to-list 'org-structure-template-alist '("E" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC\n"))
+    (add-to-list 'org-structure-template-alist '("S" "#+BEGIN_SRC shell-script\n?\n#+END_SRC\n"))
+    (add-to-list 'org-structure-template-alist '("J" "#+BEGIN_SRC js\n?\n#+END_SRC\n"))
+  (add-to-list 'org-structure-template-alist '("jm" "#+BEGIN_SRC js :session mozilla\n?\n#+END_SRC\n"))
+    (add-to-list 'org-structure-template-alist '("C" "#+BEGIN_SRC clojure\n?\n#+END_SRC\n"))
+    (add-to-list 'org-structure-template-alist '("d" "#+BEGIN_SRC ditaa :file ? :exports results\n?#+END_SRC\n"))
 #+END_SRC
 
-#+RESULTS:
-| d | #+BEGIN_SRC ditaa :file ? :exports results |
-
 *** DONE Capture
-:LOGBOOK:
-- State "DONE"       from "TODO"       [2015-03-10 Tue 22:59]
-:END:
-
 #+BEGIN_SRC emacs-lisp
+  (require 'org-trello)
 
-  (setq org-default-notes-file (concat org-directory "/todo.org"))
-  (setq org-capture-templates
-        '(
-          ("t" "Task" entry (file+headline "" "Tasks") "* TODO %?\n  %u\n  %a")
-          ("s" "Simple Task" entry (file+headline "" "Tasks") "* TODO %?\n  %U\n")
-          ))
-  (setq org-todo-keywords
-        '((sequence
-           "TODO(t)"
-           "IN PROGRESS(p!)"
-           "HOLD(h!)"
-           "WAITING(w)"
-           "SOMEDAY(s)"
-           "|"
-           "DONE(d!)"
-           "CANCELLED(c)"
-           )))
-  (setq org-todo-keyword-faces
-        '(
-          ("IN PROGRESS" . 'warning)
-          ("HOLD" . 'font-lock-keyword-face)
-          ("WAITING" . 'font-lock-builtin-face)
-          ("SOMEDAY" . 'font-lock-doc-face)
-          ))
-(setq org-log-into-drawer t)
+      (setq org-default-notes-file (concat org-directory "/todo.org"))
+    (custom-set-variables '(org-trello-files `(,org-default-notes-file)))
+
+      (setq org-capture-templates
+            '(
+              ("t" "Todo" entry (file org-default-notes-file) "* TODO %?\n  %u\n  %a")
+              ("s" "Simple Task" entry (file org-default-notes-file) "* TODO %?\n  %U\n")
+              ))
+      (setq org-todo-keywords
+            '((sequence
+               "TODO(t)"
+               "IN PROGRESS(p!)"
+               "HOLD(h!)"
+               "WAITING(w)"
+               "SOMEDAY(s)"
+               "|"
+               "DONE(d!)"
+               "CANCELLED(c)"
+               )))
+      (setq org-todo-keyword-faces
+            '(
+              ("IN PROGRESS" . 'warning)
+              ("DOING" . 'warning)
+              ("HOLD" . 'font-lock-keyword-face)
+              ("WAITING" . 'font-lock-builtin-face)
+              ("SOMEDAY" . 'font-lock-doc-face)
+              ))
+    (setq org-log-into-drawer t)
 #+END_SRC
 
 *** DONE Publish
-:LOGBOOK:
-- State "DONE"       from ""           [2015-03-10 Tue 23:07]
-:END:
 #+BEGIN_SRC emacs-lisp
   (setq org-html-validation-link nil)
   (setq org-publish-project-alist
@@ -504,41 +505,31 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
            :html-extension "md"
            :body-only t)
           ("fpjs" :components ("fpjs-static" "fpjs-md"))))
-
 #+END_SRC
-
-#+RESULTS:
-| fpjs-static | :base-directory | ~/Documents/Books/functional-javascript/images | :base-extension | png\ | jpg\                  | jpeg\                                      | gif              | :publishing-directory | ~/Dropbox/functional-javascript/manuscript/images | :recursive | t                    | :publishing-function           | org-publish-attachment |    |            |   |
-| fpjs-md     | :base-directory | ~/Documents/Books/functional-javascript        | :base-extension | org  | :publishing-directory | ~/Dropbox/functional-javascript/manuscript | :sub-superscript |                       | :recursive                                        | t          | :publishing-function | org-leanpub-publish-to-leanpub | :html-extension        | md | :body-only | t |
-| fpjs        | :components     | (fpjs-static fpjs-md)                          |                 |      |                       |                                            |                  |                       |                                                   |            |                      |                                |                        |    |            |   |
 
 *** TODO Agenda
-SCHEDULED: <2015-03-18 Wed>
 #+BEGIN_SRC emacs-lisp
-  ;; create the file for the agendas if it doesn't exist
-  (appt-activate 1)              ; activate appt (appointment notification)
+    ;; create the file for the agendas if it doesn't exist
+    (appt-activate 1)              ; activate appt (appointment notification)
 
-  (org-agenda-to-appt)           ; add appointments on startup
+    (org-agenda-to-appt)           ; add appointments on startup
 
-  ;; add new appointments when saving the org buffer, use 'refresh argument to do it properly
-  (defun my-org-agenda-to-appt-refresh () (org-agenda-to-appt 'refresh))
-  (defun my-org-mode-hook ()
-    (add-hook 'after-save-hook 'my-org-agenda-to-appt-refresh nil 'make-it-local))
-  (add-hook 'org-mode-hook 'my-org-mode-hook)
-(add-hook 'org-mode-hook (lambda ()
-                                       (visual-line-mode 1)))
-  (require 'notifications)
-  (defun my-appt-disp-window-function (min-to-app new-time msg)
-    (notifications-notify :title (format "Appointment in %s min" min-to-app) :body msg))
-  (setq appt-disp-window-function 'my-appt-disp-window-function)
-  (setq appt-delete-window-function (lambda (&rest args)))
+    ;; add new appointments when saving the org buffer, use 'refresh argument to do it properly
+    (defun my-org-agenda-to-appt-refresh () (org-agenda-to-appt 'refresh))
+    (defun my-org-mode-hook ()
+      (add-hook 'after-save-hook 'my-org-agenda-to-appt-refresh nil 'make-it-local))
+    (add-hook 'org-mode-hook 'my-org-mode-hook)
+  (add-hook 'org-mode-hook (lambda ()
+                                         (visual-line-mode 1)))
+    (require 'notifications)
+    (defun my-appt-disp-window-function (min-to-app new-time msg)
+      (notifications-notify :title (format "Appointment in %s min" min-to-app) :body msg))
+    (setq appt-disp-window-function 'my-appt-disp-window-function)
+    (setq appt-delete-window-function (lambda (&rest args)))
 
-  ;; add state to the sorting strategy of todo
-  (setcdr (assq 'todo org-agenda-sorting-strategy) '(todo-state-up priority-down category-keep))
+    ;; add state to the sorting strategy of todo
+    (setcdr (assq 'todo org-agenda-sorting-strategy) '(todo-state-up priority-down category-keep))
 #+END_SRC
-
-#+RESULTS:
-| todo-state-up | priority-down | category-keep |
 
 *** babel
 #+BEGIN_SRC emacs-lisp
@@ -549,100 +540,98 @@ SCHEDULED: <2015-03-18 Wed>
      ))
 #+END_SRC
 
-#+RESULTS:
-
 *** pandoc
 #+BEGIN_SRC emacs-lisp
-(setq org-pandoc-options-for-revealjs '(
-(standalone . nil)))
+  (setq org-pandoc-options-for-revealjs '(
+  (standalone . nil)))
 #+END_SRC
 
 ** pallet
 
 pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
 #+BEGIN_SRC emacs-lisp
-(require 'pallet)
-(pallet-mode t)
+  (require 'pallet)
+  (pallet-mode t)
 #+END_SRC
 
 ** smartparens
 #+BEGIN_SRC emacs-lisp
-(require 'smartparens-config)
-(smartparens-global-mode t)
-;; highlights matching pairs
-(show-smartparens-global-mode t)
-(define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
-(define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
+  (require 'smartparens-config)
+  (smartparens-global-mode t)
+  ;; highlights matching pairs
+  (show-smartparens-global-mode t)
+  (define-key sp-keymap (kbd "C-M-f") 'sp-forward-sexp)
+  (define-key sp-keymap (kbd "C-M-b") 'sp-backward-sexp)
 
-(define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
-(define-key sp-keymap (kbd "C-M-a") 'sp-backward-down-sexp)
-(define-key sp-keymap (kbd "C-S-a") 'sp-beginning-of-sexp)
-(define-key sp-keymap (kbd "C-S-d") 'sp-end-of-sexp)
+  (define-key sp-keymap (kbd "C-M-d") 'sp-down-sexp)
+  (define-key sp-keymap (kbd "C-M-a") 'sp-backward-down-sexp)
+  (define-key sp-keymap (kbd "C-S-a") 'sp-beginning-of-sexp)
+  (define-key sp-keymap (kbd "C-S-d") 'sp-end-of-sexp)
 
-(define-key sp-keymap (kbd "C-M-e") 'sp-up-sexp)
-(define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
-(define-key sp-keymap (kbd "C-M-u") 'sp-backward-up-sexp)
-(define-key sp-keymap (kbd "C-M-t") 'sp-transpose-sexp)
+  (define-key sp-keymap (kbd "C-M-e") 'sp-up-sexp)
+  (define-key emacs-lisp-mode-map (kbd ")") 'sp-up-sexp)
+  (define-key sp-keymap (kbd "C-M-u") 'sp-backward-up-sexp)
+  (define-key sp-keymap (kbd "C-M-t") 'sp-transpose-sexp)
 
-(define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
-(define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
+  (define-key sp-keymap (kbd "C-M-n") 'sp-next-sexp)
+  (define-key sp-keymap (kbd "C-M-p") 'sp-previous-sexp)
 
-(define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
-(define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp)
+  (define-key sp-keymap (kbd "C-M-k") 'sp-kill-sexp)
+  (define-key sp-keymap (kbd "C-M-w") 'sp-copy-sexp)
 
 
-(define-key sp-keymap (kbd "C-M-<backspace>") 'sp-backward-unwrap-sexp)
+  (define-key sp-keymap (kbd "C-M-<backspace>") 'sp-backward-unwrap-sexp)
 
-(define-key sp-keymap (kbd "C-<right>") 'sp-forward-slurp-sexp)
-(define-key sp-keymap (kbd "C-<left>") 'sp-forward-barf-sexp)
-(define-key sp-keymap (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-(define-key sp-keymap (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+  (define-key sp-keymap (kbd "C-<right>") 'sp-forward-slurp-sexp)
+  (define-key sp-keymap (kbd "C-<left>") 'sp-forward-barf-sexp)
+  (define-key sp-keymap (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+  (define-key sp-keymap (kbd "C-M-<right>") 'sp-backward-barf-sexp)
 
-(define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
-(define-key sp-keymap (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
-(define-key sp-keymap (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
-(define-key sp-keymap (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
+  (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
+  (define-key sp-keymap (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
+  (define-key sp-keymap (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
+  (define-key sp-keymap (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
 
-(define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
-(define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
-(define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing)
+  (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
+  (define-key sp-keymap (kbd "C-<left_bracket>") 'sp-select-previous-thing)
+  (define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing)
 
-(define-key sp-keymap (kbd "M-F") 'sp-forward-symbol)
-(define-key sp-keymap (kbd "M-B") 'sp-backward-symbol)
+  (define-key sp-keymap (kbd "M-F") 'sp-forward-symbol)
+  (define-key sp-keymap (kbd "M-B") 'sp-backward-symbol)
 
-(define-key sp-keymap (kbd "H-t") 'sp-prefix-tag-object)
-(define-key sp-keymap (kbd "H-p") 'sp-prefix-pair-object)
-(define-key sp-keymap (kbd "H-s c") 'sp-convolute-sexp)
-(define-key sp-keymap (kbd "H-s a") 'sp-absorb-sexp)
-(define-key sp-keymap (kbd "H-s e") 'sp-emit-sexp)
-(define-key sp-keymap (kbd "H-s p") 'sp-add-to-previous-sexp)
-(define-key sp-keymap (kbd "H-s n") 'sp-add-to-next-sexp)
-(define-key sp-keymap (kbd "H-s j") 'sp-join-sexp)
-(define-key sp-keymap (kbd "H-s s") 'sp-split-sexp)
+  (define-key sp-keymap (kbd "H-t") 'sp-prefix-tag-object)
+  (define-key sp-keymap (kbd "H-p") 'sp-prefix-pair-object)
+  (define-key sp-keymap (kbd "H-s c") 'sp-convolute-sexp)
+  (define-key sp-keymap (kbd "H-s a") 'sp-absorb-sexp)
+  (define-key sp-keymap (kbd "H-s e") 'sp-emit-sexp)
+  (define-key sp-keymap (kbd "H-s p") 'sp-add-to-previous-sexp)
+  (define-key sp-keymap (kbd "H-s n") 'sp-add-to-next-sexp)
+  (define-key sp-keymap (kbd "H-s j") 'sp-join-sexp)
+  (define-key sp-keymap (kbd "H-s s") 'sp-split-sexp)
 
-;;;;;;;;;;;;;;;;;;
-;; pair management
+  ;;;;;;;;;;;;;;;;;;
+  ;; pair management
 
-(sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
+  (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
 
-;;; markdown-mode
-(sp-with-modes '(markdown-mode gfm-mode rst-mode)
-  (sp-local-pair "*" "*" :bind "C-*")
-  (sp-local-tag "2" "**" "**")
-  (sp-local-tag "s" "```scheme" "```")
-  (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
+  ;;; markdown-mode
+  (sp-with-modes '(markdown-mode gfm-mode rst-mode)
+    (sp-local-pair "*" "*" :bind "C-*")
+    (sp-local-tag "2" "**" "**")
+    (sp-local-tag "s" "```scheme" "```")
+    (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
 
-;;; tex-mode latex-mode
-(sp-with-modes '(tex-mode plain-tex-mode latex-mode)
-  (sp-local-tag "i" "\"<" "\">"))
+  ;;; tex-mode latex-mode
+  (sp-with-modes '(tex-mode plain-tex-mode latex-mode)
+    (sp-local-tag "i" "\"<" "\">"))
 
-;;; html-mode
-(sp-with-modes '(html-mode sgml-mode)
-  (sp-local-pair "<" ">"))
+  ;;; html-mode
+  (sp-with-modes '(html-mode sgml-mode)
+    (sp-local-pair "<" ">"))
 
-;;; lisp modes
-(sp-with-modes sp--lisp-modes
-  (sp-local-pair "(" nil :bind "C-("))
+  ;;; lisp modes
+  (sp-with-modes sp--lisp-modes
+    (sp-local-pair "(" nil :bind "C-("))
 #+END_SRC
 
 
@@ -669,9 +658,6 @@ definition, find type of, rename variable 等 这些 IDE 才能提供的语言�
 的支持.
 
 
-# #+BEGIN_QUOTE
-# Tern is a stand-alone, editor-independent JavaScript analyzer that can be used to improve the JavaScript integration of existing editors.
-# #+END_QUOTE
 
 Needs the =tern= binary to be present, which can be installed with =npm=:
 
@@ -681,10 +667,10 @@ Needs the =tern= binary to be present, which can be installed with =npm=:
 
 这里完了要改 tern.el 的一行代码, 傻逼的居然用相对路径
 #+BEGIN_SRC lisp
-(bin-file (expand-file-name "../bin/tern" (file-name-directory (file-truename script-file)))))
+  (bin-file (expand-file-name "../bin/tern" (file-name-directory (file-truename script-file)))))
 #+END_SRC
 
-#+BEGIN_SRC
+#+BEGIN_EXAMPLE
 M-.
     Jump to the definition of the thing under the cursor.
 M-,
@@ -695,16 +681,12 @@ C-c C-c
     Find the type of the thing under the cursor.
 C-c C-d
     Find docs of the thing under the cursor. Press again to open the associated URL (if any).
-
-#+END_SRC
+#+END_EXAMPLE
 #+BEGIN_SRC emacs-lisp
-(add-hook 'js-mode-hook (lambda () (tern-mode t)))
-(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-(add-hook 'web-mode-hook (lambda () (tern-mode t)))
+  (add-hook 'js-mode-hook (lambda () (tern-mode t)))
+  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+  (add-hook 'web-mode-hook (lambda () (tern-mode t)))
 #+END_SRC
-
-#+RESULTS:
-| (lambda nil (tern-mode t)) | my-web-mode-hook | er/add-web-mode-expansions | er/add-html-mode-expansions |
 
 See the [[http://ternjs.net/][project homepage]] for more info.
 
@@ -728,9 +710,6 @@ See the [[http://ternjs.net/][project homepage]] for more info.
   (define-key *textmate-mode-map* [(meta shift down)] 'textmate-column-down-with-select)
 #+END_SRC
 
-#+RESULTS:
-           : textmate-column-down-with-select
-
 ** Prompt Behavior
 
 #+BEGIN_SRC emacs-lisp -n -r
@@ -740,37 +719,24 @@ See the [[http://ternjs.net/][project homepage]] for more info.
               kill-buffer-query-functions))
 #+END_SRC
 
-#+RESULTS:
-           | server-kill-buffer-query-function |
-
 In [[(y-or-n)][line (y-or-n)]] all "yes" or "no" questions are aliased to "y" or "n". We don't really want to type a full word to answer a question from Emacs
 
-Also Emacs should be able to kill processes without asking ([[(process-query)][line (process-query)]]). Got that snippet from: http://www.masteringemacs.org/articles/2010/11/14/disabling-prompts-emacs/
+Also Emacs should be able to kill processes without asking ([[(process-query)][line (process-query)]]). Got that snippet from: [[http://www.masteringemacs.org/articles/2010/11/14/disabling-prompts-emacs/]]
 
 ** [[http://web-mode.org/][web-mode]]
 #+BEGIN_SRC emacs-lisp
-  (require 'editorconfig)
-(editorconfig-mode 1)
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-
+    (require 'editorconfig)
+  (editorconfig-mode 1)
+    (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 #+END_SRC
-
-#+RESULTS:
-: ((\.html?\' . web-mode) (\.asciidoc\' . adoc-mode) (\.adoc\' . adoc-mode) (\.tag\' . web-mode) (\.jsx\' . web-mode) (\.json\' . json-mode) (\.es6$ . js2-mode) (\.sjs$ . js2-mode) (\.js$ . js2-mode) (\(?:build\|profile\)\.boot\' . clojure-mode) (\.cljs\' . clojurescript-mode) (\.cljx\' . clojurex-mode) (\.cljc\' . clojurec-mode) (\.\(clj\|dtm\|edn\)\' . clojure-mode) (\.cson\' . coffee-mode) (Cakefile\' . coffee-mode) (\.iced\' . coffee-mode) (\.coffee\' . coffee-mode) (/\.editorconfig\' . conf-unix-mode) (/\(?:COMMIT\|NOTES\|TAG\|PULLREQ\)_EDITMSG\' . git-commit-mode) (/MERGE_MSG\' . git-commit-mode) (\.haml\' . haml-mode) (\.js$ . js3-mode) (\.json$ . json-mode) (/git-rebase-todo\' . git-rebase-mode) (\.md\' . markdown-mode) (\.text\' . markdown-mode) (\.markdown\' . markdown-mode) (\.scss\' . scss-mode) (\.e?ya?ml$ . yaml-mode) (\.gpg\(~\|\.~[0-9]+~\)?\' nil epa-file) (\.elc\' . emacs-lisp-byte-code-mode) (\.dz\' nil jka-compr) (\.xz\' nil jka-compr) (\.lzma\' nil jka-compr) (\.lz\' nil jka-compr) (\.g?z\' nil jka-compr) (\.bz2\' nil jka-compr) (\.Z\' nil jka-compr) (\.vr[hi]?\' . vera-mode) (\(?:\.rb\|ru\|rake\|thor\|jbuilder\|gemspec\|podspec\|/\(?:Gem\|Rake\|Cap\|Thor\|Vagrant\|Guard\|Pod\)file\)\' . ruby-mode) (\.re?st\' . rst-mode) (\.py\' . python-mode) (\.awk\' . awk-mode) (\.\(u?lpc\|pike\|pmod\(\.in\)?\)\' . pike-mode) (\.idl\' . idl-mode) (\.java\' . java-mode) (\.m\' . objc-mode) (\.ii\' . c++-mode) (\.i\' . c-mode) (\.lex\' . c-mode) (\.y\(acc\)?\' . c-mode) (\.[ch]\' . c-mode) (\.\(CC?\|HH?\)\' . c++-mode) (\.[ch]\(pp\|xx\|\+\+\)\' . c++-mode) (\.\(cc\|hh\)\' . c++-mode) (\.\(bat\|cmd\)\' . bat-mode) (\.[sx]?html?\(\.[a-zA-Z_]+\)?\' . html-mode) (\.svgz?\' . image-mode) (\.svgz?\' . xml-mode) (\.x[bp]m\' . image-mode) (\.x[bp]m\' . c-mode) (\.p[bpgn]m\' . image-mode) (\.tiff?\' . image-mode) (\.gif\' . image-mode) (\.png\' . image-mode) (\.jpe?g\' . image-mode) (\.te?xt\' . text-mode) (\.[tT]e[xX]\' . tex-mode) (\.ins\' . tex-mode) (\.ltx\' . latex-mode) (\.dtx\' . doctex-mode) (\.org\' . org-mode) (\.el\' . emacs-lisp-mode) (Project\.ede\' . emacs-lisp-mode) (\.\(scm\|stk\|ss\|sch\)\' . scheme-mode) (\.l\' . lisp-mode) (\.li?sp\' . lisp-mode) (\.[fF]\' . fortran-mode) (\.for\' . fortran-mode) (\.p\' . pascal-mode) (\.pas\' . pascal-mode) (\.\(dpr\|DPR\)\' . delphi-mode) (\.ad[abs]\' . ada-mode) (\.ad[bs].dg\' . ada-mode) (\.\([pP]\([Llm]\|erl\|od\)\|al\)\' . perl-mode) (Imakefile\' . makefile-imake-mode) (Makeppfile\(?:\.mk\)?\' . makefile-makepp-mode) (\.makepp\' . makefile-makepp-mode) (\.mk\' . makefile-bsdmake-mode) (\.make\' . makefile-bsdmake-mode) (GNUmakefile\' . makefile-gmake-mode) ([Mm]akefile\' . makefile-bsdmake-mode) (\.am\' . makefile-automake-mode) (\.texinfo\' . texinfo-mode) (\.te?xi\' . texinfo-mode) (\.[sS]\' . asm-mode) (\.asm\' . asm-mode) (\.css\' . css-mode) (\.mixal\' . mixal-mode) (\.gcov\' . compilation-mode) (/\.[a-z0-9-]*gdbinit . gdb-script-mode) (-gdb\.gdb . gdb-script-mode) ([cC]hange\.?[lL]og?\' . change-log-mode) ([cC]hange[lL]og[-.][0-9]+\' . change-log-mode) (\$CHANGE_LOG\$\.TXT . change-log-mode) (\.scm\.[0-9]*\' . scheme-mode) (\.[ck]?sh\'\|\.shar\'\|/\.z?profile\' . sh-mode) (\.bash\' . sh-mode) (\(/\|\`\)\.\(bash_\(profile\|history\|log\(in\|out\)\)\|z?log\(in\|out\)\)\' . sh-mode) (\(/\|\`\)\.\(shrc\|[kz]shrc\|bashrc\|t?cshrc\|esrc\)\' . sh-mode) (\(/\|\`\)\.\([kz]shenv\|xinitrc\|startxrc\|xsession\)\' . sh-mode) (\.m?spec\' . sh-mode) (\.m[mes]\' . nroff-mode) (\.man\' . nroff-mode) (\.sty\' . latex-mode) (\.cl[so]\' . latex-mode) (\.bbl\' . latex-mode) (\.bib\' . bibtex-mode) (\.bst\' . bibtex-style-mode) (\.sql\' . sql-mode) (\.m[4c]\' . m4-mode) (\.mf\' . metafont-mode) (\.mp\' . metapost-mode) (\.vhdl?\' . vhdl-mode) (\.article\' . text-mode) (\.letter\' . text-mode) (\.i?tcl\' . tcl-mode) (\.exp\' . tcl-mode) (\.itk\' . tcl-mode) (\.icn\' . icon-mode) (\.sim\' . simula-mode) (\.mss\' . scribe-mode) (\.f9[05]\' . f90-mode) (\.f0[38]\' . f90-mode) (\.indent\.pro\' . fundamental-mode) (\.\(pro\|PRO\)\' . idlwave-mode) (\.srt\' . srecode-template-mode) (\.prolog\' . prolog-mode) (\.tar\' . tar-mode) (\.\(arc\|zip\|lzh\|lha\|zoo\|[jew]ar\|xpi\|rar\|7z\|ARC\|ZIP\|LZH\|LHA\|ZOO\|[JEW]AR\|XPI\|RAR\|7Z\)\' . archive-mode) (\.oxt\' . archive-mode) (\.\(deb\|[oi]pk\)\' . archive-mode) (\`/tmp/Re . text-mode) (/Message[0-9]*\' . text-mode) (\`/tmp/fol/ . text-mode) (\.oak\' . scheme-mode) (\.sgml?\' . sgml-mode) (\.x[ms]l\' . xml-mode) (\.dbk\' . xml-mode) (\.dtd\' . sgml-mode) (\.ds\(ss\)?l\' . dsssl-mode) (\.js\' . javascript-mode) (\.json\' . javascript-mode) (\.[ds]?vh?\' . verilog-mode) (\.by\' . bovine-grammar-mode) (\.wy\' . wisent-grammar-mode) ([]>:/\]\..*\(emacs\|gnus\|viper\)\' . emacs-lisp-mode) (\`\..*emacs\' . emacs-lisp-mode) ([:/]_emacs\' . emacs-lisp-mode) (/crontab\.X*[0-9]+\' . shell-script-mode) (\.ml\' . lisp-mode) (\.ld[si]?\' . ld-script-mode) (ld\.?script\' . ld-script-mode) (\.xs\' . c-mode) (\.x[abdsru]?[cnw]?\' . ld-script-mode) (\.zone\' . dns-mode) (\.soa\' . dns-mode) (\.asd\' . lisp-mode) (\.\(asn\|mib\|smi\)\' . snmp-mode) (\.\(as\|mi\|sm\)2\' . snmpv2-mode) (\.\(diffs?\|patch\|rej\)\' . diff-mode) (\.\(dif\|pat\)\' . diff-mode) (\.[eE]?[pP][sS]\' . ps-mode) (\.\(?:PDF\|DVI\|OD[FGPST]\|DOCX?\|XLSX?\|PPTX?\|pdf\|djvu\|dvi\|od[fgpst]\|docx?\|xlsx?\|pptx?\)\' . doc-view-mode-maybe) (configure\.\(ac\|in\)\' . autoconf-mode) (\.s\(v\|iv\|ieve\)\' . sieve-mode) (BROWSE\' . ebrowse-tree-mode) (\.ebrowse\' . ebrowse-tree-mode) (#\*mail\* . mail-mode) (\.g\' . antlr-mode) (\.mod\' . m2-mode) (\.ses\' . ses-mode) (\.docbook\' . sgml-mode) (\.com\' . dcl-mode) (/config\.\(?:bat\|log\)\' . fundamental-mode) (\.\(?:[iI][nN][iI]\|[lL][sS][tT]\|[rR][eE][gG]\|[sS][yY][sS]\)\' . conf-mode) (\.\(?:desktop\|la\)\' . conf-unix-mode) (\.ppd\' . conf-ppd-mode) (java.+\.conf\' . conf-javaprop-mode) (\.properties\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-javaprop-mode) (\`/etc/\(?:DIR_COLORS\|ethers\|.?fstab\|.*hosts\|lesskey\|login\.?de\(?:fs\|vperm\)\|magic\|mtab\|pam\.d/.*\|permissions\(?:\.d/.+\)?\|protocols\|rpc\|services\)\' . conf-space-mode) (\`/etc/\(?:acpid?/.+\|aliases\(?:\.d/.+\)?\|default/.+\|group-?\|hosts\..+\|inittab\|ksysguarddrc\|opera6rc\|passwd-?\|shadow-?\|sysconfig/.+\)\' . conf-mode) ([cC]hange[lL]og[-.][-0-9a-z]+\' . change-log-mode) (/\.?\(?:gnokiirc\|kde.*rc\|mime\.types\|wgetrc\)\' . conf-mode) (/\.\(?:enigma\|gltron\|gtk\|hxplayer\|net\|neverball\|qt/.+\|realplayer\|scummvm\|sversion\|sylpheed/.+\|xmp\)rc\' . conf-mode) (/\.\(?:gdbtkinit\|grip\|orbital/.+txt\|rhosts\|tuxracer/options\)\' . conf-mode) (/\.?X\(?:default\|resource\|re\)s\> . conf-xdefaults-mode) (/X11.+app-defaults/ . conf-xdefaults-mode) (/X11.+locale/.+/Compose\' . conf-colon-mode) (/X11.+locale/compose\.dir\' . conf-javaprop-mode) (\.~?[0-9]+\.[0-9][-.0-9]*~?\' nil t) (\.\(?:orig\|in\|[bB][aA][kK]\)\' nil t) ([/.]c\(?:on\)?f\(?:i?g\)?\(?:\.[a-zA-Z0-9._-]+\)?\' . conf-mode-maybe) (\.[1-9]\' . nroff-mode) (\.tgz\' . tar-mode) (\.tbz2?\' . tar-mode) (\.txz\' . tar-mode))
 
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
-(yas-global-mode 1)
+  (yas-global-mode 1)
 #+END_SRC
-
-#+RESULTS:
-: t
 
 ** ditaa
 #+BEGIN_SRC emacs-lisp
-(setq org-ditaa-jar-path "/usr/local/Cellar/ditaa/0.9/libexec/ditaa0_9.jar")
+  (setq org-ditaa-jar-path "/usr/local/Cellar/ditaa/0.9/libexec/ditaa0_9.jar")
 #+END_SRC
-
-#+RESULTS:
-: /usr/local/Cellar/ditaa/0.9/libexec/ditaa0_9.jar
