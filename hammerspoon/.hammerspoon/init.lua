@@ -12,7 +12,7 @@ local hints = require "hs.hints"
 hints.style="vimperator"
 local appfinder = require "hs.appfinder"
 local applescript = require "hs.applescript"
---grid.setMargins(0)
+grid.setMargins({0,0})
 grid.setGrid'4x3'
 -- constants
 local smash = {"cmd", "ctrl" }
@@ -29,7 +29,7 @@ hotkey.bind(smash, "t", grid.resizeWindowThinner)
 hotkey.bind(smash, "w", grid.resizeWindowWider)
 hotkey.bind(smash, "i", grid.resizeWindowTaller)
 hotkey.bind(smash, "m", grid.resizeWindowShorter)
-hotkey.bind(smash, "f", grid.maximizeWindow)
+hotkey.bind(hulk_smash, "f", grid.maximizeWindow)
 hotkey.bind({"cmd"}, "e", hs.hints.windowHints)
 hotkey.bind(hulk_smash, "g", grid.toggleShow)
 hotkey.bind(hulk_smash, "R", hs.reload)
