@@ -133,96 +133,128 @@ also, there're several of popular themes of your choice
 
 用户设置, 放一些不想密码或敏感内容
 
-* IN PROGRESS Key Bindings
+* Key Bindings
 - State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
 
 emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自身爱好定义最高效的
 快捷键, 因此, 把这些定义都放到这里定义更方便与管理,更新,和查找.
-#+NAME: gen-keys
-#+BEGIN_SRC emacs-lisp :var keys=keys :results output :tangle no :exports none :colnames nil
-  (mapcar (lambda (l)
-            (let* ((key (car l))
-                   (def (if (string-match "^[[:alnum:]]\\{2\\}$" (format "%s" key))
-                            (format "key-chord-define-global \"%s\"" key)
-                          (format "global-set-key (kbd \"%s\")" key)))
-                   (command (car (last l))))
-              (princ (format "(%s %s)\n" def command))))
-          keys)
+#+BEGIN_SRC emacs-lisp
+(bind-keys
+ :map smartparens-mode-map
+ ("C-M-a" . sp-beginning-of-sexp)
+ ("C-M-e" . sp-end-of-sexp)
+
+ ("C-<down>" . sp-down-sexp)
+ ("C-<up>"   . sp-up-sexp)
+ ("M-<down>" . sp-backward-down-sexp)
+ ("M-<up>"   . sp-backward-up-sexp)
+
+ ("C-M-f" . sp-forward-sexp)
+ ("C-M-b" . sp-backward-sexp)
+
+ ("C-M-n" . sp-next-sexp)
+ ("C-M-p" . sp-previous-sexp)
+
+ ("C-S-f" . sp-forward-symbol)
+ ("C-S-b" . sp-backward-symbol)
+
+ ("C-<right>" . sp-forward-slurp-sexp)
+ ("M-<right>" . sp-forward-barf-sexp)
+ ("C-<left>"  . sp-backward-slurp-sexp)
+ ("M-<left>"  . sp-backward-barf-sexp)
+
+ ("C-M-t" . sp-transpose-sexp)
+ ("C-M-k" . sp-kill-sexp)
+ ("C-k"   . sp-kill-hybrid-sexp)
+ ("M-k"   . sp-backward-kill-sexp)
+ ("C-M-w" . sp-copy-sexp)
+
+ ("C-M-d" . delete-sexp)
+
+ ("M-<backspace>" . backward-kill-word)
+ ("C-<backspace>" . sp-backward-kill-word)
+ ([remap sp-backward-kill-word] . backward-kill-word)
+
+ ("M-[" . sp-backward-unwrap-sexp)
+ ("M-]" . sp-unwrap-sexp)
+
+ ("C-x C-t" . sp-transpose-hybrid-sexp)
+
+ ("C-c ("  . wrap-with-parens)
+ ("C-c ["  . wrap-with-brackets)
+ ("C-c {"  . wrap-with-braces)
+ ("C-c '"  . wrap-with-single-quotes)
+ ("C-c \"" . wrap-with-double-quotes)
+ ("C-c _"  . wrap-with-underscores)
+ ("C-c `"  . wrap-with-back-quotes))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :noweb yes :results silent
-  <<gen-keys()>>
-#+END_SRC
+#+RESULTS:
+: wrap-with-back-quotes
 
-
-这些快捷键绑定在一个table里定义, 这样便于管理和更新.
-
-**** :noexport:
-#+NAME: keys
-| Combo           | Category  | Desciption                                         | Command                                                           |
-|-----------------+-----------+----------------------------------------------------+-------------------------------------------------------------------|
-| M-q             | General   | Kill emacs (including the daemon if it is running) | 'save-buffers-kill-terminal                                       |
-| cg              | General   | Customize group                                    | 'customize-group                                                  |
-| M-S-8           | General   | Correct spell                                      | 'flyspell-check-previous-highlighted-word                         |
-| C-c h o         | Helm      | Helm occur                                         | 'helm-occur                                                       |
-| C-c h x         | Helm      | Helm register                                      | 'helm-register                                                    |
-| M-x             | Helm      | Helm M-x (execute command)                         | 'helm-M-x                                                         |
-| C-x b           | Helm      | Helm mini                                          | 'helm-mini                                                        |
-| M-y             | Helm      | Helm Yank                                          | 'helm-show-kill-ring                                              |
-| M-0             | Helm      | Helm find files with Git                           | 'helm-git-find-files                                              |
-| M-z             | Editing   | Undo                                               | 'undo                                                             |
-| M-S-z           | Editing   | Redo                                               | 'redo                                                             |
-| C-8             | Editing   | Select symbol under cursor, repeat to expand       | 'er/expand-region                                                 |
-| M-8             | Editing   | Contract the current selection                     | 'er/contract-region                                               |
-| C-<             | Editing   | Multiple cursors up                                | 'mc/mark-previous-like-this                                       |
-| C->             | Editing   | Multiple cursors down                              | 'mc/mark-next-like-this                                           |
-| C-*             | Editing   | Mark all like "this" with multiple cursors         | 'mc/mark-all-like-this                                            |
-| C-x r           | Editing   | Query and replace text                             | 'vr/query-replace                                                 |
-| C-c h d         | Editing   | howdoiquery insert code snippet at point           | 'howdoi-query-insert-code-snippet-at-point                        |
-| vr              | Editing   | Visual regexp/replace                              | 'vr/replace                                                       |
-| ln              | Interface | Show/hide the line numbers                         | 'linum-mode                                                       |
-| M--             | Interface | Decrease the font size                             | 'text-scale-decrease                                              |
-| M-=             | Interface | Increase the font size                             | 'text-scale-increase                                              |
-| C-c i           | Editing   | indent the whole the buffer                        | (lambda () (interactive) (indent-region (point-min) (point-max))) |
-| M-<backspace>   | Editing   | Delete region (but don't put it into kill ring)    | 'kill-whole-line                                                  |
-| C-c r           | Buffers   | Revert a buffer to the saved state                 | 'revert-buffer                                                    |
-| C-3             | History   | Go backward in movement history                    | 'back-button-global-backward                                      |
-| C-4             | History   | Go forward in movement history                     | 'back-button-global-forward                                       |
-| C-c SPC         | Occur     | ace jump mode                                      | 'ace-jump-mode                                                    |
-| M-2             | Occur     | Show all symbols like the one cursor is located at | 'highlight-symbol-occur                                           |
-| M-3             | Occur     | Previous symbol like the one the cursor is on      | (lambda () (interactive) (highlight-symbol-jump -1))              |
-| M-4             | Occur     | Next symbol like the one the cursor is on          | (lambda () (interactive) (highlight-symbol-jump 1))               |
-| C-c h o         | Occur     | Helm search for occurences in open buffers         | 'helm-occur                                                       |
-| C-x C-b         | Windows   | use ido to switch buffers                          | 'ido-switch-buffer                                                |
-| C-0             | Windows   | Select previous window                             | (lambda () (interactive) (select-window (previous-window)))       |
-| C-9             | Windows   | Select next window                                 | (lambda () (interactive) (select-window (next-window)))           |
-| M-k             | Windows   | Only keep the current window and delete all others | 'delete-other-windows                                             |
-| <f7>            | Windows   | Toggle arrangement of two windows                  | 'toggle-window-split                                              |
-| M-w             | Windows   | close window                                       | 'kill-buffer-and-window                                           |
-| M-c             | Editing   | Copy region or current line                        | 'kill-ring-save                                                   |
-| C-c a           | Open      | Open Org mode agenda                               | (lambda () (interactive) (org-agenda nil "n"))                    |
-| C-c c           | Open      | Open deft (quick notes tool)                       | 'deft                                                             |
-| C-x t           | Open      | Org mode capture (todo)                            | 'org-capture                                                      |
-| C-M-f           | Smartp    | move forward s-expression                          | 'sp-forward-sexp                                                  |
-| C-M-b           | Smartp    | move backward s-expression                         | 'sp-backward-sexp                                                 |
-| C-S-i           | Smartp    | move into sexp                                     | 'sp-down-sexp                                                     |
-| C-S-o           | Smartp    | move out sexp                                      | 'sp-up-sexp                                                       |
-| M-A-i           | Smartp    | move backward into                                 | 'sp-backward-down-sexp                                            |
-| M-A-o           | Smartp    | move backward out                                  | 'sp-backward-up-sexp                                              |
-| C-M-a           | Smartp    | move to the begining od sexp                       | 'sp-beginning-of-sexp                                             |
-| C-M-e           | Smartp    | move to the end of sexp                            | 'sp-end-of-sexp                                                   |
-| C-M-n           | Smartp    | move next sexp                                     | 'sp-next-sexp                                                     |
-| C-M-p           | Smartp    | move previous sexp                                 | 'sp-previous-sexp                                                 |
-| M-d             | Smartp    | delete forward                                     | 'sp-kill-sexp                                                     |
-| C-M-<backspace> | Smartp    | delete backward                                    | 'sp-backward-kill-sexp                                            |
-| C-k             | Smartp    | kill to the ends                                   | 'sp-kill-hybrid-sexp                                              |
-| C-M-w           | Smartp    | copy sexp                                          | 'sp-copy-sexp                                                     |
-| C-M-[           | Smartp    | backward unwrap                                    | 'sp-backward-unwrap-sexp                                          |
-| C-M-]           | Smartp    | forward unwrap                                     | 'sp-unwrap-sexp                                                   |
-| C-<right>       | Smartp    | forward right bracket                              | 'sp-forward-slurp-sexp                                            |
-| C-<left>        | Smartp    | backward right bracket                             | 'sp-forward-barf-sexp                                             |
-| C-M-<left>      | Smartp    | backward left barcket                              | 'sp-backward-slurp-sexp                                           |
-| C-M-<right>     | Smartp    | forward left bracket                               | 'sp-backward-barf-sexp                                            |
+#+BEGIN_SRC emacs-lisp 
+(global-set-key (kbd "M-q") 'save-buffers-kill-terminal)
+(key-chord-define-global "cg" 'customize-group)
+(global-set-key (kbd "M-S-8") 'flyspell-check-previous-highlighted-word)
+(global-set-key (kbd "C-c h o") 'helm-occur)
+(global-set-key (kbd "C-c h x") 'helm-register)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "M-0") 'helm-git-find-files)
+(global-set-key (kbd "M-z") 'undo)
+(global-set-key (kbd "M-S-z") 'redo)
+(global-set-key (kbd "C-8") 'er/expand-region)
+(global-set-key (kbd "M-8") 'er/contract-region)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
+(global-set-key (kbd "C-x r") 'vr/query-replace)
+(global-set-key (kbd "C-c h d") 'howdoi-query-insert-code-snippet-at-point)
+(key-chord-define-global "vr" 'vr/replace)
+(key-chord-define-global "ln" 'linum-mode)
+(global-set-key (kbd "M--") 'text-scale-decrease)
+(global-set-key (kbd "M-=") 'text-scale-increase)
+(global-set-key (kbd "C-c i") (lambda () (interactive) (indent-region (point-min) (point-max))))
+(global-set-key (kbd "M-<backspace>") 'kill-whole-line)
+(global-set-key (kbd "C-c r") 'revert-buffer)
+(global-set-key (kbd "C-3") 'back-button-global-backward)
+(global-set-key (kbd "C-4") 'back-button-global-forward)
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+(global-set-key (kbd "M-2") 'highlight-symbol-occur)
+(global-set-key (kbd "M-3") (lambda () (interactive) (highlight-symbol-jump -1)))
+(global-set-key (kbd "M-4") (lambda () (interactive) (highlight-symbol-jump 1)))
+(global-set-key (kbd "C-c h o") 'helm-occur)
+(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+(global-set-key (kbd "C-0") (lambda () (interactive) (select-window (previous-window))))
+(global-set-key (kbd "C-9") (lambda () (interactive) (select-window (next-window))))
+(global-set-key (kbd "M-k") 'delete-other-windows)
+(global-set-key (kbd "<f7>") 'toggle-window-split)
+(global-set-key (kbd "M-w") 'kill-buffer-and-window)
+(global-set-key (kbd "M-c") 'kill-ring-save)
+(global-set-key (kbd "C-c c") 'deft)
+(global-set-key (kbd "C-x t") 'org-capture)
+(global-set-key (kbd "C-M-f") 'sp-forward-sexp)
+(global-set-key (kbd "C-M-b") 'sp-backward-sexp)
+(global-set-key (kbd "C-S-i") 'sp-down-sexp)
+(global-set-key (kbd "C-S-o") 'sp-up-sexp)
+(global-set-key (kbd "M-A-i") 'sp-backward-down-sexp)
+(global-set-key (kbd "M-A-o") 'sp-backward-up-sexp)
+(global-set-key (kbd "C-M-a") 'sp-beginning-of-sexp)
+(global-set-key (kbd "C-M-e") 'sp-end-of-sexp)
+(global-set-key (kbd "C-M-n") 'sp-next-sexp)
+(global-set-key (kbd "C-M-p") 'sp-previous-sexp)
+(global-set-key (kbd "C-M-d") 'sp-kill-sexp)
+(global-set-key (kbd "C-M-<backspace>") 'sp-backward-kill-sexp)
+(global-set-key (kbd "C-M-k") 'sp-kill-hybrid-sexp)
+(global-set-key (kbd "C-M-w") 'sp-copy-sexp)
+(global-set-key (kbd "C-M-[") 'sp-backward-unwrap-sexp)
+(global-set-key (kbd "C-M-]") 'sp-unwrap-sexp)
+(global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
+(global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
+(global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
+(global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+#+END_SRC  
 * Modes [42%]
 ** dot
 #+BEGIN_SRC emacs-lisp
@@ -366,12 +398,6 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 =json-mode= adds a bit better syntax highlighting for =.json= files.
 
-** asciidoc mode
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
-  (add-to-list 'auto-mode-alist '("\\.asciidoc\\'" . adoc-mode))
-#+END_SRC
-
 ** DONE Nyancati
 彩虹猫滚动条，萌萌哒滚动条
 
@@ -451,7 +477,7 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 *** DONE Capture
 #+BEGIN_SRC emacs-lisp
-  (require 'org-trello)
+;;  (require 'org-trello)
   (setq org-default-notes-file (concat org-directory "/todo.org"))
   (custom-set-variables '(org-trello-files `(,org-default-notes-file)))
 
@@ -553,64 +579,18 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
 
 ** smartparens
 #+BEGIN_SRC emacs-lisp
-  (require 'smartparens-config)
-  ;; (smartparens-global-mode t)
-  ;; highlights matching pairs
-  (show-smartparens-global-mode t)
-  (add-hook 'clojure-mode-hook 'turn-on-smartparens-strict-mode)
-  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-  (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode)
+   (require 'smartparens-config)
+   (smartparens-global-mode t)
+   
+   (show-smartparens-global-mode t)
 
-
-  (define-key sp-keymap (kbd "M-D") 'sp-splice-sexp)
-  (define-key sp-keymap (kbd "C-M-<delete>") 'sp-splice-sexp-killing-forward)
-  (define-key sp-keymap (kbd "C-M-<backspace>") 'sp-splice-sexp-killing-backward)
-  (define-key sp-keymap (kbd "C-S-<backspace>") 'sp-splice-sexp-killing-around)
-
-  (define-key sp-keymap (kbd "C-]") 'sp-select-next-thing-exchange)
-  (define-key sp-keymap (kbd "C-[") 'sp-select-previous-thing)
-  ;; (define-key sp-keymap (kbd "C-M-]") 'sp-select-next-thing)
-
-  (define-key sp-keymap (kbd "M-F") 'sp-forward-symbol)
-  (define-key sp-keymap (kbd "M-B") 'sp-backward-symbol)
-
-  (define-key sp-keymap (kbd "H-t") 'sp-prefix-tag-object)
-  (define-key sp-keymap (kbd "H-p") 'sp-prefix-pair-object)
-  (define-key sp-keymap (kbd "H-s c") 'sp-convolute-sexp)
-  (define-key sp-keymap (kbd "H-s a") 'sp-absorb-sexp)
-  (define-key sp-keymap (kbd "H-s e") 'sp-emit-sexp)
-  (define-key sp-keymap (kbd "H-s p") 'sp-add-to-previous-sexp)
-  (define-key sp-keymap (kbd "H-s n") 'sp-add-to-next-sexp)
-  (define-key sp-keymap (kbd "H-s j") 'sp-join-sexp)
-  (define-key sp-keymap (kbd "H-s s") 'sp-split-sexp)
-
-  ;;   ;;;;;;;;;;;;;;;;;;
-  ;; ;; pair management
-
-  ;; (sp-local-pair 'minibuffer-inactive-mode "'" nil :actions nil)
-
-  ;;   ;;; markdown-mode
-  ;; (sp-with-modes '(markdown-mode gfm-mode rst-mode)
-  ;;   (sp-local-pair "*" "*" :bind "C-*")
-  ;;   (sp-local-tag "2" "**" "**")
-  ;;   (sp-local-tag "s" "```scheme" "```")
-  ;;   (sp-local-tag "<"  "<_>" "</_>" :transform 'sp-match-sgml-tags))
-
-  ;;   ;;; tex-mode latex-mode
-  ;; (sp-with-modes '(tex-mode plain-tex-mode latex-mode)
-  ;;   (sp-local-tag "i" "\"<" "\">"))
-
-  ;;   ;;; html-mode
-  ;; (sp-with-modes '(html-mode sgml-mode)
-  ;;   (sp-local-pair "<" ">"))
-
-  ;;   ;;; lisp modes
-  ;; (sp-with-modes sp--lisp-modes
-  ;;   (sp-local-pair "(" nil :bind "C-("))
+   (add-hook 'clojure-mode-hook 'turn-on-smartparens-strict-mode)
+   (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+   (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode)
 #+END_SRC
 
 #+RESULTS:
-: sp-down-sexp
+| turn-on-smartparens-strict-mode |
 
 
 ** sequential-command
