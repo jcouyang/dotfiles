@@ -82,17 +82,17 @@ also, there're several of popular themes of your choice
 - Meta key 设为 =Command= （我用的是mac）[[(meta-key)]]
 - 把 =C-h= 映射到 =C-?= ，因为帮助功能不是很有用，但是 =C-h= 这个unix系统下的默认是删除键，使用太频繁了。[[(delete-key)]]
 #+BEGIN_SRC emacs-lisp -n -r
-    (server-start) ;(ref:server)
-    (global-superword-mode 1)
-    (when (eq system-type 'darwin)
-      (setq mac-option-modifier 'alt)
-      (setq mac-command-modifier 'meta)); (ref:meta-key)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    (setq inhibit-startup-message t)
-    (delete-selection-mode 1) ; delete selection when paste
-    (keyboard-translate ?\C-h ?\C-?); (ref:delete-key)
-    (global-auto-revert-mode 1)  ;auto revert buffers when changed on dis
+  (server-start) ;(ref:server)
+  (global-superword-mode 1)
+  (when (eq system-type 'darwin)
+    (setq mac-option-modifier 'alt)
+    (setq mac-command-modifier 'meta)); (ref:meta-key)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (setq inhibit-startup-message t)
+  (delete-selection-mode 1) ; delete selection when paste
+  (keyboard-translate ?\C-h ?\C-?); (ref:delete-key)
+  (global-auto-revert-mode 1)  ;auto revert buffers when changed on dis
   (global-diff-hl-mode)
 #+END_SRC
 
@@ -107,22 +107,22 @@ also, there're several of popular themes of your choice
           "xelatex -interaction nonstopmode -output-directory %o %f"
           "xelatex -interaction nonstopmode -output-directory %o %f"))
 
-    (setq locate-command "mdfind")
-   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/share/npm/bin:/usr/local/bin:/usr/texbin"))
-    (setq exec-path (append exec-path '("/usr/local/bin" "/usr/texbin")))
-    (add-hook 'local-write-file-hooks
-              (lambda ()
-                (delete-trailing-whitespace)
-                nil))
-    (setq-default
-  make-backup-files nil ; stop creating those backup~ file
-  auto-save-default nil
+  (setq locate-command "mdfind")
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/share/npm/bin:/usr/local/bin:/usr/texbin"))
+  (setq exec-path (append exec-path '("/usr/local/bin" "/usr/texbin")))
+  (add-hook 'local-write-file-hooks
+            (lambda ()
+              (delete-trailing-whitespace)
+              nil))
+  (setq-default
+   make-backup-files nil ; stop creating those backup~ file
+   auto-save-default nil
 
-     indent-tabs-mode nil                   ;use spaces instead of tabs
-     c-hungry-delete-key t                  ;delete more than one space
-     electric-pair-mode nil
-     )
-    (electric-indent-mode t)
+   indent-tabs-mode nil                   ;use spaces instead of tabs
+   c-hungry-delete-key t                  ;delete more than one space
+   electric-pair-mode nil
+   )
+  (electric-indent-mode t)
 #+END_SRC
 
 * User Settings
@@ -139,122 +139,81 @@ also, there're several of popular themes of your choice
 emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自身爱好定义最高效的
 快捷键, 因此, 把这些定义都放到这里定义更方便与管理,更新,和查找.
 #+BEGIN_SRC emacs-lisp
-(bind-keys
- :map smartparens-mode-map
- ("C-M-a" . sp-beginning-of-sexp)
- ("C-M-e" . sp-end-of-sexp)
+  (bind-keys
+   :map smartparens-mode-map
+   ("C-M-f" . sp-forward-sexp)
+   ("C-M-b" . sp-backward-sexp)
+   ("C-S-i" . sp-down-sexp)
+   ("C-S-o" . sp-up-sexp)
+   ("M-A-i" . sp-backward-down-sexp)
+   ("M-A-o" . sp-backward-up-sexp)
+   ("C-M-a" . sp-beginning-of-sexp)
+   ("C-M-e" . sp-end-of-sexp)
+   ("C-M-n" . sp-next-sexp)
+   ("C-M-p" . sp-previous-sexp)
+   ("C-M-d" . sp-kill-sexp)
+   ("C-M-<backspace>" . sp-backward-kill-sexp)
+   ("C-M-k" . sp-kill-hybrid-sexp)
+   ("C-M-w" . sp-copy-sexp)
+   ("C-M-[" . sp-backward-unwrap-sexp)
+   ("C-M-]" . sp-unwrap-sexp)
+   ("C-<right>" . sp-forward-slurp-sexp)
+   ("C-<left>" . sp-forward-barf-sexp)
+   ("C-M-<left>" . sp-backward-slurp-sexp)
+  ("C-M-<right>" . sp-backward-barf-sexp))
 
- ("C-<down>" . sp-down-sexp)
- ("C-<up>"   . sp-up-sexp)
- ("M-<down>" . sp-backward-down-sexp)
- ("M-<up>"   . sp-backward-up-sexp)
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (bind-keys
+   ("C-c h o" . helm-occur)
+   ("C-c h x" . helm-register)
+   ("M-x" . helm-M-x)
+   ("C-x b" . helm-mini)
+   ("M-y" . helm-show-kill-ring))
 
- ("C-M-f" . sp-forward-sexp)
- ("C-M-b" . sp-backward-sexp)
+#+END_SRC
 
- ("C-M-n" . sp-next-sexp)
- ("C-M-p" . sp-previous-sexp)
 
- ("C-S-f" . sp-forward-symbol)
- ("C-S-b" . sp-backward-symbol)
-
- ("C-<right>" . sp-forward-slurp-sexp)
- ("M-<right>" . sp-forward-barf-sexp)
- ("C-<left>"  . sp-backward-slurp-sexp)
- ("M-<left>"  . sp-backward-barf-sexp)
-
- ("C-M-t" . sp-transpose-sexp)
- ("C-M-k" . sp-kill-sexp)
- ("C-k"   . sp-kill-hybrid-sexp)
- ("M-k"   . sp-backward-kill-sexp)
- ("C-M-w" . sp-copy-sexp)
-
- ("C-M-d" . delete-sexp)
-
- ("M-<backspace>" . backward-kill-word)
- ("C-<backspace>" . sp-backward-kill-word)
- ([remap sp-backward-kill-word] . backward-kill-word)
-
- ("M-[" . sp-backward-unwrap-sexp)
- ("M-]" . sp-unwrap-sexp)
-
- ("C-x C-t" . sp-transpose-hybrid-sexp)
-
- ("C-c ("  . wrap-with-parens)
- ("C-c ["  . wrap-with-brackets)
- ("C-c {"  . wrap-with-braces)
- ("C-c '"  . wrap-with-single-quotes)
- ("C-c \"" . wrap-with-double-quotes)
- ("C-c _"  . wrap-with-underscores)
- ("C-c `"  . wrap-with-back-quotes))
+#+BEGIN_SRC emacs-lisp
+  (bind-keys
+   ("C-<" . mc/mark-previous-like-this)
+   ("C->" . mc/mark-next-like-this)
+   ("C-*" . mc/mark-all-like-this))
 #+END_SRC
 
 #+RESULTS:
-: wrap-with-back-quotes
+: mc/mark-all-like-this
 
 #+BEGIN_SRC emacs-lisp 
-(global-set-key (kbd "M-q") 'save-buffers-kill-terminal)
-(key-chord-define-global "cg" 'customize-group)
-(global-set-key (kbd "M-S-8") 'flyspell-check-previous-highlighted-word)
-(global-set-key (kbd "C-c h o") 'helm-occur)
-(global-set-key (kbd "C-c h x") 'helm-register)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "M-0") 'helm-git-find-files)
-(global-set-key (kbd "M-z") 'undo)
-(global-set-key (kbd "M-S-z") 'redo)
-(global-set-key (kbd "C-8") 'er/expand-region)
-(global-set-key (kbd "M-8") 'er/contract-region)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-*") 'mc/mark-all-like-this)
-(global-set-key (kbd "C-x r") 'vr/query-replace)
-(global-set-key (kbd "C-c h d") 'howdoi-query-insert-code-snippet-at-point)
-(key-chord-define-global "vr" 'vr/replace)
-(key-chord-define-global "ln" 'linum-mode)
-(global-set-key (kbd "M--") 'text-scale-decrease)
-(global-set-key (kbd "M-=") 'text-scale-increase)
-(global-set-key (kbd "C-c i") (lambda () (interactive) (indent-region (point-min) (point-max))))
-(global-set-key (kbd "M-<backspace>") 'kill-whole-line)
-(global-set-key (kbd "C-c r") 'revert-buffer)
-(global-set-key (kbd "C-3") 'back-button-global-backward)
-(global-set-key (kbd "C-4") 'back-button-global-forward)
-(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
-(global-set-key (kbd "M-2") 'highlight-symbol-occur)
-(global-set-key (kbd "M-3") (lambda () (interactive) (highlight-symbol-jump -1)))
-(global-set-key (kbd "M-4") (lambda () (interactive) (highlight-symbol-jump 1)))
-(global-set-key (kbd "C-c h o") 'helm-occur)
-(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
-(global-set-key (kbd "C-0") (lambda () (interactive) (select-window (previous-window))))
-(global-set-key (kbd "C-9") (lambda () (interactive) (select-window (next-window))))
-(global-set-key (kbd "M-k") 'delete-other-windows)
-(global-set-key (kbd "<f7>") 'toggle-window-split)
-(global-set-key (kbd "M-w") 'kill-buffer-and-window)
-(global-set-key (kbd "M-c") 'kill-ring-save)
-(global-set-key (kbd "C-c c") 'deft)
-(global-set-key (kbd "C-x t") 'org-capture)
-(global-set-key (kbd "C-M-f") 'sp-forward-sexp)
-(global-set-key (kbd "C-M-b") 'sp-backward-sexp)
-(global-set-key (kbd "C-S-i") 'sp-down-sexp)
-(global-set-key (kbd "C-S-o") 'sp-up-sexp)
-(global-set-key (kbd "M-A-i") 'sp-backward-down-sexp)
-(global-set-key (kbd "M-A-o") 'sp-backward-up-sexp)
-(global-set-key (kbd "C-M-a") 'sp-beginning-of-sexp)
-(global-set-key (kbd "C-M-e") 'sp-end-of-sexp)
-(global-set-key (kbd "C-M-n") 'sp-next-sexp)
-(global-set-key (kbd "C-M-p") 'sp-previous-sexp)
-(global-set-key (kbd "C-M-d") 'sp-kill-sexp)
-(global-set-key (kbd "C-M-<backspace>") 'sp-backward-kill-sexp)
-(global-set-key (kbd "C-M-k") 'sp-kill-hybrid-sexp)
-(global-set-key (kbd "C-M-w") 'sp-copy-sexp)
-(global-set-key (kbd "C-M-[") 'sp-backward-unwrap-sexp)
-(global-set-key (kbd "C-M-]") 'sp-unwrap-sexp)
-(global-set-key (kbd "C-<right>") 'sp-forward-slurp-sexp)
-(global-set-key (kbd "C-<left>") 'sp-forward-barf-sexp)
-(global-set-key (kbd "C-M-<left>") 'sp-backward-slurp-sexp)
-(global-set-key (kbd "C-M-<right>") 'sp-backward-barf-sexp)
+(bind-keys
+  ("M-q" . save-buffers-kill-terminal)
+  ("C-8" . er/expand-region)
+  ("M-8" . er/contract-region)
+  ("C-x r" . vr/query-replace)
+  ("M--" . text-scale-decrease)
+  ("M-=" . text-scale-increase)
+  ("C-c i" . (lambda () (interactive) (indent-region . oint-min) (point-max)))
+  ("M-<backspace>" . kill-whole-line)
+  ("C-c r" . revert-buffer)
+  ("C-3" . back-button-global-backward)
+  ("C-4" . back-button-global-forward)
+  ("C-c SPC" . ace-jump-mode)
+  ("C-c h d" . howdoi-query-insert-code-snippet-at-point)
+  ("M-k" . delete-other-windows)
+  ("<f7>" . toggle-window-split)
+  ("C-c c" . deft)
+  ("C-x t" . org-capture))
+
 #+END_SRC  
+
+#+BEGIN_SRC emacs-lisp
+  (key-chord-define-global "vr" 'vr/replace)
+  (key-chord-define-global "ln" 'linum-mode)
+#+END_SRC
+
+#+RESULTS:
+: org-capture
+
 * Modes [42%]
 ** dot
 #+BEGIN_SRC emacs-lisp
@@ -291,18 +250,18 @@ When the completion candidates are shown, press <f1> to display the documentatio
 document
 
 #+BEGIN_SRC emacs-lisp -n -r
-    (require 'company)
+  (require 'company)
   (require 'company-tern)
-    (add-to-list 'company-backends 'company-tern)
-    (add-to-list 'company-backends 'company-dabbrev t)
-    (add-to-list 'company-backends 'company-ispell t)
-    (add-to-list 'company-backends 'company-files t)
-    (add-to-list 'company-backends 'company-css t)
-    (add-to-list 'company-backends 'company-yasnippet t)
+  (add-to-list 'company-backends 'company-tern)
+  (add-to-list 'company-backends 'company-dabbrev t)
+  (add-to-list 'company-backends 'company-ispell t)
+  (add-to-list 'company-backends 'company-files t)
+  (add-to-list 'company-backends 'company-css t)
+  (add-to-list 'company-backends 'company-yasnippet t)
 
-    ;; not always down case
-    (setq company-dabbrev-downcase nil)
-    (add-hook 'after-init-hook 'global-company-mode)
+  ;; not always down case
+  (setq company-dabbrev-downcase nil)
+  (add-hook 'after-init-hook 'global-company-mode)
   (setq company-tooltip-align-annotations t)
 #+END_SRC
 
@@ -391,8 +350,8 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 ** json-mode
 
 #+BEGIN_SRC emacs-lisp
-    (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-    (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode))
 #+END_SRC
 
@@ -423,12 +382,12 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 *** latex
 #+BEGIN_SRC emacs-lisp
   (require 'ox-latex)
-    (add-to-list 'org-latex-classes
-                 '("tufte" "\\documentclass[11pt,twoside,openright]{tufte-book}"
-                    ("\\chapter{%s}" . "\\chapter*{%s}")
-                    ("\\section{%s}" . "\\section*{%s}")
-                    ("\\subsection{%s}" . "\\subsection*{%s}")
-                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("tufte" "\\documentclass[11pt,twoside,openright]{tufte-book}"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
 #+END_SRC
 
 *** TODO Default Settings
@@ -467,17 +426,17 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 *** structure template
 #+BEGIN_SRC emacs-lisp
-    (add-to-list 'org-structure-template-alist '("E" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC\n"))
-    (add-to-list 'org-structure-template-alist '("S" "#+BEGIN_SRC shell-script\n?\n#+END_SRC\n"))
-    (add-to-list 'org-structure-template-alist '("J" "#+BEGIN_SRC js\n?\n#+END_SRC\n"))
+  (add-to-list 'org-structure-template-alist '("E" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC\n"))
+  (add-to-list 'org-structure-template-alist '("S" "#+BEGIN_SRC shell-script\n?\n#+END_SRC\n"))
+  (add-to-list 'org-structure-template-alist '("J" "#+BEGIN_SRC js\n?\n#+END_SRC\n"))
   (add-to-list 'org-structure-template-alist '("jm" "#+BEGIN_SRC js :session mozilla\n?\n#+END_SRC\n"))
-    (add-to-list 'org-structure-template-alist '("C" "#+BEGIN_SRC clojure\n?\n#+END_SRC\n"))
-    (add-to-list 'org-structure-template-alist '("d" "#+BEGIN_SRC ditaa :file ? :exports results\n?#+END_SRC\n"))
+  (add-to-list 'org-structure-template-alist '("C" "#+BEGIN_SRC clojure\n?\n#+END_SRC\n"))
+  (add-to-list 'org-structure-template-alist '("d" "#+BEGIN_SRC ditaa :file ? :exports results\n?#+END_SRC\n"))
 #+END_SRC
 
 *** DONE Capture
 #+BEGIN_SRC emacs-lisp
-;;  (require 'org-trello)
+  ;;  (require 'org-trello)
   (setq org-default-notes-file (concat org-directory "/todo.org"))
   (custom-set-variables '(org-trello-files `(,org-default-notes-file)))
 
@@ -532,26 +491,26 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 *** TODO Agenda
 #+BEGIN_SRC emacs-lisp
-    ;; create the file for the agendas if it doesn't exist
-    (appt-activate 1)              ; activate appt (appointment notification)
+  ;; create the file for the agendas if it doesn't exist
+  (appt-activate 1)              ; activate appt (appointment notification)
 
-    (org-agenda-to-appt)           ; add appointments on startup
+  (org-agenda-to-appt)           ; add appointments on startup
 
-    ;; add new appointments when saving the org buffer, use 'refresh argument to do it properly
-    (defun my-org-agenda-to-appt-refresh () (org-agenda-to-appt 'refresh))
-    (defun my-org-mode-hook ()
-      (add-hook 'after-save-hook 'my-org-agenda-to-appt-refresh nil 'make-it-local))
-    (add-hook 'org-mode-hook 'my-org-mode-hook)
+  ;; add new appointments when saving the org buffer, use 'refresh argument to do it properly
+  (defun my-org-agenda-to-appt-refresh () (org-agenda-to-appt 'refresh))
+  (defun my-org-mode-hook ()
+    (add-hook 'after-save-hook 'my-org-agenda-to-appt-refresh nil 'make-it-local))
+  (add-hook 'org-mode-hook 'my-org-mode-hook)
   (add-hook 'org-mode-hook (lambda ()
-                                         (visual-line-mode 1)))
-    (require 'notifications)
-    (defun my-appt-disp-window-function (min-to-app new-time msg)
-      (notifications-notify :title (format "Appointment in %s min" min-to-app) :body msg))
-    (setq appt-disp-window-function 'my-appt-disp-window-function)
-    (setq appt-delete-window-function (lambda (&rest args)))
+                             (visual-line-mode 1)))
+  (require 'notifications)
+  (defun my-appt-disp-window-function (min-to-app new-time msg)
+    (notifications-notify :title (format "Appointment in %s min" min-to-app) :body msg))
+  (setq appt-disp-window-function 'my-appt-disp-window-function)
+  (setq appt-delete-window-function (lambda (&rest args)))
 
-    ;; add state to the sorting strategy of todo
-    (setcdr (assq 'todo org-agenda-sorting-strategy) '(todo-state-up priority-down category-keep))
+  ;; add state to the sorting strategy of todo
+  (setcdr (assq 'todo org-agenda-sorting-strategy) '(todo-state-up priority-down category-keep))
 #+END_SRC
 
 *** babel
@@ -566,7 +525,7 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 *** pandoc
 #+BEGIN_SRC emacs-lisp
   (setq org-pandoc-options-for-revealjs '(
-  (standalone . nil)))
+                                          (standalone . nil)))
 #+END_SRC
 
 ** pallet
@@ -579,14 +538,14 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
 
 ** smartparens
 #+BEGIN_SRC emacs-lisp
-   (require 'smartparens-config)
-   (smartparens-global-mode t)
-   
-   (show-smartparens-global-mode t)
+  (require 'smartparens-config)
+  (smartparens-global-mode t)
 
-   (add-hook 'clojure-mode-hook 'turn-on-smartparens-strict-mode)
-   (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-   (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode)
+  (show-smartparens-global-mode t)
+
+  (add-hook 'clojure-mode-hook 'turn-on-smartparens-strict-mode)
+  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
+  (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode)
 #+END_SRC
 
 #+RESULTS:
@@ -595,18 +554,21 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
 
 ** sequential-command
 #+BEGIN_SRC emacs-lisp
-  ;; (require 'sequential-command)
-  ;; (define-sequential-command seq-home
-  ;;   back-to-indentation beginning-of-line seq-return)
-  ;; (define-sequential-command seq-end
-  ;;   end-of-line end-of-buffer seq-return)
-  ;; (global-set-key "\C-a" 'seq-home)
-  ;;   (global-set-key "\C-e" 'seq-end)
-  ;; (define-sequential-command seq-company-tab company-complete-common company-complete-selection)
+  (require 'sequential-command)
+  (define-sequential-command seq-home
+    back-to-indentation beginning-of-line seq-return)
+  (define-sequential-command seq-end
+    end-of-line end-of-buffer seq-return)
+  (global-set-key "\C-a" 'seq-home)
+    (global-set-key "\C-e" 'seq-end)
+  (define-sequential-command seq-company-tab company-complete-common company-complete-selection)
 
-  ;; (define-key company-active-map (kbd "TAB") 'seq-company-tab)
-  ;; (define-key company-active-map [tab] 'seq-company-tab)
+  (define-key company-active-map (kbd "TAB") 'seq-company-tab)
+  (define-key company-active-map [tab] 'seq-company-tab)
 #+END_SRC
+
+#+RESULTS:
+: seq-company-tab
 
 
 ** TODO tern
@@ -651,22 +613,20 @@ See the [[http://ternjs.net/][project homepage]] for more info.
 
 ** textmate
 #+BEGIN_SRC emacs-lisp
-  (require 'textmate)
-  (textmate-mode)
-  (define-key *textmate-mode-map* [(control return)] 'textmate-next-line)
-  (define-key *textmate-mode-map* [(meta shift t)] 'textmate-clear-cache)
-  (define-key *textmate-mode-map* [(meta \])] 'align)
-  (define-key *textmate-mode-map* [(meta \[)] 'indent-according-to-mode)
-  (define-key *textmate-mode-map* [(meta shift \])]  'textmate-shift-right)
-  (define-key *textmate-mode-map* [(meta shift \[)] 'textmate-shift-left)
-  (define-key *textmate-mode-map* [(meta /)] 'comment-or-uncomment-region-or-line)
-  (define-key *textmate-mode-map* [(meta t)] 'textmate-goto-file)
-  (define-key *textmate-mode-map* [(meta shift l)] 'textmate-select-line)
-  (define-key *textmate-mode-map* [(meta up)] 'textmate-column-up)
-  (define-key *textmate-mode-map* [(meta down)] 'textmate-column-down)
-  (define-key *textmate-mode-map* [(meta shift up)] 'textmate-column-up-with-select)
-  (define-key *textmate-mode-map* [(meta shift down)] 'textmate-column-down-with-select)
+    (require 'textmate)
+    (textmate-mode)
+    (bind-keys
+     :map *textmate-mode-map*
+     ("M-}" . textmate-shift-right)
+     ("M-{" . textmate-shift-left)
+     ("M-/" . comment-or-uncomment-region-or-line)
+     ("M-l" . textmate-select-line)
+     )
+
 #+END_SRC
+
+#+RESULTS:
+: textmate-select-line
 
 ** Prompt Behavior
 
@@ -683,10 +643,10 @@ Also Emacs should be able to kill processes without asking ([[(process-query)][l
 
 ** [[http://web-mode.org/][web-mode]]
 #+BEGIN_SRC emacs-lisp
-    (require 'editorconfig)
+  (require 'editorconfig)
   (editorconfig-mode 1)
-    (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 #+END_SRC
 
 ** yasnippet
