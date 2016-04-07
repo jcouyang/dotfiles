@@ -133,86 +133,6 @@ also, there're several of popular themes of your choice
 
 用户设置, 放一些不想密码或敏感内容
 
-* Key Bindings
-- State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
-
-emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自身爱好定义最高效的
-快捷键, 因此, 把这些定义都放到这里定义更方便与管理,更新,和查找.
-#+BEGIN_SRC emacs-lisp
-  (bind-keys
-   :map smartparens-mode-map
-   ("C-M-f" . sp-forward-sexp)
-   ("C-M-b" . sp-backward-sexp)
-   ("C-S-i" . sp-down-sexp)
-   ("C-S-o" . sp-up-sexp)
-   ("M-A-i" . sp-backward-down-sexp)
-   ("M-A-o" . sp-backward-up-sexp)
-   ("C-M-a" . sp-beginning-of-sexp)
-   ("C-M-e" . sp-end-of-sexp)
-   ("C-M-n" . sp-next-sexp)
-   ("C-M-p" . sp-previous-sexp)
-   ("C-M-d" . sp-kill-sexp)
-   ("C-M-<backspace>" . sp-backward-kill-sexp)
-   ("C-M-k" . sp-kill-hybrid-sexp)
-   ("C-M-w" . sp-copy-sexp)
-   ("C-M-[" . sp-backward-unwrap-sexp)
-   ("C-M-]" . sp-unwrap-sexp)
-   ("C-<right>" . sp-forward-slurp-sexp)
-   ("C-<left>" . sp-forward-barf-sexp)
-   ("C-M-<left>" . sp-backward-slurp-sexp)
-  ("C-M-<right>" . sp-backward-barf-sexp))
-
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-  (bind-keys
-   ("C-c h o" . helm-occur)
-   ("C-c h x" . helm-register)
-   ("M-x" . helm-M-x)
-   ("C-x b" . helm-mini)
-   ("M-y" . helm-show-kill-ring))
-
-#+END_SRC
-
-
-#+BEGIN_SRC emacs-lisp
-  (bind-keys
-   ("C-<" . mc/mark-previous-like-this)
-   ("C->" . mc/mark-next-like-this)
-   ("C-*" . mc/mark-all-like-this))
-#+END_SRC
-
-#+RESULTS:
-: mc/mark-all-like-this
-
-#+BEGIN_SRC emacs-lisp 
-(bind-keys
-  ("M-q" . save-buffers-kill-terminal)
-  ("C-8" . er/expand-region)
-  ("M-8" . er/contract-region)
-  ("C-x r" . vr/query-replace)
-  ("M--" . text-scale-decrease)
-  ("M-=" . text-scale-increase)
-  ("C-c i" . (lambda () (interactive) (indent-region . oint-min) (point-max)))
-  ("M-<backspace>" . kill-whole-line)
-  ("C-c r" . revert-buffer)
-  ("C-3" . back-button-global-backward)
-  ("C-4" . back-button-global-forward)
-  ("C-c SPC" . ace-jump-mode)
-  ("C-c h d" . howdoi-query-insert-code-snippet-at-point)
-  ("M-k" . delete-other-windows)
-  ("<f7>" . toggle-window-split)
-  ("C-c c" . deft)
-  ("C-x t" . org-capture))
-
-#+END_SRC  
-
-#+BEGIN_SRC emacs-lisp
-  (key-chord-define-global "vr" 'vr/replace)
-  (key-chord-define-global "ln" 'linum-mode)
-#+END_SRC
-
-#+RESULTS:
-: org-capture
 
 * Modes [42%]
 ** dot
@@ -298,9 +218,7 @@ helm 可以让你很方便的在项目里快速浏览文件
         helm-locate-fuzzy-match t
         projectile-indexing-method 'alien); (ref:indexing)
   (helm-projectile-on)
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-  (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
 #+END_SRC
 
 其中第[[(caching)]]和[[(indexing)]]两行能加速projectile index一个大的repo时的速度。
@@ -658,3 +576,99 @@ Also Emacs should be able to kill processes without asking ([[(process-query)][l
 #+BEGIN_SRC emacs-lisp
   (setq org-ditaa-jar-path "/usr/local/Cellar/ditaa/0.9/libexec/ditaa0_9.jar")
 #+END_SRC
+* Key Bindings
+- State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
+
+emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自身爱好定义最高效的
+快捷键, 因此, 把这些定义都放到这里定义更方便与管理,更新,和查找.
+
+** smartparens
+#+BEGIN_SRC emacs-lisp
+  (bind-keys
+   :map smartparens-mode-map
+   ("C-M-f" . sp-forward-sexp)
+   ("C-M-b" . sp-backward-sexp)
+   ("C-S-i" . sp-down-sexp)
+   ("C-S-o" . sp-up-sexp)
+   ("M-A-i" . sp-backward-down-sexp)
+   ("M-A-o" . sp-backward-up-sexp)
+   ("C-M-a" . sp-beginning-of-sexp)
+   ("C-M-e" . sp-end-of-sexp)
+   ("C-M-n" . sp-next-sexp)
+   ("C-M-p" . sp-previous-sexp)
+   ("C-M-d" . sp-kill-sexp)
+   ("C-M-<backspace>" . sp-backward-kill-sexp)
+   ("C-M-k" . sp-kill-hybrid-sexp)
+   ("C-M-w" . sp-copy-sexp)
+   ("C-M-[" . sp-backward-unwrap-sexp)
+   ("C-M-]" . sp-unwrap-sexp)
+   ("C-<right>" . sp-forward-slurp-sexp)
+   ("C-<left>" . sp-forward-barf-sexp)
+   ("C-M-<left>" . sp-backward-slurp-sexp)
+   ("C-M-<right>" . sp-backward-barf-sexp))
+#+END_SRC
+
+** helm
+#+BEGIN_SRC emacs-lisp
+  (bind-keys
+   ("C-c h o" . helm-occur)
+   ("C-c h x" . helm-register)
+   ("M-x" . helm-M-x)
+   ("C-x b" . helm-mini)
+   ("M-y" . helm-show-kill-ring))
+  (bind-keys
+   :map helm-map
+   ("<tab>" . helm-execute-persistent-action) ; rebind tab to run persistent action
+   ("C-i" . helm-execute-persistent-action) ; make TAB works in terminal
+   ("C-z" . helm-select-action) ; list actions using C-z
+   )
+#+END_SRC
+
+#+RESULTS:
+: helm-select-action
+
+** multiple cursor
+#+BEGIN_SRC emacs-lisp
+  (bind-keys
+   ("C-<" . mc/mark-previous-like-this)
+   ("C->" . mc/mark-next-like-this)
+   ("C-*" . mc/mark-all-like-this))
+#+END_SRC
+
+#+RESULTS:
+: mc/mark-all-like-this
+
+** general
+#+BEGIN_SRC emacs-lisp 
+  (bind-keys
+   ("M-c" . kill-ring-save)
+   ("C-8" . er/expand-region)
+   ("M-8" . er/contract-region)
+   ("C-x r" . vr/query-replace)
+   ("M--" . text-scale-decrease)
+   ("M-=" . text-scale-increase)
+   ("C-c i" . (lambda () (interactive) (indent-region (point-min) (point-max))))
+   ("M-<backspace>" . kill-whole-line)
+   ("C-c r" . revert-buffer)
+   ("C-3" . back-button-global-backward)
+   ("C-4" . back-button-global-forward)
+   ("C-c SPC" . ace-jump-mode)
+   ("C-c h d" . howdoi-query-insert-code-snippet-at-point)
+   ("M-k" . delete-other-windows)
+   ("<f7>" . toggle-window-split)
+   ("C-c c" . deft)
+   ("C-x t" . org-capture)
+   ("C-c a" (lambda () (interactive) (org-agenda nil "n"))))
+#+END_SRC  
+
+#+RESULTS:
+| lambda | nil | (interactive) | (org-agenda nil n) |
+
+** keychord
+#+BEGIN_SRC emacs-lisp
+  (key-chord-define-global "vr" 'vr/replace)
+  (key-chord-define-global "ln" 'linum-mode)
+#+END_SRC
+
+#+RESULTS:
+: org-capture
