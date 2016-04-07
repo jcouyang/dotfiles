@@ -147,6 +147,7 @@ Cider 是 clojure 的repl插件
 看参照[[https://github.com/clojure-emacs/cider#keyboard-shortcuts]] 默认的一些快捷键
 
 #+BEGIN_SRC emacs-lisp
+(require 'cider)
   (setq org-babel-clojure-backend 'cider)
   (add-hook 'cider-repl-mode-hook #'company-mode)
   (add-hook 'cider-mode-hook #'company-mode)
@@ -173,17 +174,18 @@ document
   (require 'company)
   (require 'company-tern)
   (add-to-list 'company-backends 'company-tern)
-  (add-to-list 'company-backends 'company-dabbrev t)
-  (add-to-list 'company-backends 'company-ispell t)
-  (add-to-list 'company-backends 'company-files t)
-  (add-to-list 'company-backends 'company-css t)
   (add-to-list 'company-backends 'company-yasnippet t)
 
   ;; not always down case
   (setq company-dabbrev-downcase nil)
-  (add-hook 'after-init-hook 'global-company-mode)
   (setq company-tooltip-align-annotations t)
+  (setq company-idle-delay 0.1)
+  (global-company-mode)
+
 #+END_SRC
+
+#+RESULTS:
+: t
 
 ** DONE deft
 #+BEGIN_SRC emacs-lisp
