@@ -4,7 +4,7 @@
 (setq org-confirm-babel-evaluate nil
       vc-follow-symlinks nil)
 
-(org-babel-load-file "~/.emacs.d/config.org")
+(org-babel-load-file "~/.emacs.d/README.org")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
