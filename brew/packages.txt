@@ -29,11 +29,13 @@ jmeter
 jq
 lastpass-cli
 leiningen
+libevent
 libpng
 libtasn1
 lua
 makedepend
 maven
+memcached
 mercurial
 mysql
 nettle
