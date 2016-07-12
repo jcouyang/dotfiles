@@ -94,22 +94,6 @@ also, there're several of popular themes of your choice
   (keyboard-translate ?\C-h ?\C-?); (ref:delete-key)
   (global-auto-revert-mode 1)  ;auto revert buffers when changed on dis
   (global-diff-hl-mode)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp -n -r
-
-  (setq tex-compile-commands '(("xelatex %r")))
-  (setq tex-command "xelatex")
-  (setq-default TeX-engine 'xelatex)
-
-  (setq org-latex-pdf-process
-        '("xelatex -interaction nonstopmode -output-directory %o %f"
-          "xelatex -interaction nonstopmode -output-directory %o %f"
-          "xelatex -interaction nonstopmode -output-directory %o %f"))
-
-  (setq locate-command "mdfind")
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/share/npm/bin:/usr/local/bin:/usr/texbin"))
-  (setq exec-path (append exec-path '("/usr/local/bin" "/usr/texbin")))
   (add-hook 'local-write-file-hooks
             (lambda ()
               (delete-trailing-whitespace)
@@ -223,7 +207,7 @@ helm 可以让你很方便的在项目里快速浏览文件
 
 #+END_SRC
 
-其中第[[(caching)]]和[[(indexing)]]两行能加速projectile index一个大的repo时的速度。
+其中第[[(caching)]]和[[(indexing)]]两行能加速projectile index一个大的repo时的速度。如果需要重新index，可以 =C-c p i=.
 
 ** iedit
 #+BEGIN_SRC emacs-lisp
@@ -282,6 +266,22 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 #+BEGIN_SRC emacs-lisp
   (nyan-mode t)
+#+END_SRC
+
+** latex
+#+BEGIN_SRC emacs-lisp
+  (setq tex-compile-commands '(("xelatex %r")))
+  (setq tex-command "xelatex")
+  (setq-default TeX-engine 'xelatex)
+
+  (setq org-latex-pdf-process
+        '("xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"
+          "xelatex -interaction nonstopmode -output-directory %o %f"))
+
+  (setq locate-command "mdfind")
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/share/npm/bin:/usr/local/bin:/usr/texbin"))
+  (setq exec-path (append exec-path '("/usr/local/bin" "/usr/texbin")))
 #+END_SRC
 
 ** on-screen
@@ -445,8 +445,14 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 *** pandoc
 #+BEGIN_SRC emacs-lisp
   (setq org-pandoc-options-for-revealjs '(
+                                          (self-contained . t)
+(variable . "theme=solarized")
+(section-divs . t)
                                           (standalone . nil)))
 #+END_SRC
+
+#+RESULTS:
+: ((self-contained . t) (variable . theme=solarized) (section-divs . t) (standalone))
 
 ** pallet
 
@@ -490,7 +496,13 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
 #+RESULTS:
 : seq-company-tab
 
-
+** scala-mode
+#+BEGIN_SRC emacs-lisp
+(require 'ensime)
+  (add-to-list 'auto-mode-alist '("\\.sc$" . scala-mode))
+  (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+  (add-hook 'scala-mode-hook 'ensime-mode)
+#+END_SRC
 ** TODO tern
 A JavaScript code analyzer
 非常给力的 javascript 编辑工具, 支持 auto completion, jump to
