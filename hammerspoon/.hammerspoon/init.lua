@@ -21,14 +21,14 @@ local monitor = "LCD"
 local second_monitor = "extended LCD"
 
 -- hotkeys
-hotkey.bind(smash, "h", grid.pushWindowLeft)
-hotkey.bind(smash, "l", grid.pushWindowRight)
-hotkey.bind(smash, "j", grid.pushWindowDown)
-hotkey.bind(smash, "k", grid.pushWindowUp)
-hotkey.bind(smash, "t", grid.resizeWindowThinner)
-hotkey.bind(smash, "w", grid.resizeWindowWider)
+hotkey.bind(hulk_smash, "h", grid.pushWindowLeft)
+hotkey.bind(hulk_smash, "l", grid.pushWindowRight)
+hotkey.bind(hulk_smash, "j", grid.pushWindowDown)
+hotkey.bind(hulk_smash, "k", grid.pushWindowUp)
+hotkey.bind(hulk_smash, "t", grid.resizeWindowThinner)
+hotkey.bind(hulk_smash, "w", grid.resizeWindowWider)
 hotkey.bind(hulk_smash, "i", grid.resizeWindowTaller)
-hotkey.bind(smash, "m", grid.resizeWindowShorter)
+hotkey.bind(hulk_smash, "m", grid.resizeWindowShorter)
 hotkey.bind(hulk_smash, "f", grid.maximizeWindow)
 hotkey.bind({"cmd"}, "e", hs.hints.windowHints)
 hotkey.bind(hulk_smash, "g", grid.toggleShow)
