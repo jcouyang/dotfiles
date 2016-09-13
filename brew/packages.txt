@@ -3,6 +3,7 @@ autoconf
 automake
 boost
 cabal-install
+caddy
 cask
 chromedriver
 cmake
@@ -25,6 +26,7 @@ gnupg
 gnutls
 go
 graphviz
+heroku
 heroku-toolbelt
 hub
 ispell
@@ -49,9 +51,11 @@ openconnect
 openssl
 pandoc
 pcre
+pcre2
 pkg-config
 postgresql
 pow
+pyenv
 python
 qt
 rbenv
@@ -63,6 +67,7 @@ scala
 source-highlight
 sqlite
 stow
+swig304
 the_silver_searcher
 thefuck
 tree

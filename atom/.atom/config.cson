@@ -1,6 +1,13 @@
 "*":
   "atom-typescript": {}
   core:
+    disabledPackages: [
+      "asciidoctor-preview"
+      "atom-wallaby"
+      "atom-ternjs"
+      "language-babel"
+      "language-asciidoc"
+    ]
     themes: [
       "one-dark-ui"
       "base16-tomorrow-dark-theme"

@@ -157,9 +157,11 @@ document
 #+BEGIN_SRC emacs-lisp -n -r
   (require 'company)
   (require 'company-tern)
+  ;; (require 'company-ispell)
   (add-to-list 'company-backends 'company-tern)
   (add-to-list 'company-backends 'company-yasnippet t)
-
+  (add-to-list 'company-backends 'company-robe)
+  ;; (add-to-list 'company-backends 'company-ispell)
   ;; not always down case
   (setq company-dabbrev-downcase nil)
   (setq company-tooltip-align-annotations t)
@@ -175,12 +177,21 @@ document
 #+BEGIN_SRC emacs-lisp
   (setq
    deft-extension "org"
-   deft-directory "~/Dropbox/org/deft"
+   deft-directory "~/Develop/blog/org"
    deft-text-mode 'org-mode
-   deft-use-filename-as-title t
+   deft-recursive t
+   deft-use-filename-as-title nil
+   deft-file-naming-rules
+   '((noslash . "-")
+     (nospace . "-")
+     (case-fn . downcase))
    deft-use-filter-string-for-filename t
+   deft-org-mode-title-prefix t
    )
 #+END_SRC
+
+#+RESULTS:
+: t
 
 ** IN PROGRESS helm
 - State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
@@ -251,6 +262,17 @@ helm 可以让你很方便的在项目里快速浏览文件
 
 Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js2-mode.el][Magnars' .emacs.d]].
 
+** ruby-mode
+#+BEGIN_SRC emacs-lisp
+(add-hook 'ruby-mode-hook 'robe-mode)
+;(setq rbenv-installation-dir "/usr/local/bin/")
+;(defadvice inf-ruby-console-auto (before activate-rbenv-for-robe activate)
+;  (rbenv-use-corresponding))
+#+END_SRC
+
+#+RESULTS:
+: inf-ruby-console-auto
+
 ** json-mode
 
 #+BEGIN_SRC emacs-lisp
@@ -281,8 +303,11 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
   (setq locate-command "mdfind")
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/share/npm/bin:/usr/local/bin:/usr/texbin"))
-  (setq exec-path (append exec-path '("/usr/local/bin" "/usr/texbin")))
+  (setq exec-path (append exec-path '("/usr/local/bin" "~/.rbenv/shims" "/usr/texbin")))
 #+END_SRC
+
+#+RESULTS:
+| /usr/bin | /bin | /usr/sbin | /sbin | /usr/local/Cellar/emacs/24.5/libexec/emacs/24.5/x86_64-apple-darwin14.3.0 | /usr/local/bin | /usr/texbin | /usr/local/bin | ~/.rbenv/shims | /usr/texbin |
 
 ** on-screen
 翻页的事后加一条小黑线，不然找不到翻哪了
@@ -354,11 +379,20 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
   (add-to-list 'org-structure-template-alist '("d" "#+BEGIN_SRC ditaa :file ? :exports results\n?#+END_SRC\n"))
 #+END_SRC
 
+*** Clocking
+#+BEGIN_SRC emacs-lisp
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+#+END_SRC
+
+#+RESULTS:
+| org-clock-save | ensime-kill-emacs-hook-function | recentf-save-list | pcache-kill-emacs-hook | ido-kill-emacs-hook | flycheck-global-teardown | bookmark-exit-hook-internal | company-clang-set-prefix | server-force-stop | org-babel-remove-temporary-directory |
+
 *** DONE Capture
 #+BEGIN_SRC emacs-lisp
   ;;  (require 'org-trello)
   (setq org-default-notes-file (concat org-directory "/todo.org"))
-  (custom-set-variables '(org-trello-files `(,org-default-notes-file)))
+  ;; (custom-set-variables '(org-trello-files `(,org-default-notes-file)))
 
   (setq org-capture-templates
         '(
@@ -408,6 +442,17 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
            :body-only t)
           ("fpjs" :components ("fpjs-static" "fpjs-md"))))
 #+END_SRC
+
+*** org-deck
+#+BEGIN_SRC emacs-lisp
+(setq org-deck-base-url "https://blog.oyanglul.us/deck.js")
+(setq org-deck-theme "web-2.0.css")
+(setq org-deck-transition "horizontal-slide.css")
+(setq org-deck-postamble "<p>%t - %a</p>")
+#+END_SRC
+
+#+RESULTS:
+: <p>%t - %a</p>
 
 *** TODO Agenda
 #+BEGIN_SRC emacs-lisp
