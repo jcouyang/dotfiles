@@ -14,7 +14,7 @@ set -x LC_ALL en_US.UTF-8
 # Java
 set -x JAVA_HOME /Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
 # emacs
-set EDITOR emacsclient
+set -x EDITOR emacsclient
 
 # github
 alias git hub
@@ -28,7 +28,11 @@ set -gx RBENV_ROOT ~/.rbenv/
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
-# abbrs
-source ~/.config/fish/abbr.fish
+# backup abbrs
+abbr -s | sort > ~/.config/fish/abbr.fish
+
+# themes
+set -g theme_display_virtualenv no
+
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish

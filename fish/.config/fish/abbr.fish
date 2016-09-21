@@ -1,3 +1,5 @@
+abbr dc 'docker compose'
+abbr em emacsclient
 abbr g git
 abbr ga 'git add'
 abbr gb 'git branch'
