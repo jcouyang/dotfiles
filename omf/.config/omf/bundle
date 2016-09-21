@@ -3,5 +3,5 @@ package export
 package fasd
 package gi
 package rbenv
+theme scorphish
 theme default
-theme lambda
