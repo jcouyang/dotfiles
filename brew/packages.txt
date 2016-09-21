@@ -9,6 +9,7 @@ cairo
 cask
 chromedriver
 cmake
+dirmngr
 ditaa
 docbook
 editorconfig
@@ -28,10 +29,11 @@ gist
 git-lfs
 glib
 gmp
-gnupg
+gnupg2
 gnutls
 go
 gobject-introspection
+gpg-agent
 graphviz
 guile
 harfbuzz
@@ -45,9 +47,13 @@ jpeg
 jq
 lastpass-cli
 leiningen
+libassuan
 libcroco
 libevent
 libffi
+libgcrypt
+libgpg-error
+libksba
 libpng
 librsvg
 libssh2
@@ -55,6 +61,8 @@ libtasn1
 libtiff
 libtool
 libunistring
+libusb
+libusb-compat
 lua
 makedepend
 maven
@@ -70,10 +78,12 @@ pandoc
 pango
 pcre
 pcre2
+pinentry
 pixman
 pkg-config
 postgresql
 pow
+pth
 pyenv
 python
 qt
