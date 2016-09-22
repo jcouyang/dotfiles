@@ -1,0 +1,1 @@
+/Users/jcouyang/.local/share/omf/themes/Scorphish/fish_prompt.fish
