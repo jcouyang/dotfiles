@@ -33,6 +33,7 @@
 (depends-on "expand-region")
 (depends-on "f")
 (depends-on "feature-mode")
+(depends-on "fish-mode")
 (depends-on "flx")
 (depends-on "flx-ido")
 (depends-on "flycheck")
