@@ -1,3 +1,4 @@
+ammonite-repl
 asciidoc
 autoconf
 automake
