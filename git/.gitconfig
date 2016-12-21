@@ -1,0 +1,32 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Jichao Ouyang
+	email = oyanglulu@gmail.com
+[push]
+	default = simple
+	followTags = true
+[hub]
+	host = $ENTERPRICE_HUB
+[merge]
+  tool = ediff
+[mergetool "ediff"]
+  cmd = emacsclient -c -a \"\"  --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
+[core]
+	excludesfile = /Users/jcouyang/.gitignore_global
+	editor = emacsclient
+	quotepath = false
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[alias]
+	semtag = !git tag -a $(semver tag) -m \"tagging $(semver tag)\"
+[commit]
+   gpgsign = true
+	template = /Users/jcouyang/.stCommitMsg
