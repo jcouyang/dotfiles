@@ -3,6 +3,7 @@ asciidoc
 autoconf
 automake
 bdw-gc
+bfg
 boost
 cabal-install
 caddy
@@ -85,6 +86,7 @@ pkg-config
 postgresql
 pow
 pth
+purescript
 pyenv
 python
 qt
