@@ -2,6 +2,16 @@
 #+AUTHOR: 欧阳继超
 #+Date: <2015-10-29 Thu>
 
+* TLDR;
+#+BEGIN_SRC sh
+brew install stow
+cd ~
+git clone git@github.com:jcouyang/dotfiles.git
+cd dotfiles
+stow .
+#+END_SRC
+
+* 
 可能看标题你觉得我疯了，什么叫用 dotfiles 管理你的 dotfiles。
 
 第一个单词 [[http://dotfiles.github.io/][dotfiles]] 指将 HOME 目录下的 =.XXX= (它们是真的字面意思dotfiles) 文件同步到 Github 上的方式。
@@ -9,9 +19,6 @@
 
 因此我们希望的是用 github 版本管理这些 *配置* ，而不是 *状态* 。
 
-#+BEGIN_QUOTE
- 下面例子中的 dotfiles repo 在[[https://github.com/jcouyang/dotfiles][这里]]
-#+END_QUOTE
 
 好吧，让我们来看看到底如何版本管理这些 “dotfiles”。
 
