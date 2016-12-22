@@ -1,0 +1,8 @@
+# Comments and blank lines are allowed.
+brew
+README\.org
+\.git
+\.Spotlight-V100
+\.fseventsd
+\.DS_Store
+\.brew.txt
