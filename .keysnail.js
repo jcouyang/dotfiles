@@ -5,6 +5,29 @@
 // ========================================================================= //
 //{{%PRESERVE%
 // Put your codes here
+key.setViewKey('e', function (aEvent, aArg) {
+    ext.exec("hok-start-foreground-mode", aArg);
+}, 'Hok - Foreground hint mode', true);
+
+key.setViewKey('E', function (aEvent, aArg) {
+    ext.exec("hok-start-background-mode", aArg);
+}, 'HoK - Background hint mode', true);
+
+key.setViewKey(';', function (aEvent, aArg) {
+    ext.exec("hok-start-extended-mode", aArg);
+}, 'HoK - Extented hint mode', true);
+
+key.setViewKey(['C-c', 'C-e'], function (aEvent, aArg) {
+    ext.exec("hok-start-continuous-mode", aArg);
+}, 'Start continuous HaH', true);
+
+key.setViewKey('c', function (aEvent, aArg) {
+    ext.exec("hok-yank-foreground-mode", aArg);
+}, 'Hok - Foreground yank hint mode', true);
+
+key.setGlobalKey(['C-x', 'b'], function(aEvent, aArg){
+    ext.exec('tanything')
+}, 'Tanything', true)
 //}}%PRESERVE%
 // ========================================================================= //
 
@@ -22,6 +45,7 @@ key.negativeArgument3Key = "C-=";
 key.suspendKey           = "<f2>";
 
 // ================================= Hooks ================================= //
+
 
 hook.setHook('KeyBoardQuit', function (aEvent) {
     if (key.currentKeySequence.length) return;
@@ -47,6 +71,7 @@ hook.setHook('KeyBoardQuit', function (aEvent) {
         key.generateKey(aEvent.originalTarget, KeyEvent.DOM_VK_ESCAPE, true);
     }
 });
+
 
 
 // ============================= Key bindings ============================== //
