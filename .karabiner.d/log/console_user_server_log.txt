@@ -1,0 +1,20 @@
+[2016-12-27 17:35:25.765] [info] [console_user_server] version 0.90.68
+[2016-12-27 17:35:26.920] [info] [console_user_server] grabber_client_ is connected
+[2016-12-27 17:35:26.922] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:35:27.992] [info] [console_user_server] system_preferences::values is updated.
+[2016-12-27 17:35:43.748] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:36:06.236] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:36:15.238] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:36:33.955] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:05.641] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:06.583] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:10.232] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:14.008] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:15.211] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:23.667] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:27.765] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:55.573] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:37:58.805] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:38:05.331] [info] [console_user_server] core_configuration_ was loaded.
+[2016-12-27 17:43:20.674] [info] [console_user_server] the configuration directory is updated.
+[2016-12-27 17:44:15.518] [info] [console_user_server] the configuration directory is updated.
