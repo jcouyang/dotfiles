@@ -28,6 +28,14 @@ key.setViewKey('c', function (aEvent, aArg) {
 key.setGlobalKey(['C-x', 'b'], function(aEvent, aArg){
     ext.exec('tanything')
 }, 'Tanything', true)
+
+key.setEditKey(["C-c", "e"], function (ev, arg) {
+    ext.exec("edit_text", arg, ev);
+}, "edit in editor", true);
+
+plugins.options["K2Emacs.editor"]    = "/usr/local/bin/emacsclient -c";
+plugins.options["K2Emacs.ext"]    = "md";
+plugins.options["K2Emacs.encode"] = "UTF-8"
 //}}%PRESERVE%
 // ========================================================================= //
 
@@ -45,7 +53,6 @@ key.negativeArgument3Key = "C-=";
 key.suspendKey           = "<f2>";
 
 // ================================= Hooks ================================= //
-
 
 hook.setHook('KeyBoardQuit', function (aEvent) {
     if (key.currentKeySequence.length) return;
@@ -73,32 +80,15 @@ hook.setHook('KeyBoardQuit', function (aEvent) {
 });
 
 
-
 // ============================= Key bindings ============================== //
-
-key.setGlobalKey('C-M-r', function (ev) {
-                userscript.reload();
-            }, 'Reload the initialization file', true);
-
-key.setGlobalKey('M-x', function (ev, arg) {
-                ext.select(arg, ev);
-            }, 'List exts and execute selected one', true);
-
-key.setGlobalKey(['<f1>', 'b'], function (ev) {
-                key.listKeyBindings();
-            }, 'List all keybindings');
-
-key.setGlobalKey(['<f1>', 'F'], function (ev) {
-                openHelpLink("firefox-help");
-            }, 'Display Firefox help');
-
-key.setGlobalKey('C-m', function (ev) {
-                key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_RETURN, true);
-            }, 'Generate the return key code');
 
 key.setGlobalKey(['C-x', '1'], function (ev) {
                 window.loadURI(ev.target.ownerDocument.location.href);
             }, 'Show current frame only', true);
+
+key.setGlobalKey(['C-x', 'b'], function (aEvent, aArg){
+    ext.exec('tanything')
+}, 'Tanything', true);
 
 key.setGlobalKey(['C-x', 'l'], function (ev) {
                 command.focusToById("urlbar");
@@ -144,6 +134,26 @@ key.setGlobalKey(['C-x', 'C-s'], function (ev) {
                 saveDocument(window.content.document);
             }, 'Save current page to the file', true);
 
+key.setGlobalKey('C-M-r', function (ev) {
+                userscript.reload();
+            }, 'Reload the initialization file', true);
+
+key.setGlobalKey('M-x', function (ev, arg) {
+                ext.select(arg, ev);
+            }, 'List exts and execute selected one', true);
+
+key.setGlobalKey(['<f1>', 'b'], function (ev) {
+                key.listKeyBindings();
+            }, 'List all keybindings');
+
+key.setGlobalKey(['<f1>', 'F'], function (ev) {
+                openHelpLink("firefox-help");
+            }, 'Display Firefox help');
+
+key.setGlobalKey('C-m', function (ev) {
+                key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_RETURN, true);
+            }, 'Generate the return key code');
+
 key.setGlobalKey('C-s', function (ev) {
                 command.iSearchForwardKs(ev);
             }, 'Emacs like incremental search forward', true);
@@ -171,6 +181,26 @@ key.setGlobalKey('C-M-l', function (ev) {
 key.setGlobalKey('C-M-h', function (ev) {
                 getBrowser().mTabContainer.advanceSelectedTab(-1, true);
             }, 'Select previous tab');
+
+key.setViewKey('e', function (aEvent, aArg) {
+    ext.exec("hok-start-foreground-mode", aArg);
+}, 'Hok - Foreground hint mode', true);
+
+key.setViewKey('E', function (aEvent, aArg) {
+    ext.exec("hok-start-background-mode", aArg);
+}, 'HoK - Background hint mode', true);
+
+key.setViewKey(';', function (aEvent, aArg) {
+    ext.exec("hok-start-extended-mode", aArg);
+}, 'HoK - Extented hint mode', true);
+
+key.setViewKey(['C-c', 'C-e'], function (aEvent, aArg) {
+    ext.exec("hok-start-continuous-mode", aArg);
+}, 'Start continuous HaH', true);
+
+key.setViewKey('c', function (aEvent, aArg) {
+    ext.exec("hok-yank-foreground-mode", aArg);
+}, 'Hok - Foreground yank hint mode', true);
 
 key.setViewKey([['C-n'], ['j']], function (ev) {
                 key.generateKey(ev.originalTarget, KeyEvent.DOM_VK_DOWN, true);
@@ -243,6 +273,10 @@ key.setViewKey('M-p', function (ev) {
 key.setViewKey('M-n', function (ev) {
                 command.walkInputElement(command.elementsRetrieverButton, false, true);
             }, 'Focus to the previous button');
+
+key.setEditKey(['C-c', 'e'], function (ev, arg) {
+    ext.exec("edit_text", arg, ev);
+}, 'edit in editor', true);
 
 key.setEditKey(['C-x', 'h'], function (ev) {
                 command.selectAll(ev);
