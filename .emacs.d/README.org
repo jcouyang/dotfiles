@@ -76,6 +76,17 @@ also, there're several of popular themes of your choice
 #+END_SRC
 
 
+* ENV
+#+BEGIN_SRC emacs-lisp
+  (let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -i -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
+    (setenv "PATH" path-from-shell)
+  (setq exec-path (split-string path-from-shell ":")))
+#+END_SRC
+
+#+RESULTS:
+| <W> fish | Could not return shell to foreground |
+
+
 * Global General Modes
 有一些全局基本设置，可以让emacs能基本适应我的习惯
 - 开启server，方便从terminal使用 =emacsclient=  [[(server)]]
@@ -177,7 +188,7 @@ document
 #+BEGIN_SRC emacs-lisp
   (setq
    deft-extension "org"
-   deft-directory "~/Develop/blog/org"
+   deft-directory "~/Develop/blog/source/org"
    deft-text-mode 'org-mode
    deft-recursive t
    deft-use-filename-as-title nil
@@ -264,10 +275,10 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 ** ruby-mode
 #+BEGIN_SRC emacs-lisp
-(add-hook 'ruby-mode-hook 'robe-mode)
-;(setq rbenv-installation-dir "/usr/local/bin/")
-;(defadvice inf-ruby-console-auto (before activate-rbenv-for-robe activate)
-;  (rbenv-use-corresponding))
+  (add-hook 'ruby-mode-hook 'robe-mode)
+  ;(setq rbenv-installation-dir "/usr/local/bin/")
+  (defadvice inf-ruby-console-auto (before activate-rbenv-for-robe activate)
+   (rbenv-use-corresponding))
 #+END_SRC
 
 #+RESULTS:
