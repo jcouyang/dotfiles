@@ -77,15 +77,12 @@ also, there're several of popular themes of your choice
 
 
 * ENV
+把fish中的path环境变量抄过来
 #+BEGIN_SRC emacs-lisp
-  (let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -i -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
+  (let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
     (setenv "PATH" path-from-shell)
-  (setq exec-path (split-string path-from-shell ":")))
+    (setq exec-path (split-string path-from-shell ":")))
 #+END_SRC
-
-#+RESULTS:
-| <W> fish | Could not return shell to foreground |
-
 
 * Global General Modes
 有一些全局基本设置，可以让emacs能基本适应我的习惯
@@ -98,27 +95,29 @@ also, there're several of popular themes of your choice
   (when (eq system-type 'darwin)
     (setq mac-option-modifier 'alt)
     (setq mac-command-modifier 'meta)); (ref:meta-key)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
   (setq inhibit-startup-message t)
   (delete-selection-mode 1) ; delete selection when paste
   (keyboard-translate ?\C-h ?\C-?); (ref:delete-key)
   (global-auto-revert-mode 1)  ;auto revert buffers when changed on dis
   (global-diff-hl-mode)
-  (add-hook 'local-write-file-hooks
-            (lambda ()
-              (delete-trailing-whitespace)
-              nil))
   (setq-default
    make-backup-files nil ; stop creating those backup~ file
    auto-save-default nil
 
    indent-tabs-mode nil                   ;use spaces instead of tabs
-   c-hungry-delete-key t                  ;delete more than one space
    electric-pair-mode nil
    )
   (electric-indent-mode t)
 #+END_SRC
+
+- UI tweaks
+#+BEGIN_SRC emacs-lisp
+  (column-number-mode 1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  
+#+END_SRC
+
 
 * User Settings
 
@@ -126,7 +125,7 @@ also, there're several of popular themes of your choice
   (when (file-readable-p ".user.el") (load ".user.el"))
 #+END_SRC
 
-用户设置, 放一些不想密码或敏感内容
+用户设置, 放一些密码或敏感内容
 
 
 * Modes [42%]
@@ -188,7 +187,7 @@ document
 #+BEGIN_SRC emacs-lisp
   (setq
    deft-extension "org"
-   deft-directory "~/Develop/blog/source/org"
+   deft-directory "~/Develop/blog/org"
    deft-text-mode 'org-mode
    deft-recursive t
    deft-use-filename-as-title nil
@@ -294,6 +293,17 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 =json-mode= adds a bit better syntax highlighting for =.json= files.
 
+** Magit
+#+BEGIN_SRC emacs-lisp
+(require 'magithub)
+    (bind-keys
+     ("C-x g" . magit-status))
+    (magithub-feature-autoinject t)
+#+END_SRC
+
+#+RESULTS:
+| pull-request-merge | pull-request-checkout |
+
 ** DONE Nyancati
 彩虹猫滚动条，萌萌哒滚动条
 
@@ -355,7 +365,7 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
   (setq org-directory "~/Dropbox/org")
   (let ((todo "~/Dropbox/org/todo.org"))
     (when (file-readable-p todo)
-      (setq org-agenda-files (file-expand-wildcards "~/Dropbox/**/*.org")) (ref:include-all)
+      (setq org-agenda-files (file-expand-wildcards "~/Dropbox/**/*.org")) ;(ref:include-all)
       (setq initial-buffer-choice (lambda ()
                                     (org-agenda nil "n")
                                     (delete-other-windows)
@@ -380,12 +390,73 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
   (setq org-default-notes-file (concat org-directory "/todo.org"))
 #+END_SRC
 
+**** speed commnad
+#+BEGIN_EXAMPLE
+(("Outline Navigation")
+ ("n" org-speed-move-safe 'org-next-visible-heading)
+ ("p" org-speed-move-safe 'org-previous-visible-heading)
+ ("f" org-speed-move-safe 'org-forward-heading-same-level)
+ ("b" org-speed-move-safe 'org-backward-heading-same-level)
+ ("F" . org-next-block)
+ ("B" . org-previous-block)
+ ("u" org-speed-move-safe 'outline-up-heading)
+ ("j" . org-goto)
+ ("g" org-refile t)
+ ("Outline Visibility")
+ ("c" . org-cycle)
+ ("C" . org-shifttab)
+ (" " . org-display-outline-path)
+ ("s" . org-narrow-to-subtree)
+ ("=" . org-columns)
+ ("Outline Structure Editing")
+ ("U" . org-metaup)
+ ("D" . org-metadown)
+ ("r" . org-metaright)
+ ("l" . org-metaleft)
+ ("R" . org-shiftmetaright)
+ ("L" . org-shiftmetaleft)
+ ("i" progn
+  (forward-char 1)
+  (call-interactively 'org-insert-heading-respect-content))
+ ("^" . org-sort)
+ ("w" . org-refile)
+ ("a" . org-archive-subtree-default-with-confirmation)
+ ("@" . org-mark-subtree)
+ ("#" . org-toggle-comment)
+ ("Clock Commands")
+ ("I" . org-clock-in)
+ ("O" . org-clock-out)
+ ("Meta Data Editing")
+ ("t" . org-todo)
+ ("," org-priority)
+ ("0" org-priority 32)
+ ("1" org-priority 65)
+ ("2" org-priority 66)
+ ("3" org-priority 67)
+ (":" . org-set-tags-command)
+ ("e" . org-set-effort)
+ ("E" . org-inc-effort)
+ ("W" lambda
+  (m)
+  (interactive "sMinutes before warning: ")
+  (org-entry-put
+   (point)
+   "APPT_WARNTIME" m))
+ ("Agenda Views etc")
+ ("v" . org-agenda)
+ ("/" . org-sparse-tree)
+ ("Misc")
+ ("o" . org-open-at-point)
+ ("?" . org-speed-command-help)
+ ("<" org-agenda-set-restriction-lock 'subtree)
+ (">" org-agenda-remove-restriction-lock))
+#+END_EXAMPLE
+
 *** structure template
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'org-structure-template-alist '("E" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC\n"))
   (add-to-list 'org-structure-template-alist '("S" "#+BEGIN_SRC shell-script\n?\n#+END_SRC\n"))
   (add-to-list 'org-structure-template-alist '("J" "#+BEGIN_SRC js\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("jm" "#+BEGIN_SRC js :session mozilla\n?\n#+END_SRC\n"))
   (add-to-list 'org-structure-template-alist '("C" "#+BEGIN_SRC clojure\n?\n#+END_SRC\n"))
   (add-to-list 'org-structure-template-alist '("d" "#+BEGIN_SRC ditaa :file ? :exports results\n?#+END_SRC\n"))
 #+END_SRC
@@ -395,9 +466,6 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
   (setq org-clock-persist 'history)
   (org-clock-persistence-insinuate)
 #+END_SRC
-
-#+RESULTS:
-| org-clock-save | ensime-kill-emacs-hook-function | recentf-save-list | pcache-kill-emacs-hook | ido-kill-emacs-hook | flycheck-global-teardown | bookmark-exit-hook-internal | company-clang-set-prefix | server-force-stop | org-babel-remove-temporary-directory |
 
 *** DONE Capture
 #+BEGIN_SRC emacs-lisp
@@ -564,8 +632,6 @@ A JavaScript code analyzer
 非常给力的 javascript 编辑工具, 支持 auto completion, jump to
 definition, find type of, rename variable 等 这些 IDE 才能提供的语言向
 的支持.
-
-
 
 Needs the =tern= binary to be present, which can be installed with =npm=:
 

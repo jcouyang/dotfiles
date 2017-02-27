@@ -16,7 +16,7 @@ grid.setMargins({0,0})
 grid.setGrid'4x3'
 -- constants
 local smash = {"cmd", "alt" }
-local hulk_smash = {"ctrl", "cmd", "alt"}
+local hulk_smash = {"cmd", "alt", "ctrl"}
 local monitor = "LCD"
 local second_monitor = "extended LCD"
 
