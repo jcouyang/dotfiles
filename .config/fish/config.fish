@@ -24,7 +24,7 @@ eval (thefuck --alias | tr '\n' ';')
 set -x REA_LDAP_USER jouyang
 
 # rbenv
-set -gx RBENV_ROOT ~/.rbenv/
+status --is-interactive; and source (rbenv init -|psub)
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
