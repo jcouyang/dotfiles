@@ -203,6 +203,22 @@ document
 #+RESULTS:
 : t
 
+** git
+#+BEGIN_SRC emacs-lisp
+(require 'git-link)
+(add-to-list 'git-link-remote-alist
+      '("git\\.realestate\\.com\\.au" git-link-github))
+(add-to-list 'git-link-commit-remote-alist
+      '("git\\.realestate\\.com\\.au" git-link-commit-github))
+#+END_SRC
+
+#+RESULTS:
+| git\.realestate\.com\.au | git-link-commit-github    |
+| github                   | git-link-commit-github    |
+| bitbucket                | git-link-commit-bitbucket |
+| gitorious                | git-link-commit-gitorious |
+| gitlab                   | git-link-commit-github    |
+
 ** IN PROGRESS helm
 - State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
 this is worth reading when you just start using helm [[http://tuhdo.github.io/helm-intro.html]]

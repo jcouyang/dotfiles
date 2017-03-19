@@ -42,6 +42,7 @@
 (depends-on "gh")
 (depends-on "gist")
 (depends-on "git-commit")
+(depends-on "git-link")
 (depends-on "graphviz-dot-mode")
 (depends-on "haskell-mode")
 (depends-on "helm")
