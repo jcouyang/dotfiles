@@ -11,7 +11,7 @@ cd dotfiles
 stow .
 #+END_SRC
 
-* 
+*
 可能看标题你觉得我疯了，什么叫用 dotfiles 管理你的 dotfiles。
 
 第一个单词 [[http://dotfiles.github.io/][dotfiles]] 指将 HOME 目录下的 =.XXX= (它们是真的字面意思dotfiles) 文件同步到 Github 上的方式。
@@ -123,7 +123,7 @@ git push origin master
 这行 subtree 命令把我的 emacs 配置从我的 repo 下下来作为 subtree，并 squash(合成一个) commits
 
  这时我的 git树是这样的
-#+BEGIN_EXAMPLE 
+#+BEGIN_EXAMPLE
 \* commit b33c46bfebe4a28849aa967222555a4676fdb9f4 (HEAD -> master)
 |\  Merge: 1b240f8 e6dacdc
 | | Author: Jichao Ouyang <oyanglulu@gmail.com>
@@ -156,7 +156,7 @@ git subtree push --prefix emacs/.emacs.d emacs master
 
 目前最广泛使用的加密手段是 Gnupg，简称 gpg，一样使用 brew 装就好了
 #+BEGIN_SRC sh
-brew install gnupg
+brew install gnupg2
 #+END_SRC
 
 安装完之后需要生成一个 keypair
@@ -170,7 +170,7 @@ gpg --gen-key
 
 那么到底去哪弄一个私有 git 呢？如果没有，dropbox 就可以，然后现在的问题是如何在 push 的时候自动的 gpg 加密。
 
-现在 git remote crypt  大法就该登场了，到这里 https://github.com/joeyh/git-remote-gcrypt  把 repo 下下来执行 =./install.sh=, 之后就应该有 =git-remote-gcrypt= 这样一个命令，先别跑
+现在 git remote crypt  大法就该登场了，到这里 https://github.com/spwhitton/git-remote-gcrypt 把 repo 下下来执行 =./install.sh=, 之后就应该有 =git-remote-gcrypt= 这样一个命令，先别跑
 
 关键在于见 remote 的时候。当我在 home 目录建了一个 =dotfiles-private= 的文件夹，stow 完各种敏感 dotfiles 之后
 #+BEGIN_SRC sh
