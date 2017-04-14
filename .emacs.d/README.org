@@ -221,7 +221,7 @@ also, there're several of popular themes of your choice
   (column-number-mode 1)
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
-  
+
 #+END_SRC
 
 
@@ -709,6 +709,19 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
   (pallet-mode t)
 #+END_SRC
 
+** prettier
+#+BEGIN_SRC emacs-lisp
+(require 'prettier-js)
+(setq prettier-target-mode "js2-mode")
+(add-hook 'js2-mode-hook
+          (lambda ()
+            (add-hook 'before-save-hook 'prettier-before-save)))
+(setq prettier-args '(
+  "--single-quote" "true"
+  "--trailing-comma" "es5"
+))
+#+END_SRC
+
 ** smartparens
 #+BEGIN_SRC emacs-lisp
   (require 'smartparens-config)
@@ -717,8 +730,6 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
   (show-smartparens-global-mode t)
 
   (add-hook 'clojure-mode-hook 'turn-on-smartparens-strict-mode)
-  (add-hook 'prog-mode-hook 'turn-on-smartparens-strict-mode)
-  (add-hook 'markdown-mode-hook 'turn-on-smartparens-strict-mode)
 #+END_SRC
 
 #+RESULTS:
@@ -898,7 +909,7 @@ emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自
 : mc/mark-all-like-this
 
 ** general
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
   (bind-keys
    ("M-c" . kill-ring-save)
    ("C-8" . er/expand-region)
@@ -918,7 +929,7 @@ emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自
    ("C-c c" . deft)
    ("C-x t" . org-capture)
    ("C-c a" (lambda () (interactive) (org-agenda nil "n"))))
-#+END_SRC  
+#+END_SRC
 
 #+RESULTS:
 | lambda | nil | (interactive) | (org-agenda nil n) |

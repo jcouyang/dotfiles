@@ -86,6 +86,7 @@
 (depends-on "ox-asciidoc")
 (depends-on "ox-gfm")
 (depends-on "ox-leanpub" :git "https://github.com/juanre/ox-leanpub.git")
+(depends-on "prettier-js" :git "https://github.com/prettier/prettier.git" :files ("editors/emacs/prettier-js.el"))
 (depends-on "ox-pandoc")
 (depends-on "package-build")
 (depends-on "pallet")
