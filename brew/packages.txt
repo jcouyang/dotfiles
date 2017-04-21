@@ -109,9 +109,11 @@ source-highlight
 sqlite
 stow
 swig304
+swig@3.04
 the_silver_searcher
 thefuck
 tree
 webp
 xz
+yarn
 z
