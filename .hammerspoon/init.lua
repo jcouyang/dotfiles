@@ -33,4 +33,16 @@ hotkey.bind(hulk_smash, "f", grid.maximizeWindow)
 hotkey.bind(hulk_smash, "p", hs.hints.windowHints)
 hotkey.bind(hulk_smash, "g", grid.toggleShow)
 hotkey.bind(hulk_smash, "R", hs.reload)
+
+
+
+function caffeinate()
+  hs.caffeinate.toggle("displayIdle")
+  if(hs.caffeinate.get("displayIdle")) then
+    alert.show("Display Awake")
+  else
+    alert.show("Display Auto Sleep")
+  end
+end
+hotkey.bind(hulk_smash, "C", caffeinate)
 alert.show("Config loaded")
