@@ -739,9 +739,6 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
 #+BEGIN_SRC emacs-lisp
 (require 'prettier-js)
 (setq prettier-target-mode "js2-mode")
-(add-hook 'js2-mode-hook
-          (lambda ()
-            (add-hook 'before-save-hook 'prettier-before-save)))
 (setq prettier-args '(
   "--single-quote" "true"
   "--trailing-comma" "es5"
