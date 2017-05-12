@@ -5,7 +5,7 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(require 'cask "/usr/local/Cellar/cask/0.8.0/cask.el")
+(require 'cask "/usr/local/opt/cask/cask.el")
 (cask-initialize)
 (require 'org)
 (setq org-confirm-babel-evaluate nil
