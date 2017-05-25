@@ -8,6 +8,7 @@
       "language-babel"
       "language-asciidoc"
     ]
+    telemetryConsent: "no"
     themes: [
       "one-dark-ui"
       "base16-tomorrow-dark-theme"

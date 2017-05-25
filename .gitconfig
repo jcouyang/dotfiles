@@ -2,11 +2,12 @@
 [user]
 	name = Jichao Ouyang
 	email = oyanglulu@gmail.com
+	signingkey = DA8B833B52604E63
 [push]
 	default = simple
 	followTags = true
 [hub]
-	host = $ENTERPRICE_HUB
+	host = ***REMOVED***
 [merge]
   tool = ediff
 [mergetool "ediff"]
@@ -30,3 +31,6 @@
 [commit]
    gpgsign = true
 	template = /Users/jcouyang/.stCommitMsg
+[github]
+	user = jcouyang
+	oauth-token = ***REMOVED***

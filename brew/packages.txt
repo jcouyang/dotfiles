@@ -1,3 +1,4 @@
+adns
 ammonite-repl
 ansible
 asciidoc
@@ -34,6 +35,7 @@ git-lfs
 giter8
 glib
 gmp
+gnupg
 gnupg2
 gnutls
 go
@@ -77,6 +79,7 @@ mercurial
 mysql
 nettle
 node
+npth
 oniguruma
 openconnect
 openssl
