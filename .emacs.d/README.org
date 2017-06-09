@@ -450,10 +450,10 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 ** Magit
 #+BEGIN_SRC emacs-lisp
-(require 'magithub)
+
     (bind-keys
      ("C-x g" . magit-status))
-    (magithub-feature-autoinject t)
+
 #+END_SRC
 
 #+RESULTS:
@@ -624,9 +624,7 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 *** DONE Capture
 #+BEGIN_SRC emacs-lisp
-  ;;  (require 'org-trello)
   (setq org-default-notes-file (concat org-directory "/todo.org"))
-  ;; (custom-set-variables '(org-trello-files `(,org-default-notes-file)))
 
   (setq org-capture-templates
         '(
@@ -741,7 +739,7 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
   (pallet-mode t)
 #+END_SRC
 
-** prettier
+** COMMENT prettier
 #+BEGIN_SRC emacs-lisp
 (require 'prettier-js)
 (setq prettier-target-mode "js2-mode")
