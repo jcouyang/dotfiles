@@ -41,6 +41,7 @@ gnutls
 go
 gobject-introspection
 gpg-agent
+graphite2
 graphviz
 guile
 harfbuzz

@@ -25,6 +25,7 @@
 (depends-on "diminish")
 (depends-on "dired+")
 (depends-on "discover-my-major")
+(depends-on "dracula-theme")
 (depends-on "drag-stuff")
 (depends-on "editorconfig")
 (depends-on "ensime")

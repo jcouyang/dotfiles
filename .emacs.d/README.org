@@ -20,7 +20,7 @@
 [[https://github.com/purcell/color-theme-sanityinc-tomorrow]]
 
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'sanityinc-tomorrow-eighties t)
+(load-theme 'dracula t)
 #+END_SRC
 
 also, there're several of popular themes of your choice
@@ -407,7 +407,9 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 : inf-ruby-console-auto
 
 ** tide-mode
+
 #+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
@@ -656,23 +658,24 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 *** DONE Publish
 #+BEGIN_SRC emacs-lisp
   (setq org-html-validation-link nil)
+
   (setq org-publish-project-alist
-        '(("fpjs-static"
-           :base-directory "~/Documents/Books/functional-javascript/images"
-           :base-extension "png\\|jpg\\|jpeg\\|gif"
-           :publishing-directory "~/Dropbox/functional-javascript/manuscript/images"
+        '(("static"
+           :base-directory "~/Develop/grokking-monad/org/images"
+           :base-extension "png\\|jpg\\|jpeg\\|gif\\|svg"
+           :publishing-directory "~/Develop/grokking-monad/book/images"
            :recursive t
            :publishing-function org-publish-attachment)
-          ("fpjs-md"
-           :base-directory "~/Documents/Books/functional-javascript"
+          ("text"
+           :base-directory "~/Develop/grokking-monad/org"
            :base-extension "org"
-           :publishing-directory "~/Dropbox/functional-javascript/manuscript"
-           :sub-superscript ""
+           :publishing-directory "~/Develop/grokking-monad/book"
+           :sub-superscript t
            :recursive t
-           :publishing-function org-leanpub-publish-to-leanpub
+           :publishing-function org-gfm-publish-to-gfm
            :html-extension "md"
            :body-only t)
-          ("fpjs" :components ("fpjs-static" "fpjs-md"))))
+          ("gitbook" :components ("static" "text"))))
 #+END_SRC
 
 *** org-deck
