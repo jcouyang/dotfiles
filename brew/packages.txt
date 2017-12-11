@@ -16,6 +16,7 @@ cmake
 dirmngr
 ditaa
 docbook
+duck
 editorconfig
 elasticsearch
 elm
@@ -30,6 +31,7 @@ gdbm
 gdk-pixbuf
 gettext
 ghc
+ghc@8.0
 gist
 git-lfs
 giter8
@@ -44,15 +46,22 @@ gpg-agent
 graphite2
 graphviz
 guile
+gx
+gx-go
 harfbuzz
 heroku
 heroku-toolbelt
 hub
+hugo
+hunspell
 icu4c
+imagemagick
+ipfs
 ispell
 jmeter
 jpeg
 jq
+languagetool
 lastpass-cli
 leiningen
 libassuan
@@ -99,6 +108,7 @@ pth
 purescript
 pyenv
 python
+python3
 qt
 rbenv
 readline
@@ -112,8 +122,10 @@ shared-mime-info
 source-highlight
 sqlite
 stow
+sudolikeaboss
 swig304
 swig@3.04
+syncthing
 the_silver_searcher
 thefuck
 tree

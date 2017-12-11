@@ -28,7 +28,7 @@ status --is-interactive; and source (rbenv init -|psub)
 
 test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
 
-test -e {$HOME}/.config/fish/credentials.fish; and source {$HOME}/.config/fish/credentials.fish
+# test -e {$HOME}/.config/fish/credentials.fish; and source {$HOME}/.config/fish/credentials.fish
 
 # backup abbrs
 abbr -s | sort > ~/.config/fish/abbr.fish
