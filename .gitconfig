@@ -30,4 +30,5 @@
 	semtag = !git tag -a $(semver tag) -m \"tagging $(semver tag)\"
 [commit]
    gpgsign = true
-	template = /Users/jcouyang/.stCommitMsg
+[github]
+	user = jcouyang

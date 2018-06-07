@@ -1,4 +1,5 @@
 abbr dc docker-compose
+abbr drmio 'docker rmi (docker images -q -f dangling=true)'
 abbr em emacsclient
 abbr g git
 abbr ga 'git add'
@@ -27,3 +28,4 @@ abbr gpu 'git pull'
 abbr gs 'git status'
 abbr gst 'git status'
 abbr gu 'git pull'
+abbr kbcr 'kubectl --namespace="platform-reliability"'

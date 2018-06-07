@@ -1,0 +1,13 @@
+.config/omf/channel
+.emacs.d/.mc-lists.el
+.emacs.d/.org-id-locations
+.emacs.d/README.el
+.emacs.d/README.org~
+.emacs.d/auto-save-list/
+.emacs.d/elpa/
+.emacs.d/ido.last
+.emacs.d/org-clock-save.el
+.emacs.d/projectile-bookmarks.eld
+.emacs.d/projectile.cache
+.emacs.d/recentf
+.emacs.d/var/

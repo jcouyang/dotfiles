@@ -20,8 +20,14 @@
 [[https://github.com/purcell/color-theme-sanityinc-tomorrow]]
 
 #+BEGIN_SRC emacs-lisp
+(require 'dracula-theme)
 (load-theme 'dracula t)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
 #+END_SRC
+
+#+RESULTS:
+: t
 
 also, there're several of popular themes of your choice
 
@@ -30,8 +36,6 @@ also, there're several of popular themes of your choice
 
 #+BEGIN_SRC emacs-lisp
 
-  (require 'unicode-fonts)
-  (unicode-fonts-setup)
   ;;; Fira code
   (set-default-font "Fira Mono-14:width=condensed:weight=light")
 
@@ -225,6 +229,8 @@ also, there're several of popular themes of your choice
 
 #+END_SRC
 
+#+RESULTS:
+
 
 * User Settings
 
@@ -326,6 +332,12 @@ document
 | bitbucket                | git-link-commit-bitbucket |
 | gitorious                | git-link-commit-gitorious |
 | gitlab                   | git-link-commit-github    |
+
+** haskell
+#+BEGIN_SRC emacs-lisp
+(package-install 'intero)
+(add-hook 'haskell-mode-hook 'intero-mode)
+#+END_SRC
 
 ** IN PROGRESS helm
 - State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
@@ -495,7 +507,7 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 ** languagetool
 #+BEGIN_SRC emacs-lisp
   (require 'langtool)
-  (setq langtool-language-tool-jar "/usr/local/Cellar/languagetool/3.8/libexec/languagetool-commandline.jar"
+  (setq langtool-language-tool-jar "/usr/local/Cellar/languagetool/4.0/libexec/languagetool-commandline.jar"
         langtool-disabled-rules '("WHITESPACE_RULE"
                                   "EN_UNPAIRED_BRACKETS"
                                   "COMMA_PARENTHESIS_WHITESPACE"
@@ -510,7 +522,6 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 #+END_SRC
 
 #+RESULTS:
-: t
 
 ** on-screen
 翻页的事后加一条小黑线，不然找不到翻哪了
@@ -832,7 +843,11 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
   (add-to-list 'auto-mode-alist '("\\.sc$" . scala-mode))
   (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
   (add-hook 'scala-mode-hook 'ensime-mode)
+(setq ensime-startup-notification nil)
 #+END_SRC
+
+#+RESULTS:
+
 ** TODO tern
 A JavaScript code analyzer
 非常给力的 javascript 编辑工具, 支持 auto completion, jump to
@@ -900,6 +915,38 @@ See the [[http://ternjs.net/][project homepage]] for more info.
 In [[(y-or-n)][line (y-or-n)]] all "yes" or "no" questions are aliased to "y" or "n". We don't really want to type a full word to answer a question from Emacs
 
 Also Emacs should be able to kill processes without asking ([[(process-query)][line (process-query)]]). Got that snippet from: [[http://www.masteringemacs.org/articles/2010/11/14/disabling-prompts-emacs/]]
+
+** Reason
+#+BEGIN_SRC emacs-lisp
+(defun shell-cmd (cmd)
+  "Returns the stdout output of a shell command or nil if the command returned
+   an error"
+  (car (ignore-errors (apply 'process-lines (split-string cmd)))))
+
+(let* ((refmt-bin (or (shell-cmd "refmt ----where")
+                      (shell-cmd "which refmt")))
+       (merlin-bin (or (shell-cmd "ocamlmerlin ----where") (shell-cmd "which ocamlmerlin")))
+       (merlin-base-dir (when merlin-bin
+                          (replace-regexp-in-string "bin/ocamlmerlin$" "" merlin-bin))))
+  ;; Add npm merlin.el to the emacs load path and tell emacs where to find ocamlmerlin
+  (when merlin-bin
+    (add-to-list 'load-path (concat merlin-base-dir "share/emacs/site-lisp/"))
+    (setq merlin-command merlin-bin))
+
+  (when refmt-bin
+    (setq refmt-command refmt-bin)))
+
+(require 'reason-mode)
+(require 'merlin)
+(add-hook 'reason-mode-hook (lambda ()
+                              (add-hook 'before-save-hook 'refmt-before-save)
+                              (merlin-mode)))
+
+(setq merlin-ac-setup t)
+#+END_SRC
+
+#+RESULTS:
+: t
 
 ** [[http://web-mode.org/][web-mode]]
 #+BEGIN_SRC emacs-lisp

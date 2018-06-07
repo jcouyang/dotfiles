@@ -10,15 +10,18 @@
     ]
     telemetryConsent: "no"
     themes: [
-      "one-dark-ui"
-      "base16-tomorrow-dark-theme"
+      "dracula-ui"
+      "dracula-syntax"
     ]
   editor:
-    fontFamily: "fira code"
+    fontFamily: "Fira Mono, Menlo, Consolas, DejaVu Sans Mono, monospace"
+    fontSize: 16
     invisibles: {}
+    tabType: "soft"
   "exception-reporting":
     userId: "d5dbca53-dc7f-b03b-1803-53c629afda3e"
   glist:
+    gistDir: "/Users/jichao.ouyang/gists"
     githubToken: "**********"
   "language-babel": {}
   linter: {}
