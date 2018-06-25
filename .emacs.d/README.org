@@ -317,6 +317,11 @@ document
 #+RESULTS:
 : t
 
+** elm
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'company-backends 'company-elm)
+#+END_SRC
+
 ** git
 #+BEGIN_SRC emacs-lisp
 (require 'git-link)
@@ -325,13 +330,6 @@ document
 (add-to-list 'git-link-commit-remote-alist
       '("git\\.realestate\\.com\\.au" git-link-commit-github))
 #+END_SRC
-
-#+RESULTS:
-| git\.realestate\.com\.au | git-link-commit-github    |
-| github                   | git-link-commit-github    |
-| bitbucket                | git-link-commit-bitbucket |
-| gitorious                | git-link-commit-gitorious |
-| gitlab                   | git-link-commit-github    |
 
 ** haskell
 #+BEGIN_SRC emacs-lisp
@@ -454,8 +452,6 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
   ;;               (setup-tide-mode))))
 #+END_SRC
 
-#+RESULTS:
-| (lambda nil (when (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (setup-tide-mode))) | er/add-web-mode-expansions | er/add-html-mode-expansions | (lambda nil (tern-mode t)) | (lambda nil (if (string-equal tsx (file-name-extension buffer-file-name)) (progn (setup-tide-mode)))) |
 
 ** json-mode
 
@@ -475,8 +471,6 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 
 #+END_SRC
 
-#+RESULTS:
-| pull-request-merge | pull-request-checkout |
 
 ** DONE Nyancati
 彩虹猫滚动条，萌萌哒滚动条
@@ -501,8 +495,6 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
   (setq exec-path (append exec-path '("/usr/local/bin" "~/.rbenv/shims" "/usr/texbin")))
 #+END_SRC
 
-#+RESULTS:
-| /usr/bin | /bin | /usr/sbin | /sbin | /usr/local/Cellar/emacs/24.5/libexec/emacs/24.5/x86_64-apple-darwin14.3.0 | /usr/local/bin | /usr/texbin | /usr/local/bin | ~/.rbenv/shims | /usr/texbin |
 
 ** languagetool
 #+BEGIN_SRC emacs-lisp
@@ -554,8 +546,6 @@ Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js
 (add-hook 'org-mode-hook 'turn-on-flyspell)
 #+END_SRC
 
-#+RESULTS:
-| turn-on-flyspell | er/add-org-mode-expansions | (lambda nil (visual-line-mode 1)) | my-org-mode-hook | org-clock-load | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-block-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | org-eldoc-load |
 
 *** TODO Default Settings
 =org-agenda-files= 是很有意思的一个参数，agenda的todo list会扫描这里面的文件，并把所有的 =TODO= 列出来。
