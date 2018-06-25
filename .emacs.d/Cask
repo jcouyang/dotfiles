@@ -31,6 +31,7 @@
 (depends-on "drag-stuff")
 (depends-on "edit-indirect")
 (depends-on "editorconfig")
+(depends-on "elm-mode")
 (depends-on "ensime")
 (depends-on "epl")
 (depends-on "epresent")
@@ -139,3 +140,4 @@
 (depends-on "with-editor")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
+(depends-on "psc-ide")

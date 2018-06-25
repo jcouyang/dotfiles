@@ -1,4 +1,7 @@
 "*":
+  Ensime:
+    ensimeServerVersion: "2.0.0"
+    sbtExec: "/usr/local/bin/sbt"
   "atom-typescript": {}
   core:
     disabledPackages: [

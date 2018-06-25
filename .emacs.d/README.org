@@ -805,6 +805,18 @@ pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
 ))
 #+END_SRC
 
+** purescript
+#+BEGIN_SRC emacs-lisp
+(require 'psc-ide)
+
+(add-hook 'purescript-mode-hook
+  (lambda ()
+    (psc-ide-mode)
+    (company-mode)
+    (flycheck-mode)
+    (turn-on-purescript-indentation)))
+#+END_SRC
+
 ** smartparens
 #+BEGIN_SRC emacs-lisp
   (require 'smartparens-config)
