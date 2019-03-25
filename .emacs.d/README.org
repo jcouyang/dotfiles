@@ -952,10 +952,12 @@ Also Emacs should be able to kill processes without asking ([[(process-query)][l
 
 ** [[http://web-mode.org/][web-mode]]
 #+BEGIN_SRC emacs-lisp
-  (require 'editorconfig)
-  (editorconfig-mode 1)
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+    (require 'editorconfig)
+    (editorconfig-mode 1)
+  (setq web-mode-content-types-alist
+    '(("jsx" . "\\.js[x]?\\'")))
+    (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 #+END_SRC
 
 ** yasnippet

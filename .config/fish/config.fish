@@ -10,6 +10,10 @@ set -x JAVA_HOME /Library/Java/JavaVirtualMachines/jdk1.8.0_151.jdk/Contents/Hom
 # emacs
 set -x EDITOR emacsclient
 
+set -gx PATH /usr/local/texlive/2018/bin $PATH
+
+# rust
+set -x PATH $HOME/.cargo/bin $PATH
 # github
 alias git hub
 
