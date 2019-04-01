@@ -282,7 +282,7 @@ document
   (require 'company)
   (require 'company-tern)
   ;; (require 'company-ispell)
-  (add-to-list 'company-backends 'company-tern)
+  (add-to-list 'company-backends 'company-tern)  ;; (ref:backends)
   (add-to-list 'company-backends 'company-yasnippet t)
   (add-to-list 'company-backends 'company-robe)
   ;; (add-to-list 'company-backends 'company-ispell)
