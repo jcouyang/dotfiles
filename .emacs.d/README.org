@@ -914,9 +914,9 @@ See the [[http://ternjs.net/][project homepage]] for more info.
               kill-buffer-query-functions))
 #+END_SRC
 
-In [[(y-or-n)][line (y-or-n)]] all "yes" or "no" questions are aliased to "y" or "n". We don't really want to type a full word to answer a question from Emacs
+all "yes" or "no" questions are aliased to "y" or "n". We don't really want to type a full word to answer a question from Emacs
 
-Also Emacs should be able to kill processes without asking ([[(process-query)][line (process-query)]]). Got that snippet from: [[http://www.masteringemacs.org/articles/2010/11/14/disabling-prompts-emacs/]]
+Also Emacs should be able to kill processes without asking. Got that snippet from: [[http://www.masteringemacs.org/articles/2010/11/14/disabling-prompts-emacs/]]
 
 ** Reason
 #+BEGIN_SRC emacs-lisp
