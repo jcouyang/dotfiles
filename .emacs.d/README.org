@@ -19,14 +19,15 @@
 ** Fonts
 download [[https://larsenwork.com/monoid/][monoid]] font
 #+BEGIN_SRC emacs-lisp
-  (set-default-font "Monoid-12:width=condensed:weight=light")
+  (if (member "Monoid" (font-family-list))
+      (set-default-font "Monoid-14:width=condensed:weight=light"))
+
   (when (eq system-type 'gnu/linux)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font) charset
                         (font-spec :family "Noto Sans CJK SC"))))
 
   (global-prettify-symbols-mode 1)
-
 #+END_SRC
 
 #+RESULTS:
@@ -35,6 +36,7 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 * Default Settings
   #+BEGIN_SRC emacs-lisp
         ;; Setting
+(server start)
         (keyboard-translate ?\C-h ?\C-?)
         (column-number-mode 1)
         (tool-bar-mode -1)
@@ -43,7 +45,6 @@ download [[https://larsenwork.com/monoid/][monoid]] font
         (delete-selection-mode 1)
         (global-auto-revert-mode 1)
         (nyan-mode t)
-        (electric-pair-mode t)
         (electric-indent-mode t)
         (setq-default
          make-backup-files nil
@@ -59,19 +60,25 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 
 * Modes
 
-** ace jump mode
+** [[https://github.com/winterTTr/ace-jump-mode][ace jump mode]]
+
+You can move your cursor to ANY position ( across window and frame ) in emacs by using only 3 times key press.
+
 #+BEGIN_SRC emacs-lisp
 (use-package ace-jump-mode
 :bind
-("C-c SPC" . ace-jump-mode))
+("C-c SPC" . ace-jump-mode)
+("C-c u SPC" . ace-jump-mode-pop-mark)
+("C-c l SPC" . ace-jump-line-mode))
 #+END_SRC
 
 #+RESULTS:
-: ace-jump-mode
+: ace-jump-line-mode
 
-:config
-** company
- is not 
+** [[https://github.com/company-mode/company-mode][company]]
+
+text completion framework
+ 
  #+BEGIN_SRC emacs-lisp
    (use-package company
      :config
@@ -138,17 +145,18 @@ download [[https://larsenwork.com/monoid/][monoid]] font
     )
 #+END_SRC
 
-#+RESULTS:
-=t
-==t
-=** textmate
+** textmate
 #+BEGIN_SRC emacs-lisp
 (use-package textmate
 :config
 (textmate-mode)
 (bind-keys
  :map *textmate-mode-map*
+ ("M--" . text-scale-decrease)
+ ("M-=" . text-scale-increase)
  ("M-}" . textmate-shift-right)
+ ("M-<backspace>" . kill-whole-line)
+ ("M-c" . kill-ring-save))
  ("M-{" . textmate-shift-left)
  ("M-/" . comment-line)
  ("M-l" . textmate-select-line)
@@ -162,7 +170,6 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 #+BEGIN_SRC emacs-lisp
   (use-package ido
     :bind
-    ("C-x C-f" . ido-find-file)
     :config
     (setq ido-everywhere t
           ido-enable-flex-matching t)
@@ -294,7 +301,6 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 :bind
 ("C-8" . er/expand-region)
 ("C--" . er/contract-region)
-("M-c" . kill-ring-save))
 #+END_SRC
 
 #+RESULTS:
@@ -347,10 +353,18 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 
 ** ensime
 #+BEGIN_SRC emacs-lisp
+(use-package ensime
+  :ensure t
+  :pin melpa-stable
+:config
 (setq ensime-startup-notification nil)
+)
+
+
 #+END_SRC
 
 #+RESULTS:
+: t
 
 ** Flyspell
 wsdf sjd js is
