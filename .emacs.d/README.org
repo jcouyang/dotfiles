@@ -93,28 +93,19 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 
 ** helm
 #+BEGIN_SRC emacs-lisp
-(use-package projectile
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
-  :config
-  (projectile-global-mode)
-  (setq projectile-indexing-method 'alien
-  projectile-enable-caching t
-  projectile-completion-system 'helm))
 
-  (use-package helm-mode
+  (use-package helm
+    :ensure t
     :bind
     ("M-x" . helm-M-x)
     ("C-x b" . helm-mini)
     ("M-y" . helm-show-kill-ring)
-    (:map helm-map
+    :bind (:map helm-map
           ("<tab>" . helm-execute-persistent-action) ; rebind tab to run persistent action
           ("C-i" . helm-execute-persistent-action) ; make TAB works in terminal
           ("C-z" . helm-select-action))
     :config
-    (require 'helm-config)
-    (diminish 'helm-mode "")
-    (helm-mode 1)
+    
     (helm-autoresize-mode 1)
     (setq 
      helm-M-x-fuzzy-match t
@@ -124,6 +115,23 @@ download [[https://larsenwork.com/monoid/][monoid]] font
      helm-locate-fuzzy-match t
      )
     )
+(use-package helm-swoop
+  :ensure t
+  :bind (("M-m" . helm-multi-swoop-projectile)
+	 ("M-M" . helm-swoop-back-to-last-point))
+  :init
+(bind-key "M-m" 'helm-swoop-from-isearch isearch-mode-map))
+
+  (use-package projectile
+:ensure t
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :config
+  (projectile-global-mode)
+  (setq projectile-indexing-method 'alien
+  projectile-enable-caching t
+  projectile-completion-system 'helm))
+
   (use-package helm-projectile
     :config
     (helm-projectile-on)
@@ -132,6 +140,7 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 
 #+RESULTS:
 =t
+==t
 =** textmate
 #+BEGIN_SRC emacs-lisp
 (use-package textmate
