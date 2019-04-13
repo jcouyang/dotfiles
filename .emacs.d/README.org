@@ -2,1066 +2,401 @@
 #+TITLE: Literal Programming Emacs Configure
 #+AUTHOR: Jichao Ouyang
 
-* Install
-安装这个config再容易不过了
-#+BEGIN_SRC sh
-  cd ~
-  git clone git@github.com:jcouyang/.emacs.d.git
-  cd .emacs.d
-  cask install
-#+END_SRC
-打开 emacs, 问啥都说 yes, yeah
+* UI
 
-
-* Theme
-
-我的最爱 tomorrow theme eighties
-
-[[https://github.com/purcell/color-theme-sanityinc-tomorrow]]
-
+** Theme
+[[https://draculatheme.com/][dracula]] dark theme
 #+BEGIN_SRC emacs-lisp
-(require 'dracula-theme)
-(load-theme 'dracula t)
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (use-package dracula-theme
+    :config
+    (load-theme 'dracula t))
 #+END_SRC
 
 #+RESULTS:
 : t
 
-also, there're several of popular themes of your choice
 
-[[http://emacsthemes.caisah.info/installed-emacs-themes/]]
-* Fonts
-
+** Fonts
+download [[https://larsenwork.com/monoid/][monoid]] font
 #+BEGIN_SRC emacs-lisp
-
-  ;;; Fira code
-  (set-default-font "Fira Mono-14:width=condensed:weight=light")
-
-  ;; https://gist.github.com/mordocai/50783defab3c3d1650e068b4d1c91495
-  ;; This works when using emacs --daemon + emacsclient
-  (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
-  ;; This works when using emacs without server/client
-  (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
-  ;; I haven't found one statement that makes both of the above situations work, so I use both for now
-
-  (defconst fira-code-font-lock-keywords-alist
-    (mapcar (lambda (regex-char-pair)
-              `(,(car regex-char-pair)
-                (0 (prog1 ()
-                     (compose-region (match-beginning 1)
-                                     (match-end 1)
-                                     ;; The first argument to concat is a string containing a literal tab
-                                     ,(concat "	" (list (decode-char 'ucs (cadr regex-char-pair)))))))))
-            '(("\\(www\\)"                   #Xe100)
-              ("[^/]\\(\\*\\*\\)[^/]"        #Xe101)
-              ("\\(\\*\\*\\*\\)"             #Xe102)
-              ("\\(\\*\\*/\\)"               #Xe103)
-              ("\\(\\*>\\)"                  #Xe104)
-              ("[^*]\\(\\*/\\)"              #Xe105)
-              ("\\(\\\\\\\\\\)"              #Xe106)
-              ("\\(\\\\\\\\\\\\\\)"          #Xe107)
-              ("\\({-\\)"                    #Xe108)
-              ("\\(\\[\\]\\)"                #Xe109)
-              ("\\(::\\)"                    #Xe10a)
-              ("\\(:::\\)"                   #Xe10b)
-              ("[^=]\\(:=\\)"                #Xe10c)
-              ("\\(!!\\)"                    #Xe10d)
-              ("\\(!=\\)"                    #Xe10e)
-              ("\\(!==\\)"                   #Xe10f)
-              ("\\(-}\\)"                    #Xe110)
-              ("\\(--\\)"                    #Xe111)
-              ("\\(---\\)"                   #Xe112)
-              ("\\(-->\\)"                   #Xe113)
-              ("[^-]\\(->\\)"                #Xe114)
-              ("\\(->>\\)"                   #Xe115)
-              ("\\(-<\\)"                    #Xe116)
-              ("\\(-<<\\)"                   #Xe117)
-              ("\\(-~\\)"                    #Xe118)
-              ("\\(#{\\)"                    #Xe119)
-              ("\\(#\\[\\)"                  #Xe11a)
-              ("\\(##\\)"                    #Xe11b)
-              ("\\(###\\)"                   #Xe11c)
-              ("\\(####\\)"                  #Xe11d)
-              ("\\(#(\\)"                    #Xe11e)
-              ("\\(#\\?\\)"                  #Xe11f)
-              ("\\(#_\\)"                    #Xe120)
-              ("\\(#_(\\)"                   #Xe121)
-              ("\\(\\.-\\)"                  #Xe122)
-              ("\\(\\.=\\)"                  #Xe123)
-              ("\\(\\.\\.\\)"                #Xe124)
-              ("\\(\\.\\.<\\)"               #Xe125)
-              ("\\(\\.\\.\\.\\)"             #Xe126)
-              ("\\(\\?=\\)"                  #Xe127)
-              ("\\(\\?\\?\\)"                #Xe128)
-              ("\\(;;\\)"                    #Xe129)
-              ("\\(/\\*\\)"                  #Xe12a)
-              ("\\(/\\*\\*\\)"               #Xe12b)
-              ("\\(/=\\)"                    #Xe12c)
-              ("\\(/==\\)"                   #Xe12d)
-              ("\\(/>\\)"                    #Xe12e)
-              ("\\(//\\)"                    #Xe12f)
-              ("\\(///\\)"                   #Xe130)
-              ("\\(&&\\)"                    #Xe131)
-              ("\\(||\\)"                    #Xe132)
-              ("\\(||=\\)"                   #Xe133)
-              ("[^|]\\(|=\\)"                #Xe134)
-              ("\\(|>\\)"                    #Xe135)
-              ("\\(\\^=\\)"                  #Xe136)
-              ("\\(\\$>\\)"                  #Xe137)
-              ("\\(\\+\\+\\)"                #Xe138)
-              ("\\(\\+\\+\\+\\)"             #Xe139)
-              ("\\(\\+>\\)"                  #Xe13a)
-              ("\\(=:=\\)"                   #Xe13b)
-              ("[^!/]\\(==\\)[^>]"           #Xe13c)
-              ("\\(===\\)"                   #Xe13d)
-              ("\\(==>\\)"                   #Xe13e)
-              ("[^=]\\(=>\\)"                #Xe13f)
-              ("\\(=>>\\)"                   #Xe140)
-              ("\\(<=\\)"                    #Xe141)
-              ("\\(=<<\\)"                   #Xe142)
-              ("\\(=/=\\)"                   #Xe143)
-              ("\\(>-\\)"                    #Xe144)
-              ("\\(>=\\)"                    #Xe145)
-              ("\\(>=>\\)"                   #Xe146)
-              ("[^-=]\\(>>\\)"               #Xe147)
-              ("\\(>>-\\)"                   #Xe148)
-              ("\\(>>=\\)"                   #Xe149)
-              ("\\(>>>\\)"                   #Xe14a)
-              ("\\(<\\*\\)"                  #Xe14b)
-              ("\\(<\\*>\\)"                 #Xe14c)
-              ("\\(<|\\)"                    #Xe14d)
-              ("\\(<|>\\)"                   #Xe14e)
-              ("\\(<\\$\\)"                  #Xe14f)
-              ("\\(<\\$>\\)"                 #Xe150)
-              ("\\(<!--\\)"                  #Xe151)
-              ("\\(<-\\)"                    #Xe152)
-              ("\\(<--\\)"                   #Xe153)
-              ("\\(<->\\)"                   #Xe154)
-              ("\\(<\\+\\)"                  #Xe155)
-              ("\\(<\\+>\\)"                 #Xe156)
-              ("\\(<=\\)"                    #Xe157)
-              ("\\(<==\\)"                   #Xe158)
-              ("\\(<=>\\)"                   #Xe159)
-              ("\\(<=<\\)"                   #Xe15a)
-              ("\\(<>\\)"                    #Xe15b)
-              ("[^-=]\\(<<\\)"               #Xe15c)
-              ("\\(<<-\\)"                   #Xe15d)
-              ("\\(<<=\\)"                   #Xe15e)
-              ("\\(<<<\\)"                   #Xe15f)
-              ("\\(<~\\)"                    #Xe160)
-              ("\\(<~~\\)"                   #Xe161)
-              ("\\(</\\)"                    #Xe162)
-              ("\\(</>\\)"                   #Xe163)
-              ("\\(~@\\)"                    #Xe164)
-              ("\\(~-\\)"                    #Xe165)
-              ("\\(~=\\)"                    #Xe166)
-              ("\\(~>\\)"                    #Xe167)
-              ("[^<]\\(~~\\)"                #Xe168)
-              ("\\(~~>\\)"                   #Xe169)
-              ("\\(%%\\)"                    #Xe16a)
-              ;;("\\(x\\)"                     #Xe16b)
-              ("[^:=]\\(:\\)[^:=]"           #Xe16c)
-              ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
-              ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f))))
-
-  (defun add-fira-code-symbol-keywords ()
-    (font-lock-add-keywords nil fira-code-font-lock-keywords-alist))
-
-  (add-hook 'prog-mode-hook
-            #'add-fira-code-symbol-keywords)
-
-  (defun darwin-set-emoji-font (frame)
-    "Adjust the font settings of FRAME so Emacs NS/Cocoa can display emoji properly."
-    (if (eq system-type 'darwin)
-        (set-fontset-font t 'symbol (font-spec :family "Apple Color Emoji") frame 'prepend)))
-  ;; For when emacs is started with Emacs.app
-  (darwin-set-emoji-font nil)
-  ;; Hook for when a cocoa frame is created with emacsclient
-  ;; see https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Frames.html
-  (add-hook 'after-make-frame-functions 'darwin-set-emoji-font)
+  (set-default-font "Monoid-12:width=condensed:weight=light")
+  (when (eq system-type 'gnu/linux)
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font (frame-parameter nil 'font) charset
+                        (font-spec :family "Noto Sans CJK SC"))))
 
   (global-prettify-symbols-mode 1)
-#+END_SRC
-
-
-* ENV
-把fish中的path环境变量抄过来
-#+BEGIN_SRC emacs-lisp
-  (let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
-    (setenv "PATH" path-from-shell)
-    (setq exec-path (split-string path-from-shell ":")))
-#+END_SRC
-
-* Global General Modes
-有一些全局基本设置，可以让emacs能基本适应我的习惯
-- 开启server，方便从terminal使用 =emacsclient=  [[(server)]]
-- Meta key 设为 =Command= （我用的是mac）[[(meta-key)]]
-- 把 =C-h= 映射到 =C-?= ，因为帮助功能不是很有用，但是 =C-h= 这个unix系统下的默认是删除键，使用太频繁了。[[(delete-key)]]
-#+BEGIN_SRC emacs-lisp -n -r
-  (server-start) ;(ref:server)
-  (global-superword-mode 1)
-  (when (eq system-type 'darwin)
-    (setq mac-option-modifier 'alt)
-(setq mac-option-modifier 'super) ; make opt key do Super
-    (setq mac-command-modifier 'meta)); (ref:meta-key)
-  (setq inhibit-startup-message t)
-  (delete-selection-mode 1) ; delete selection when paste
-  (keyboard-translate ?\C-h ?\C-?); (ref:delete-key)
-  (global-auto-revert-mode 1)  ;auto revert buffers when changed on dis
-  (global-diff-hl-mode)
-  (setq-default
-   make-backup-files nil ; stop creating those backup~ file
-   auto-save-default nil
-
-   indent-tabs-mode nil                   ;use spaces instead of tabs
-   electric-pair-mode nil
-   )
-  (electric-indent-mode t)
-#+END_SRC
-
-- UI tweaks
-#+BEGIN_SRC emacs-lisp
-  (column-number-mode 1)
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
-
-#+END_SRC
-
-#+RESULTS:
-
-
-* User Settings
-
-#+BEGIN_SRC emacs-lisp
-  (when (file-readable-p ".user.el") (load ".user.el"))
-#+END_SRC
-
-用户设置, 放一些密码或敏感内容
-
-
-* Modes [42%]
-** dot
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
-#+END_SRC
-
-** COMMENT IN PROGRESS cider
-
-Cider 是 clojure 的repl插件
-
-看参照[[https://github.com/clojure-emacs/cider#keyboard-shortcuts]] 默认的一些快捷键
-
-#+BEGIN_SRC emacs-lisp
-(require 'spinner)
-(require 'cider)
-  (setq org-babel-clojure-backend 'cider)
-  (add-hook 'cider-repl-mode-hook #'company-mode)
-  (add-hook 'cider-mode-hook #'company-mode)
-  ;; (setq nrepl-log-messages t
-  ;;       cider-repl-use-clojure-font-lock t
-  ;;       cider-font-lock-dynamically '(macro core function var)
-  ;;       nrepl-hide-special-buffers t
-  ;;       cider-overlays-use-font-lock t)
-#+END_SRC
-
-** DONE company
-- State "DONE"       from ""           [2015-03-09 Mon 22:54]
-
-company 是用来取代 autocomplete-mode的自动补全的插件，不要以为是单词 /company/ 的意思，其实是 /comp +lete+ any/。选择company是因为速度要快一些。根据他的比较可以看看 [[https://github.com/company-mode/company-mode/issues/68][这里]]。
-
-company自带了一系列的 backend 你可以像 [[(backends)][这样]] enable。
-Completion will start automatically after you type a few letters. Use M-n and M-p to select, <return> to complete or <tab> to complete the common part. Search through the completions with C-s, C-r and C-o. Press M-(digit) to quickly complete with one of the first 10 candidates.
-
-When the completion candidates are shown, press <f1> to display the documentation for the selected candidate, or C-w to see its source. Not all back-ends support this.
-
-document
-
-#+BEGIN_SRC emacs-lisp -n -r
-  (require 'company)
-  (require 'company-tern)
-  ;; (require 'company-ispell)
-  (add-to-list 'company-backends 'company-tern)  ;; (ref:backends)
-  (add-to-list 'company-backends 'company-yasnippet t)
-  (add-to-list 'company-backends 'company-robe)
-  ;; (add-to-list 'company-backends 'company-ispell)
-  ;; not always down case
-  (setq company-dabbrev-downcase nil)
-  (setq company-tooltip-align-annotations t)
-  (setq company-idle-delay 0.1)
-  (global-company-mode)
 
 #+END_SRC
 
 #+RESULTS:
 : t
 
-** DONE deft
+* Default Settings
+  #+BEGIN_SRC emacs-lisp
+        ;; Setting
+        (keyboard-translate ?\C-h ?\C-?)
+        (column-number-mode 1)
+        (tool-bar-mode -1)
+        (scroll-bar-mode -1)
+        (menu-bar-mode -1)
+        (delete-selection-mode 1)
+        (global-auto-revert-mode 1)
+        (nyan-mode t)
+        (electric-pair-mode t)
+        (electric-indent-mode t)
+        (setq-default
+         make-backup-files nil
+         indent-tabs-mode nil)
+        ;; make unix lineendings default
+        (unicode-fonts-setup)
+        (setq default-buffer-file-coding-system 'utf-8-unix)
+  #+END_SRC
+
+  #+RESULTS:
+  : utf-8-unix
+
+
+* Modes
+
+** ace jump mode
 #+BEGIN_SRC emacs-lisp
-  (setq
-   deft-extension "org"
-   deft-directory "~/Develop/blog/org"
-   deft-text-mode 'org-mode
-   deft-recursive t
-   deft-use-filename-as-title nil
-   deft-file-naming-rules
-   '((noslash . "-")
-     (nospace . "-")
-     (case-fn . downcase))
-   deft-use-filter-string-for-filename t
-   deft-org-mode-title-prefix t
-   )
+(use-package ace-jump-mode
+:bind
+("C-c SPC" . ace-jump-mode))
 #+END_SRC
 
 #+RESULTS:
-: t
+: ace-jump-mode
 
-** elm
+:config
+** company
+ is not 
+ #+BEGIN_SRC emacs-lisp
+   (use-package company
+     :config
+      (add-hook 'after-init-hook 'global-company-mode)
+      )
+
+ #+END_SRC
+
+ #+RESULTS:
+ : t
+
+** forge 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'company-backends 'company-elm)
+(use-package forge
+:after magit)
 #+END_SRC
 
-** git
+#+RESULTS:
+
+** helm
 #+BEGIN_SRC emacs-lisp
-(require 'git-link)
-(add-to-list 'git-link-remote-alist
-      '("git\\.realestate\\.com\\.au" git-link-github))
-(add-to-list 'git-link-commit-remote-alist
-      '("git\\.realestate\\.com\\.au" git-link-commit-github))
-#+END_SRC
-
-** haskell
-#+BEGIN_SRC emacs-lisp
-(package-install 'intero)
-(add-hook 'haskell-mode-hook 'intero-mode)
-#+END_SRC
-
-** IN PROGRESS helm
-- State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
-this is worth reading when you just start using helm [[http://tuhdo.github.io/helm-intro.html]]
-
-helm 可以让你很方便的在项目里快速浏览文件
-#+BEGIN_SRC emacs-lisp -n -r
-  (require 'helm-config)
-  (require 'helm-git-grep)
-  (helm-mode 1)
-  (helm-autoresize-mode 1)
+(use-package projectile
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :config
   (projectile-global-mode)
-  (global-set-key (kbd "C-c h") 'helm-command-prefix)
-  (global-unset-key (kbd "C-x c"))
-  (setq projectile-completion-system 'helm
-        helm-M-x-fuzzy-match t
-        helm-buffers-fuzzy-matching t
-        helm-recentf-fuzzy-match t
-        helm-ag-fuzzy-match t ;(ref: ag-fuzzy-match)
-        projectile-enable-caching t; (ref:caching)
-        helm-locate-fuzzy-match t
-        projectile-indexing-method 'alien); (ref:indexing)
-  (helm-projectile-on)
+  (setq projectile-indexing-method 'alien
+  projectile-enable-caching t
+  projectile-completion-system 'helm))
 
-#+END_SRC
-
-其中第[[(caching)]]和[[(indexing)]]两行能加速projectile index一个大的repo时的速度。如果需要重新index，可以 =C-c p i=.
-
-** iedit
-#+BEGIN_SRC emacs-lisp
-  (require 'iedit)
-  (setq iedit-unmatched-lines-invisible-default t)
-#+END_SRC
-
-** flycheck
-#+BEGIN_SRC emacs-lisp
-  (require 'flycheck)
-  ;;(add-hook 'after-init-hook #'global-flycheck-mode)
-  (setq-default flycheck-disabled-checkers
-                (append flycheck-disabled-checkers
-                        '(javascript-jshint)))
-  (setq-default flycheck-disabled-checkers
-                (append flycheck-disabled-checkers
-                        '(json-jsonlist)))
-#+END_SRC
-
-** js2-mode
-
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.sjs$" . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.es6$" . js2-mode))
-  (setq js2-allow-rhino-new-expr-initializer nil)
-  (setq js2-enter-indents-newline t)
-  (setq js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
-  (setq js2-idle-timer-delay 0.1)
-  (setq js2-indent-on-enter-key nil)
-  (setq js2-mirror-mode nil)
-  (setq js2-strict-inconsistent-return-warning nil)
-  (setq js2-auto-indent-p t)
-  (setq js2-include-rhino-externs nil)
-  (setq js2-include-gears-externs nil)
-  (setq js2-concat-multiline-strings 'eol)
-  (setq js2-rebind-eol-bol-keys nil)
-  (setq js2-mode-show-parse-errors t)
-  (setq js2-mode-show-strict-warnings nil)
-#+END_SRC
-
-Got most of that from [[https://github.com/magnars/.emacs.d/blob/master/setup-js2-mode.el][Magnars' .emacs.d]].
-
-** ruby-mode
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'ruby-mode-hook 'robe-mode)
-  ;(setq rbenv-installation-dir "/usr/local/bin/")
-  (defadvice inf-ruby-console-auto (before activate-rbenv-for-robe activate)
-   (rbenv-use-corresponding))
-#+END_SRC
-
-#+RESULTS:
-: inf-ruby-console-auto
-
-** tide-mode
-
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
-  (defun setup-tide-mode ()
-    (interactive)
-    (tide-setup)
-    (flycheck-mode +1)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
-    (tide-hl-identifier-mode +1)
-    ;; company is an optional dependency. You have to
-    ;; install it separately via package-install
-    ;; `M-x package-install [ret] company`
-    (company-mode +1))
-
-  ;; aligns annotation to the right hand side
-  (setq company-tooltip-align-annotations t)
-
-  ;; formats the buffer before saving
-  (add-hook 'before-save-hook 'tide-format-before-save)
-
-  (add-hook 'typescript-mode-hook #'setup-tide-mode)
-  (require 'web-mode)
- (add-hook 'web-mode-hook
-          (lambda ()
-            (when (and (buffer-file-name)
- (string-equal "tsx" (file-name-extension buffer-file-name)))
-              (setup-tide-mode))))
-  ;; (add-hook 'web-mode-hook
-  ;;           (lambda ()
-  ;;             (when (string-equal "tsx" (file-name-extension buffer-file-name))
-  ;;               (setup-tide-mode))))
-#+END_SRC
-
-
-** json-mode
-
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tag\\'" . web-mode))
-#+END_SRC
-
-=json-mode= adds a bit better syntax highlighting for =.json= files.
-
-** Magit
-#+BEGIN_SRC emacs-lisp
-
-    (bind-keys
-     ("C-x g" . magit-status))
-
-#+END_SRC
-
-
-** DONE Nyancati
-彩虹猫滚动条，萌萌哒滚动条
-
-#+BEGIN_SRC emacs-lisp
-  (nyan-mode t)
-#+END_SRC
-
-** latex
-#+BEGIN_SRC emacs-lisp
-  (setq tex-compile-commands '(("xelatex %r")))
-  (setq tex-command "xelatex")
-  (setq-default TeX-engine 'xelatex)
-
-  (setq org-latex-pdf-process
-        '("xelatex -interaction nonstopmode -output-directory %o %f"
-          "xelatex -interaction nonstopmode -output-directory %o %f"
-          "xelatex -interaction nonstopmode -output-directory %o %f"))
-
-  (setq locate-command "mdfind")
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/share/npm/bin:/usr/local/bin:/usr/texbin"))
-  (setq exec-path (append exec-path '("/usr/local/bin" "~/.rbenv/shims" "/usr/texbin")))
-#+END_SRC
-
-
-** languagetool
-#+BEGIN_SRC emacs-lisp
-  (require 'langtool)
-  (setq langtool-language-tool-jar "/usr/local/Cellar/languagetool/4.0/libexec/languagetool-commandline.jar"
-        langtool-disabled-rules '("WHITESPACE_RULE"
-                                  "EN_UNPAIRED_BRACKETS"
-                                  "COMMA_PARENTHESIS_WHITESPACE"
-                                  "EN_QUOTES")
-        langtool-default-language "en-US")
-  (when (executable-find "hunspell")
-    (setenv "DICTIONARY" "en_US")
-    (setq ispell-program-name "hunspell")
-    (setq ispell-really-hunspell t)
+  (use-package helm-mode
+    :bind
+    ("M-x" . helm-M-x)
+    ("C-x b" . helm-mini)
+    ("M-y" . helm-show-kill-ring)
+    (:map helm-map
+          ("<tab>" . helm-execute-persistent-action) ; rebind tab to run persistent action
+          ("C-i" . helm-execute-persistent-action) ; make TAB works in terminal
+          ("C-z" . helm-select-action))
+    :config
+    (require 'helm-config)
+    (diminish 'helm-mode "")
+    (helm-mode 1)
+    (helm-autoresize-mode 1)
+    (setq 
+     helm-M-x-fuzzy-match t
+     helm-buffers-fuzzy-matching t
+     helm-recentf-fuzzy-match t
+     helm-ag-fuzzy-match t ;(ref: ag-fuzzy-match)
+     helm-locate-fuzzy-match t
+     )
     )
-
+  (use-package helm-projectile
+    :config
+    (helm-projectile-on)
+    )
 #+END_SRC
 
 #+RESULTS:
-
-** on-screen
-翻页的事后加一条小黑线，不然找不到翻哪了
+=t
+=** textmate
 #+BEGIN_SRC emacs-lisp
-  (on-screen-global-mode 1)
-  (setq on-screen-highlight-method 'narrow-line)
+(use-package textmate
+:config
+(textmate-mode)
+(bind-keys
+ :map *textmate-mode-map*
+ ("M-}" . textmate-shift-right)
+ ("M-{" . textmate-shift-left)
+ ("M-/" . comment-line)
+ ("M-l" . textmate-select-line)
+ ))
 #+END_SRC
 
-** key chord
+#+RESULTS:
+: t
+
+** ido
 #+BEGIN_SRC emacs-lisp
-  (key-chord-mode 1)
-  (setq key-chord-two-keys-delay 0.03)
+  (use-package ido
+    :bind
+    ("C-x C-f" . ido-find-file)
+    :config
+    (setq ido-everywhere t
+          ido-enable-flex-matching t)
+    (ido-mode 1))
 #+END_SRC
 
-** TODO org
+#+RESULTS:
+: ido-find-file
 
-*** latex
+** typescript
 #+BEGIN_SRC emacs-lisp
-  (require 'ox-latex)
-  (add-to-list 'org-latex-classes
-               '("tufte" "\\documentclass[11pt,twoside,openright]{tufte-book}"
-                 ("\\chapter{%s}" . "\\chapter*{%s}")
-                 ("\\section{%s}" . "\\section*{%s}")
-                 ("\\subsection{%s}" . "\\subsection*{%s}")
-                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))
+(defun setup-tide-mode ()
+   (interactive)
+   (tide-setup)
+   (flycheck-mode +1)
+   (setq flycheck-check-syntax-automatically '(save mode-enabled))
+   (eldoc-mode +1)
+   (tide-hl-identifier-mode +1)
+   ;; company is an optional dependency. You have to
+   ;; install it separately via package-install
+   ;; `M-x package-install [ret] company`
+   (company-mode +1))
+
+ ;; aligns annotation to the right hand side
+ (setq company-tooltip-align-annotations t)
+
+ ;; formats the buffer before saving
+
+
+ (add-hook 'typescript-mode-hook #'setup-tide-mode)
+ (require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+         (lambda ()
+           (when (and (buffer-file-name)
+(string-equal "tsx" (file-name-extension buffer-file-name)))
+             (setup-tide-mode))))
 #+END_SRC
 
-*** hooks
+#+RESULTS:
+| lambda | nil | (when (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (setup-tide-mode))       |
+| lambda | nil | (if (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (progn (setup-tide-mode))) |
+
+** js2 mode
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook 'turn-on-flyspell)
+(use-package js2-mode
+:config
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.sjs$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.es6$" . js2-mode))
+(setq js2-allow-rhino-new-expr-initializer nil)
+(setq js2-enter-indents-newline t)
+(setq js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+(setq js2-idle-timer-delay 0.1)
+(setq js2-indent-on-enter-key nil)
+(setq js2-mirror-mode nil)
+(setq js2-strict-inconsistent-return-warning nil)
+(setq js2-auto-indent-p t)
+(setq js2-include-rhino-externs nil)
+(setq js2-include-gears-externs nil)
+(setq js2-concat-multiline-strings 'eol)
+(setq js2-rebind-eol-bol-keys nil)
+(setq js2-mode-show-parse-errors t)
+(setq js2-mode-show-strict-warnings nil))
 #+END_SRC
 
+#+RESULTS:
+: t
 
-*** TODO Default Settings
-=org-agenda-files= 是很有意思的一个参数，agenda的todo list会扫描这里面的文件，并把所有的 =TODO= 列出来。
-这个参数吃一个列表，所以我把所有的dropbox下的org文件都引进来了 [[(include-all)]]
+** on screen
 
-比如这篇博客中的所有TODO，就都会出现在我的agenda里面。
-#+BEGIN_SRC emacs-lisp -n -r
-  (setq org-directory "~/Dropbox/org")
+#+BEGIN_SRC emacs-lisp
+(on-screen-global-mode 1)
+(setq on-screen-highlight-method 'narrow-line)
+#+END_SRC
 
-  (setq org-confirm-babel-evaluate nil
-        org-src-fontify-natively t
-        org-src-tab-acts-natively t)
+#+RESULTS:
+: narrow-line
 
-  (let ((todo "~/Dropbox/org/todo.org"))
-    (when (file-readable-p todo)
-      (setq org-agenda-files (file-expand-wildcards "~/Dropbox/**/*.org")) ;(ref:include-all)
-      (setq initial-buffer-choice (lambda ()
-                                    (org-agenda nil "n")
-                                    (delete-other-windows)
-                                    (current-buffer)
-                                    ))
-      ))
-  (setq org-default-notes-file "~/Dropbox/org/refile.org")
-  (setq org-mobile-inbox-for-pull "~/Dropbox/org/flagged.org")
-  (setq org-mobile-directory "~/Dropbox/org/mobile")
-
-  (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-
-  (setq org-startup-folded 'nofold)
-  (setq org-startup-indented t)
-  (setq org-startup-with-inline-images t)
-  (setq org-startup-truncated t)
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 5)))
-  (setq org-src-tab-acts-natively t)
-  (setq org-use-speed-commands t)
-  (setq org-default-notes-file (concat org-directory "/todo.org"))
-  (add-to-list 'org-src-lang-modes '("jsx" . web))
-  (add-to-list 'org-src-lang-modes '("tsx" . web))
-  (setq js-indent-level 2)
+** org mode
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-folded 'nofold)
+(setq org-startup-indented t)
+(setq org-startup-with-inline-images t)
+(setq org-startup-truncated t)
+(setq org-src-tab-acts-natively t)
+(setq js-indent-level 2)
 #+END_SRC
 
 #+RESULTS:
 : 2
 
-**** speed commnad
-#+BEGIN_EXAMPLE
-(("Outline Navigation")
- ("n" org-speed-move-safe 'org-next-visible-heading)
- ("p" org-speed-move-safe 'org-previous-visible-heading)
- ("f" org-speed-move-safe 'org-forward-heading-same-level)
- ("b" org-speed-move-safe 'org-backward-heading-same-level)
- ("F" . org-next-block)
- ("B" . org-previous-block)
- ("u" org-speed-move-safe 'outline-up-heading)
- ("j" . org-goto)
- ("g" org-refile t)
- ("Outline Visibility")
- ("c" . org-cycle)
- ("C" . org-shifttab)
- (" " . org-display-outline-path)
- ("s" . org-narrow-to-subtree)
- ("=" . org-columns)
- ("Outline Structure Editing")
- ("U" . org-metaup)
- ("D" . org-metadown)
- ("r" . org-metaright)
- ("l" . org-metaleft)
- ("R" . org-shiftmetaright)
- ("L" . org-shiftmetaleft)
- ("i" progn
-  (forward-char 1)
-  (call-interactively 'org-insert-heading-respect-content))
- ("^" . org-sort)
- ("w" . org-refile)
- ("a" . org-archive-subtree-default-with-confirmation)
- ("@" . org-mark-subtree)
- ("#" . org-toggle-comment)
- ("Clock Commands")
- ("I" . org-clock-in)
- ("O" . org-clock-out)
- ("Meta Data Editing")
- ("t" . org-todo)
- ("," org-priority)
- ("0" org-priority 32)
- ("1" org-priority 65)
- ("2" org-priority 66)
- ("3" org-priority 67)
- (":" . org-set-tags-command)
- ("e" . org-set-effort)
- ("E" . org-inc-effort)
- ("W" lambda
-  (m)
-  (interactive "sMinutes before warning: ")
-  (org-entry-put
-   (point)
-   "APPT_WARNTIME" m))
- ("Agenda Views etc")
- ("v" . org-agenda)
- ("/" . org-sparse-tree)
- ("Misc")
- ("o" . org-open-at-point)
- ("?" . org-speed-command-help)
- ("<" org-agenda-set-restriction-lock 'subtree)
- (">" org-agenda-remove-restriction-lock))
-#+END_EXAMPLE
-
-*** structure template
+** key chord
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'org-structure-template-alist '("E" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("S" "#+BEGIN_SRC shell-script\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("J" "#+BEGIN_SRC js\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("C" "#+BEGIN_SRC clojure\n?\n#+END_SRC\n"))
-  (add-to-list 'org-structure-template-alist '("d" "#+BEGIN_SRC ditaa :file ? :exports results\n?#+END_SRC\n"))
-#+END_SRC
-
-*** Clocking
-#+BEGIN_SRC emacs-lisp
-  (setq org-clock-persist 'history)
-  (org-clock-persistence-insinuate)
-#+END_SRC
-
-*** DONE Capture
-#+BEGIN_SRC emacs-lisp
-  (setq org-default-notes-file (concat org-directory "/todo.org"))
-
-  (setq org-capture-templates
-        '(
-          ("t" "Todo" entry (file org-default-notes-file) "* TODO %?\n  %u\n  %a")
-          ("s" "Simple Task" entry (file org-default-notes-file) "* TODO %?\n  %U\n")
-          ))
-  (setq org-todo-keywords
-        '((sequence
-           "TODO(t)"
-           "IN PROGRESS(p!)"
-           "HOLD(h!)"
-           "WAITING(w)"
-           "SOMEDAY(s)"
-           "|"
-           "DONE(d!)"
-           "CANCELLED(c)"
-           )))
-  (setq org-todo-keyword-faces
-        '(
-          ("IN PROGRESS" . 'warning)
-          ("DOING" . 'warning)
-          ("HOLD" . 'font-lock-keyword-face)
-          ("WAITING" . 'font-lock-builtin-face)
-          ("SOMEDAY" . 'font-lock-doc-face)
-          ))
-  (setq org-log-into-drawer t)
-#+END_SRC
-
-*** DONE Publish
-#+BEGIN_SRC emacs-lisp
-  (setq org-html-validation-link nil)
-
-  (setq org-publish-project-alist
-        '(("static"
-           :base-directory "~/Develop/grokking-monad/org/images"
-           :base-extension "png\\|jpg\\|jpeg\\|gif\\|svg"
-           :publishing-directory "~/Develop/grokking-monad/book/images"
-           :recursive t
-           :publishing-function org-publish-attachment)
-          ("text"
-           :base-directory "~/Develop/grokking-monad/org"
-           :base-extension "org"
-           :publishing-directory "~/Develop/grokking-monad/book"
-           :sub-superscript t
-           :recursive t
-           :publishing-function org-gfm-publish-to-gfm
-           :html-extension "md"
-           :body-only t)
-          ("gitbook" :components ("static" "text"))))
-#+END_SRC
-
-*** org-deck
-#+BEGIN_SRC emacs-lisp
-(setq org-deck-base-url "https://blog.oyanglul.us/deck.js")
-(setq org-deck-theme "web-2.0.css")
-(setq org-deck-transition "horizontal-slide.css")
-(setq org-deck-postamble "<p>%t - %a</p>")
-#+END_SRC
-
-#+RESULTS:
-: <p>%t - %a</p>
-
-*** TODO Agenda
-#+BEGIN_SRC emacs-lisp
-  ;; create the file for the agendas if it doesn't exist
-  (appt-activate 1)              ; activate appt (appointment notification)
-
-  (org-agenda-to-appt)           ; add appointments on startup
-
-  ;; add new appointments when saving the org buffer, use 'refresh argument to do it properly
-  (defun my-org-agenda-to-appt-refresh () (org-agenda-to-appt 'refresh))
-  (defun my-org-mode-hook ()
-    (add-hook 'after-save-hook 'my-org-agenda-to-appt-refresh nil 'make-it-local))
-  (add-hook 'org-mode-hook 'my-org-mode-hook)
-  (add-hook 'org-mode-hook (lambda ()
-                             (visual-line-mode 1)))
-  (require 'notifications)
-  (defun my-appt-disp-window-function (min-to-app new-time msg)
-    (notifications-notify :title (format "Appointment in %s min" min-to-app) :body msg))
-  (setq appt-disp-window-function 'my-appt-disp-window-function)
-  (setq appt-delete-window-function (lambda (&rest args)))
-
-  ;; add state to the sorting strategy of todo
-  (setcdr (assq 'todo org-agenda-sorting-strategy) '(todo-state-up priority-down category-keep))
-#+END_SRC
-
-*** babel
-#+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((js . t)
-     (clojure . t)
-     ))
-#+END_SRC
-
-*** pandoc
-#+BEGIN_SRC emacs-lisp
-  (setq org-pandoc-options-for-revealjs '(
-                                          (self-contained . t)
-(variable . "theme=solarized")
-(section-divs . t)
-                                          (standalone . nil)))
-#+END_SRC
-
-#+RESULTS:
-: ((self-contained . t) (variable . theme=solarized) (section-divs . t) (standalone))
-
-** pallet
-
-pallet 可以让你在emacs里安装和卸载的插件同步到 =Cask= file
-#+BEGIN_SRC emacs-lisp
-  (require 'pallet)
-  (pallet-mode t)
-#+END_SRC
-
-** COMMENT prettier
-#+BEGIN_SRC emacs-lisp
-(require 'prettier-js)
-(setq prettier-target-mode "js2-mode")
-(setq prettier-args '(
-  "--single-quote" "true"
-  "--trailing-comma" "es5"
-))
-#+END_SRC
-
-** purescript
-#+BEGIN_SRC emacs-lisp
-(require 'psc-ide)
-
-(add-hook 'purescript-mode-hook
-  (lambda ()
-    (psc-ide-mode)
-    (company-mode)
-    (flycheck-mode)
-    (turn-on-purescript-indentation)))
-#+END_SRC
-
-** smartparens
-#+BEGIN_SRC emacs-lisp
-  (require 'smartparens-config)
-  (smartparens-global-mode t)
-
-  (show-smartparens-global-mode t)
-
-  (add-hook 'clojure-mode-hook 'turn-on-smartparens-strict-mode)
-#+END_SRC
-
-#+RESULTS:
-| turn-on-smartparens-strict-mode |
-
-
-** sequential-command
-#+BEGIN_SRC emacs-lisp
-  (require 'sequential-command)
-  (define-sequential-command seq-home
-    back-to-indentation beginning-of-line seq-return)
-  (define-sequential-command seq-end
-    end-of-line end-of-buffer seq-return)
-  (global-set-key "\C-a" 'seq-home)
-    (global-set-key "\C-e" 'seq-end)
-  (define-sequential-command seq-company-tab company-complete-common company-complete-selection)
-
-  (define-key company-active-map (kbd "TAB") 'seq-company-tab)
-  (define-key company-active-map [tab] 'seq-company-tab)
-#+END_SRC
-
-#+RESULTS:
-: seq-company-tab
-
-** scala-mode
-#+BEGIN_SRC emacs-lisp
-(require 'ensime)
-  (add-to-list 'auto-mode-alist '("\\.sc$" . scala-mode))
-  (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
-  (add-hook 'scala-mode-hook 'ensime-mode)
-(setq ensime-startup-notification nil)
-#+END_SRC
-
-#+RESULTS:
-
-** TODO tern
-A JavaScript code analyzer
-非常给力的 javascript 编辑工具, 支持 auto completion, jump to
-definition, find type of, rename variable 等 这些 IDE 才能提供的语言向
-的支持.
-
-Needs the =tern= binary to be present, which can be installed with =npm=:
-
-#+BEGIN_SRC shell-script
-  sudo npm install -g tern
-#+END_SRC
-
-这里完了要改 tern.el 的一行代码, 傻逼的居然用相对路径
-#+BEGIN_SRC lisp
-  (bin-file (expand-file-name "../bin/tern" (file-name-directory (file-truename script-file)))))
-#+END_SRC
-
-#+BEGIN_EXAMPLE
-M-.
-    Jump to the definition of the thing under the cursor.
-M-,
-    Brings you back to last place you were when you pressed M-..
-C-c C-r
-    Rename the variable under the cursor.
-C-c C-c
-    Find the type of the thing under the cursor.
-C-c C-d
-    Find docs of the thing under the cursor. Press again to open the associated URL (if any).
-#+END_EXAMPLE
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'js-mode-hook (lambda () (tern-mode t)))
-  (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-  (add-hook 'web-mode-hook (lambda () (tern-mode t)))
-#+END_SRC
-
-See the [[http://ternjs.net/][project homepage]] for more info.
-
-
-** textmate
-#+BEGIN_SRC emacs-lisp
-    (require 'textmate)
-    (textmate-mode)
-    (bind-keys
-     :map *textmate-mode-map*
-     ("M-}" . textmate-shift-right)
-     ("M-{" . textmate-shift-left)
-     ("M-/" . comment-or-uncomment-region-or-line)
-     ("M-l" . textmate-select-line)
-     )
-
-#+END_SRC
-
-#+RESULTS:
-: textmate-select-line
-
-** Prompt Behavior
-
-#+BEGIN_SRC emacs-lisp -n -r
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  (setq kill-buffer-query-functions
-        (remq 'process-kill-buffer-query-function
-              kill-buffer-query-functions))
-#+END_SRC
-
-all "yes" or "no" questions are aliased to "y" or "n". We don't really want to type a full word to answer a question from Emacs
-
-Also Emacs should be able to kill processes without asking. Got that snippet from: [[http://www.masteringemacs.org/articles/2010/11/14/disabling-prompts-emacs/]]
-
-** Reason
-#+BEGIN_SRC emacs-lisp
-(defun shell-cmd (cmd)
-  "Returns the stdout output of a shell command or nil if the command returned
-   an error"
-  (car (ignore-errors (apply 'process-lines (split-string cmd)))))
-
-(let* ((refmt-bin (or (shell-cmd "refmt ----where")
-                      (shell-cmd "which refmt")))
-       (merlin-bin (or (shell-cmd "ocamlmerlin ----where") (shell-cmd "which ocamlmerlin")))
-       (merlin-base-dir (when merlin-bin
-                          (replace-regexp-in-string "bin/ocamlmerlin$" "" merlin-bin))))
-  ;; Add npm merlin.el to the emacs load path and tell emacs where to find ocamlmerlin
-  (when merlin-bin
-    (add-to-list 'load-path (concat merlin-base-dir "share/emacs/site-lisp/"))
-    (setq merlin-command merlin-bin))
-
-  (when refmt-bin
-    (setq refmt-command refmt-bin)))
-
-(require 'reason-mode)
-(require 'merlin)
-(add-hook 'reason-mode-hook (lambda ()
-                              (add-hook 'before-save-hook 'refmt-before-save)
-                              (merlin-mode)))
-
-(setq merlin-ac-setup t)
+  (use-package key-chord
+    :config
+    (key-chord-mode 1)
+    (setq key-chord-two-keys-delay 0.03))
 #+END_SRC
 
 #+RESULTS:
 : t
 
-** [[http://web-mode.org/][web-mode]]
+** magit
 #+BEGIN_SRC emacs-lisp
-    (require 'editorconfig)
-    (editorconfig-mode 1)
-  (setq web-mode-content-types-alist
-    '(("jsx" . "\\.js[x]?\\'")))
-    (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-#+END_SRC
-
-** yasnippet
-#+BEGIN_SRC emacs-lisp
-  (yas-global-mode 1)
-#+END_SRC
-
-** ditaa
-#+BEGIN_SRC emacs-lisp
-  (setq org-ditaa-jar-path "/usr/local/Cellar/ditaa/0.9/libexec/ditaa0_9.jar")
-#+END_SRC
-* Key Bindings
-- State "IN PROGRESS" from ""           [2015-03-09 Mon 21:46]
-
-emacs 最大亮点之一就是其快捷键众多, 当然用户都喜欢根据自身爱好定义最高效的
-快捷键, 因此, 把这些定义都放到这里定义更方便与管理,更新,和查找.
-
-** smartparens
-#+BEGIN_SRC emacs-lisp
-  (bind-keys
-   :map smartparens-mode-map
-   ("C-M-f" . sp-forward-sexp)
-   ("C-M-b" . sp-backward-sexp)
-   ("C-S-i" . sp-down-sexp)
-   ("C-S-o" . sp-up-sexp)
-   ("M-A-i" . sp-backward-down-sexp)
-   ("M-A-o" . sp-backward-up-sexp)
-   ("C-M-a" . sp-beginning-of-sexp)
-   ("C-M-e" . sp-end-of-sexp)
-   ("C-M-n" . sp-next-sexp)
-   ("C-M-p" . sp-previous-sexp)
-   ("C-M-d" . sp-kill-sexp)
-   ("C-M-<backspace>" . sp-backward-kill-sexp)
-   ("C-M-k" . sp-kill-hybrid-sexp)
-   ("C-M-w" . sp-copy-sexp)
-   ("C-M-[" . sp-backward-unwrap-sexp)
-   ("C-M-]" . sp-unwrap-sexp)
-   ("C-<right>" . sp-forward-slurp-sexp)
-   ("C-<left>" . sp-forward-barf-sexp)
-   ("C-M-<left>" . sp-backward-slurp-sexp)
-   ("C-M-<right>" . sp-backward-barf-sexp))
-#+END_SRC
-
-** helm
-#+BEGIN_SRC emacs-lisp
-  (bind-keys
-   ("C-c h o" . helm-occur)
-   ("C-c h x" . helm-register)
-   ("M-x" . helm-M-x)
-   ("C-x b" . helm-mini)
-   ("M-y" . helm-show-kill-ring))
-  (bind-keys
-   :map helm-map
-   ("<tab>" . helm-execute-persistent-action) ; rebind tab to run persistent action
-   ("C-i" . helm-execute-persistent-action) ; make TAB works in terminal
-   ("C-z" . helm-select-action) ; list actions using C-z
-   )
+(use-package magit
+:bind
+("C-x g" . magit-status))
 #+END_SRC
 
 #+RESULTS:
-: helm-select-action
+: magit-status
 
-** multiple cursor
+** multi cursor
 #+BEGIN_SRC emacs-lisp
-  (bind-keys
-   ("C-<" . mc/mark-previous-like-this)
-   ("C->" . mc/mark-next-like-this)
-   ("C-*" . mc/mark-all-like-this))
+(use-package multiple-cursors
+:bind
+("C-<" . mc/mark-previous-like-this)
+ ("C->" . mc/mark-next-like-this)
+ ("C-*" . mc/mark-all-like-this))
 #+END_SRC
 
 #+RESULTS:
 : mc/mark-all-like-this
 
-** general
+** expand region
 #+BEGIN_SRC emacs-lisp
-  (bind-keys
-   ("M-c" . kill-ring-save)
-   ("C-8" . er/expand-region)
-   ("M-8" . er/contract-region)
-   ("C-x r" . vr/query-replace)
-   ("M--" . text-scale-decrease)
-   ("M-=" . text-scale-increase)
-   ("C-c i" . (lambda () (interactive) (indent-region (point-min) (point-max))))
-   ("M-<backspace>" . kill-whole-line)
-   ("C-c r" . revert-buffer)
-   ("C-3" . back-button-global-backward)
-   ("C-4" . back-button-global-forward)
-   ("C-c SPC" . ace-jump-mode)
-   ("C-c h d" . howdoi-query-insert-code-snippet-at-point)
-   ("M-k" . delete-other-windows)
-   ("<f7>" . toggle-window-split)
-   ("C-c c" . deft)
-   ("C-x t" . org-capture)
-   ("C-c a" (lambda () (interactive) (org-agenda nil "n"))))
+(use-package expand-region
+:bind
+("C-8" . er/expand-region)
+("C--" . er/contract-region)
+("M-c" . kill-ring-save))
 #+END_SRC
 
 #+RESULTS:
-| lambda | nil | (interactive) | (org-agenda nil n) |
+: kill-ring-save
 
-** keychord
+** pallet
 #+BEGIN_SRC emacs-lisp
-  (key-chord-define-global "vr" 'vr/replace)
-  (key-chord-define-global "ln" 'linum-mode)
+(use-package pallet
+:config
+(pallet-mode t))
 #+END_SRC
 
 #+RESULTS:
-: org-capture
+: t
+
+** smartparens
+#+BEGIN_SRC emacs-lisp
+  (use-package smartparens
+    :bind
+    ("C-M-f" . sp-forward-sexp)
+    ("C-M-b" . sp-backward-sexp)
+    ("C-S-i" . sp-down-sexp)
+    ("C-S-o" . sp-up-sexp)
+    ("M-A-i" . sp-backward-down-sexp)
+    ("M-A-o" . sp-backward-up-sexp)
+    ("C-M-a" . sp-beginning-of-sexp)
+    ("C-M-e" . sp-end-of-sexp)
+    ("C-M-n" . sp-next-sexp)
+    ("C-M-p" . sp-previous-sexp)
+    ("C-M-d" . sp-kill-sexp)
+    ("C-M-<backspace>" . sp-backward-kill-sexp)
+    ("C-M-k" . sp-kill-hybrid-sexp)
+    ("C-M-w" . sp-copy-sexp)
+    ("C-M-[" . sp-backward-unwrap-sexp)
+    ("C-M-]" . sp-unwrap-sexp)
+    ("C-<right>" . sp-forward-slurp-sexp)
+    ("C-<left>" . sp-forward-barf-sexp)
+    ("C-M-<left>" . sp-backward-slurp-sexp)
+    ("C-M-<right>" . sp-backward-barf-sexp)
+    :config
+    (electric-pare-mode nil)
+    (require 'smartparens-config)
+    (smartparens-global-mode t)
+    (show-smartparens-global-mode t))
+
+#+END_SRC
+
+#+RESULTS:
+: sp-backward-barf-sexp
+
+** ensime
+#+BEGIN_SRC emacs-lisp
+(setq ensime-startup-notification nil)
+#+END_SRC
+
+#+RESULTS:
+
+** Flyspell
+wsdf sjd js is
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :init
+    (global-flycheck-mode)
+:config
+    (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda () 
+(flyspell-mode 1)
+(add-to-list 'company-backends 'company-ispell)
+(message "company-ispell enable")
+)
+))
+    (dolist (hook '(prog-mode-hook))
+      (add-hook hook (lambda () 
+(flyspell-prog-mode)
+(setq company-backends (delete 'company-ispell company-backends))
+(message "company-ispell disable")
+)))
+)
+#+End_SRC
+
+#+RESULTS:
+: t
+
+** Langtool
+Install LanguageTool version 3.0 or later (and java) https://languagetool.org/
+
+extract them into =/usr/local/share/LanguageTool=
+
+#+BEGIN_SRC emacs-lisp
+(use-package langtool
+:config
+(setq langtool-language-tool-jar "/usr/local/share/LanguageTool/languagetool-commandline.jar"
+      langtool-disabled-rules '("WHITESPACE_RULE"
+                                "EN_UNPAIRED_BRACKETS"
+                                "COMMA_PARENTHESIS_WHITESPACE"
+                                "EN_QUOTES")
+      langtool-default-language "en-US")
+)
+
+#+END_SRC
+
+#+RESULTS:
+: t
+
+** prompt
+#+BEGIN_SRC emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq kill-buffer-query-functions
+      (remq 'process-kill-buffer-query-function
+            kill-buffer-query-functions))
+#+END_SRC
+
+#+RESULTS:
+   
