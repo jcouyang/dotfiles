@@ -36,7 +36,7 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 * Default Settings
   #+BEGIN_SRC emacs-lisp
         ;; Setting
-(server start)
+        (server-start)
         (keyboard-translate ?\C-h ?\C-?)
         (column-number-mode 1)
         (tool-bar-mode -1)
@@ -156,7 +156,7 @@ text completion framework
  ("M-=" . text-scale-increase)
  ("M-}" . textmate-shift-right)
  ("M-<backspace>" . kill-whole-line)
- ("M-c" . kill-ring-save))
+ ("M-c" . kill-ring-save)
  ("M-{" . textmate-shift-left)
  ("M-/" . comment-line)
  ("M-l" . textmate-select-line)
@@ -300,7 +300,7 @@ text completion framework
 (use-package expand-region
 :bind
 ("C-8" . er/expand-region)
-("C--" . er/contract-region)
+("C--" . er/contract-region))
 #+END_SRC
 
 #+RESULTS:
