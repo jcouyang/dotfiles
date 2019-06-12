@@ -35,25 +35,34 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 
 * Default Settings
   #+BEGIN_SRC emacs-lisp
-        ;; Setting
-        (server-start)
-        (keyboard-translate ?\C-h ?\C-?)
-        (column-number-mode 1)
-        (tool-bar-mode -1)
-        (scroll-bar-mode -1)
-        (menu-bar-mode -1)
-        (delete-selection-mode 1)
-        (global-auto-revert-mode 1)
-        (nyan-mode t)
-        (electric-indent-mode t)
-        (setq-default
-         make-backup-files nil
-         indent-tabs-mode nil)
-        ;; make unix lineendings default
-        (unicode-fonts-setup)
-        (setq default-buffer-file-coding-system 'utf-8-unix)
+    ;; Setting
+    (server-start)
+    (keyboard-translate ?\C-h ?\C-?)
+    (column-number-mode 1)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    (menu-bar-mode -1)
+    (delete-selection-mode 1)
+    (global-auto-revert-mode 1)
+    (nyan-mode t)
+    (electric-indent-mode t)
+    (setq-default
+     make-backup-files nil
+     indent-tabs-mode nil)
+    ;; make unix lineendings default
+    (unicode-fonts-setup)
+    (setq default-buffer-file-coding-system 'utf-8-unix)
+    (when (eq system-type 'darwin)
+      (setq mac-option-modifier 'alt)
+      (setq mac-option-modifier 'super) ; make opt key do Super
+      (setq mac-command-modifier 'meta))
   #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+(let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
+  (setenv "PATH" path-from-shell)
+  (setq exec-path (split-string path-from-shell ":")))
+#+END_SRC
   #+RESULTS:
   : utf-8-unix
 
@@ -351,21 +360,35 @@ text completion framework
 #+RESULTS:
 : sp-backward-barf-sexp
 
-** ensime
+** Scala Metals
 #+BEGIN_SRC emacs-lisp
-(use-package ensime
-  :ensure t
-  :pin melpa-stable
-:config
-(setq ensime-startup-notification nil)
-)
+(use-package scala-mode
+  :mode "\\.s\\(cala\\|bt\\)$")
 
+(use-package sbt-mode
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map))
 
+;; Enable nice rendering of diagnostics like compile errors.
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+(use-package lsp-mode
+  ;; Optional - enable lsp-mode automatically in scala files
+  :hook (scala-mode . lsp)
+  :config (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui)
+
+;; Add company-lsp backend for metals
+(use-package company-lsp)
 #+END_SRC
-
-#+RESULTS:
-: t
-
 ** Flyspell
 wsdf sjd js is
 #+BEGIN_SRC emacs-lisp
