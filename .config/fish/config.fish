@@ -39,3 +39,6 @@ set -g theme_display_virtualenv no
 
 # AWS
 set -x AWS_DEFAULT_REGION ap-southeast-2
+
+# Nix
+fenv source ~/.nix-profile/etc/profile.d/nix.sh
