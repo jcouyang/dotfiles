@@ -30,6 +30,7 @@
 (depends-on "magit")
 (depends-on "markdown-mode")
 (depends-on "multiple-cursors")
+(depends-on "nix-mode")
 (depends-on "nyan-mode")
 (depends-on "on-screen")
 (depends-on "ox-tufte" :git "git@github.com:dakrone/ox-tufte.git")

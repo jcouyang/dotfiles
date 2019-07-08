@@ -59,9 +59,15 @@ download [[https://larsenwork.com/monoid/][monoid]] font
   #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+    (if (eq system-type 'gnu/linux)
+(let ((path-from-shell (shell-command-to-string "/usr/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
+  (setenv "PATH" path-from-shell)
+  (setq exec-path (split-string path-from-shell ":")))
 (let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
   (setenv "PATH" path-from-shell)
   (setq exec-path (split-string path-from-shell ":")))
+        )
+
 #+END_SRC
   #+RESULTS:
   : utf-8-unix
@@ -327,34 +333,10 @@ text completion framework
 
 ** smartparens
 #+BEGIN_SRC emacs-lisp
-    (use-package smartparens
-      :bind
-      ("C-M-f" . sp-forward-sexp)
-      ("C-M-b" . sp-backward-sexp)
-      ("C-S-i" . sp-down-sexp)
-      ("C-S-o" . sp-up-sexp)
-      ("M-A-i" . sp-backward-down-sexp)
-      ("M-A-o" . sp-backward-up-sexp)
-      ("C-M-a" . sp-beginning-of-sexp)
-      ("C-M-e" . sp-end-of-sexp)
-      ("C-M-n" . sp-next-sexp)
-      ("C-M-p" . sp-previous-sexp)
-      ("C-M-d" . sp-kill-sexp)
-      ("C-M-<backspace>" . sp-backward-kill-sexp)
-      ("C-M-k" . sp-kill-hybrid-sexp)
-      ("C-M-w" . sp-copy-sexp)
-      ("C-M-[" . sp-backward-unwrap-sexp)
-      ("C-M-]" . sp-unwrap-sexp)
-      ("C-<right>" . sp-forward-slurp-sexp)
-      ("C-<left>" . sp-forward-barf-sexp)
-      ("C-M-<left>" . sp-backward-slurp-sexp)
-      ("C-M-<right>" . sp-backward-barf-sexp)
-      :init
-      (require 'smartparens-config)
-      :config
-      (electric-pair-mode nil)
-      (smartparens-global-mode t)
-      (show-smartparens-global-mode t))
+  (use-package smartparens-config
+    :config
+     (smartparens-global-mode t)
+    (show-smartparens-global-mode t))
 
 #+END_SRC
 
@@ -447,3 +429,13 @@ extract them into =/usr/local/share/LanguageTool=
 
 #+RESULTS:
    
+
+** yasnippet
+#+BEGIN_SRC emacs-lisp
+(use-package yasnippet
+:config
+(yas-global-mode 1))
+
+#+END_SRC
+
+#+RESULTS:
