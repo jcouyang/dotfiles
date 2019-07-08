@@ -11,3 +11,4 @@
 .emacs.d/projectile.cache
 .emacs.d/recentf
 .emacs.d/var/
+.emacs.d/session.*
