@@ -429,7 +429,18 @@ extract them into =/usr/local/share/LanguageTool=
 
 #+RESULTS:
    
-
+** PureScript
+#+BEGIN_SRC emacs-lisp
+(use-package psc-ide
+:config
+(add-hook 'purescript-mode-hook
+  (lambda ()
+    (psc-ide-mode)
+    (company-mode)
+    (flycheck-mode)
+    (turn-on-purescript-indentation)))
+)
+#+END_SRC
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
