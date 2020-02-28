@@ -1,0 +1,11 @@
+import $plugin.$ivy.`org.typelevel::kind-projector:0.10.3`
+import $ivy.`org.typelevel::cats-core:2.0.0-M4`
+import $ivy.`com.chuusai::shapeless:2.3.3`
+import $ivy.`io.circe::circe-core:0.12.0-M4`
+import $ivy.`io.circe::circe-generic:0.12.0-M4`
+import $ivy.`co.fs2::fs2-core:1.1.0-M1`
+import cats._
+import shapeless._
+import cats.data._
+import cats.syntax.all._
+import cats.instances.all._

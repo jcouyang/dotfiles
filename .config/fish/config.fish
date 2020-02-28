@@ -5,12 +5,10 @@ set -x LANG en_US.UTF-8
 
 set -x LC_ALL en_US.UTF-8
 
-# Java
-set -x JAVA_HOME /Applications/Graalvm/Contents/Home
 # emacs
 set -x EDITOR emacsclient
 
-set -gx PATH $PATH /Applications/Graalvm/Contents/Home/bin /Applications/Graalvm/Contents/Home/jre/languages/js/bin/ /usr/local/texlive/2018/bin
+set -gx PATH $PATH /Library/Java/JavaVirtualMachines/graalvm-ce-java8-20.0.0/Contents/Home/bin /Library/Java/JavaVirtualMachines/graalvm-ce-java8-20.0.0/Contents/Home/jre/languages/js/bin/ /usr/local/texlive/2018/bin
 
 # rust
 set -x PATH $HOME/.cargo/bin $PATH
@@ -18,8 +16,6 @@ set -x PATH $HOME/.cargo/bin $PATH
 alias git hub
 
 eval (thefuck --alias | tr '\n' ';')
-
-set -x REA_LDAP_USER jouyang
 
 # rbenv
 status --is-interactive; and source (rbenv init -|psub)
