@@ -27,9 +27,6 @@ abbr -s | sort > ~/.config/fish/abbr.fish
 # themes
 set -g theme_display_virtualenv no
 
-# OPAM configuration
-# . /Users/jichao.ouyang/.opam/opam-init/init.fish > /dev/null 2> /dev/null or true
-
 # AWS
 set -x AWS_DEFAULT_REGION ap-southeast-2
 

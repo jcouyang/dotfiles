@@ -1,1 +1,1 @@
-/Users/jcouyang/.local/share/omf/themes/Scorphish/fish_prompt.fish
+/Users/jichao.ouyang/.local/share/omf/themes/default/fish_prompt.fish

@@ -59,6 +59,7 @@ download [[https://larsenwork.com/monoid/][monoid]] font
   #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+(setenv "PATH" "/usr/local/bin:/usr/bin:/bin")
     (if (eq system-type 'gnu/linux)
 (let ((path-from-shell (shell-command-to-string "/usr/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
   (setenv "PATH" path-from-shell)
