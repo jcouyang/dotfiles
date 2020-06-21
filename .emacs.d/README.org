@@ -170,6 +170,7 @@ text completion framework
  ("M--" . text-scale-decrease)
  ("M-=" . text-scale-increase)
  ("M-}" . textmate-shift-right)
+ ("M-c M-t" . textmate-clear-cache)
  ("M-<backspace>" . kill-whole-line)
  ("M-c" . kill-ring-save)
  ("M-{" . textmate-shift-left)
@@ -331,6 +332,19 @@ text completion framework
 #+RESULTS:
 : t
 
+** PureScript
+#+BEGIN_SRC emacs-lisp
+(use-package psc-ide
+:config
+(add-hook 'purescript-mode-hook
+  (lambda ()
+    (psc-ide-mode)
+    (company-mode)
+    (flycheck-mode)
+    (turn-on-purescript-indentation)))
+(setq psc-ide-use-npm-bin t)
+)
+#+END_SRC
 ** smartparens
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens-config
