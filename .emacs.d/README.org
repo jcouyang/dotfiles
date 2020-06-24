@@ -279,6 +279,46 @@ text completion framework
 #+RESULTS:
 : 2
 
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-files (quote ("~/Dropbox/org")))
+  (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                   (org-agenda-files :maxlevel . 9))))
+      (setq org-directory "~/Dropbox/org")
+      (setq org-default-notes-file "~/Dropbox/org/refile.org")
+
+      ;; I use C-c c to start capture mode
+      (global-set-key (kbd "C-c c") 'org-capture)
+      (global-set-key (kbd "C-c a") 'org-agenda)
+
+      ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+      (setq org-capture-templates
+            (quote (("t" "Todo" entry (file+headline "~/Dropbox/org/refile.org" "Todos")
+                     "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                    ("n" "Note" entry (file+headline "~/Dropbox/org/note.org" "Notes")
+                     "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                    ("w" "Work" entry (file+headline "~/Dropbox/org/myob.org" "Work Notes")
+                     "* %?\n%U\n" :clock-in t :clock-resume t)
+                    )))
+    (setq org-refile-use-outline-path t)
+
+    ; Targets complete directly with IDO
+    (setq org-outline-path-complete-in-steps nil)
+    ; Use IDO for both buffer and file completion and ido-everywhere to t
+    (setq org-completion-use-ido t)
+    (setq ido-everywhere t)
+    (setq ido-max-directory-size 100000)
+    (ido-mode (quote both))
+    ; Use the current window when visiting files and buffers with ido
+    (setq ido-default-file-method 'selected-window)
+    (setq ido-default-buffer-method 'selected-window)
+    ; Use the current window for indirect buffer display
+    (setq org-indirect-buffer-display 'current-window)
+
+#+END_SRC
+
+#+RESULTS:
+: current-window
+
 ** key chord
 #+BEGIN_SRC emacs-lisp
   (use-package key-chord

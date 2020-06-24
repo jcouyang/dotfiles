@@ -16,11 +16,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(lsp-metals-sbt-script "")
- '(org-link-search-must-match-exact-headline t)
+ '(lsp-enable-file-watchers nil)
+ '(org-plantuml-jar-path "/usr/local/bin/plantuml.jar")
  '(package-selected-packages
    (quote
-    (haskell-mode company-emoji emojify kaomoji git-link htmlize thrift purescript-mode psc-ide nix-mode yasnippet-snippets company-lsp lsp-mode lsp-ui helm-swoop rust-mode yaml-mode web-mode visual-regexp use-package unicode-fonts smartparens rainbow-mode pallet ox-tufte on-screen nyan-mode multiple-cursors markdown-mode langtool key-chord json-mode js2-mode indent-guide iedit helm-projectile helm-ag fasd expand-region dracula-theme ag ace-jump-mode))))
+    (htmlize purescript-mode ob-http haskell-mode ghub thrift psc-ide typescript-mode git-link nix-mode yasnippet-snippets company-lsp lsp-ui helm-swoop rust-mode yaml-mode web-mode visual-regexp use-package unicode-fonts smartparens rainbow-mode pallet ox-tufte on-screen nyan-mode multiple-cursors markdown-mode langtool key-chord json-mode js2-mode indent-guide iedit helm-projectile helm-ag fasd expand-region dracula-theme ag ace-jump-mode)))
+ '(tex-run-command "xelatex"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

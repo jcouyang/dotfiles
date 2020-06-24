@@ -12,3 +12,5 @@
 .emacs.d/recentf
 .emacs.d/var/
 .emacs.d/session.*
+.DS_Store
+**/*/.DS_Store

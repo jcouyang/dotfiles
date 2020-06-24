@@ -12,6 +12,7 @@ set -x EDITOR emacsclient
 
 set -gx PATH $HOME/.local/share/coursier/bin $JAVA_HOME/bin $HOME/.bloop $JAVA_HOME/jre/languages/js/bin $PATH
 
+set -x JAVA_HOME (/usr/libexec/java_home)
 # rust
 # set -x PATH $HOME/.cargo/bin $PATH
 # github
@@ -33,4 +34,6 @@ set -x AWS_DEFAULT_REGION ap-southeast-2
 # Nix
 fenv source ~/.nix-profile/etc/profile.d/nix.sh
 # fix nix bash warning
+if test (uname) != "Darwin"
 set -x LOCALE_ARCHIVE (nix-env --installed --no-name --out-path --query glibc-locales)/lib/locale/locale-archive
+end
