@@ -25,7 +25,9 @@
         yarn
       ];
       postBuild = ''
-      echo "yay"
+      echo "linking fish"
+      test -e /usr/local/bin/fish || ln -s $out/bin/fish /usr/local/bin/fish
+      test -e /usr/local/bin/fasd || ln -s $out/bin/fasd /usr/local/bin/fasd
       '';
     };
   };
