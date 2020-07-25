@@ -10,7 +10,7 @@ set -x JAVA_HOME $HOME/Applications/Graalvm
 # emacs
 set -x EDITOR emacsclient
 
-set -gx PATH $HOME/.local/share/coursier/bin $JAVA_HOME/bin $HOME/.bloop $JAVA_HOME/jre/languages/js/bin $PATH
+set -gx PATH $HOME/.nix-profile/bin $HOME/Library/Application\ Support/Coursier/bin $HOME/.local/share/coursier/bin $JAVA_HOME/bin $HOME/.bloop $JAVA_HOME/jre/languages/js/bin $PATH
 
 set -x JAVA_HOME (/usr/libexec/java_home)
 # rust
