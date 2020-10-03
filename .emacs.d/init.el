@@ -17,8 +17,7 @@
  ;; If there is more than one, they won't work right.
  '(lsp-enable-file-watchers nil)
  '(org-latex-classes
-   (quote
-    (("article" "\\documentclass[11pt]{article}"
+   '(("article" "\\documentclass[11pt]{article}"
       ("\\section{%s}" . "\\section*{%s}")
       ("\\subsection{%s}" . "\\subsection*{%s}")
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -41,10 +40,9 @@
       ("\\chapter{%s}" . "\\chapter*{%s}")
       ("\\section{%s}" . "\\section*{%s}")
       ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")))))
+      ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
  '(org-latex-default-packages-alist
-   (quote
-    (("AUTO" "inputenc" t
+   '(("AUTO" "inputenc" t
       ("pdflatex"))
      ("T1" "fontenc" t
       ("pdflatex"))
@@ -57,12 +55,11 @@
      ("" "textcomp" t nil)
      ("" "amssymb" t nil)
      ("" "capt-of" nil nil)
-     ("" "hyperref" nil nil))))
+     ("" "hyperref" nil nil)))
  '(org-latex-listings t)
  '(org-plantuml-jar-path "/usr/local/bin/plantuml.jar")
  '(package-selected-packages
-   (quote
-    (ox-leanpub ox-gfm ox-rst idris-mode dhall-mode htmlize purescript-mode ob-http haskell-mode ghub thrift psc-ide typescript-mode git-link nix-mode yasnippet-snippets company-lsp lsp-ui helm-swoop rust-mode yaml-mode web-mode visual-regexp use-package unicode-fonts smartparens rainbow-mode pallet ox-tufte on-screen nyan-mode multiple-cursors markdown-mode langtool key-chord json-mode js2-mode indent-guide iedit helm-projectile helm-ag fasd expand-region dracula-theme ag ace-jump-mode)))
+   '(lsp-mode lsp-metals ox-leanpub ox-gfm ox-rst idris-mode dhall-mode htmlize purescript-mode ob-http haskell-mode ghub thrift psc-ide typescript-mode git-link nix-mode yasnippet-snippets company-lsp lsp-ui helm-swoop rust-mode yaml-mode web-mode visual-regexp use-package unicode-fonts smartparens rainbow-mode pallet ox-tufte on-screen nyan-mode multiple-cursors markdown-mode langtool key-chord json-mode js2-mode indent-guide iedit helm-projectile helm-ag fasd expand-region dracula-theme ag ace-jump-mode))
  '(tex-run-command "xelatex"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
