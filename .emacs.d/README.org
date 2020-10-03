@@ -139,6 +139,25 @@ text completion framework
  #+RESULTS:
  : t
 
+** Dhall
+#+BEGIN_SRC emacs-lisp
+(use-package dhall-mode
+  :ensure t
+  :config
+  (setq
+    ;; uncomment the next line to disable automatic format
+    ;; dhall-format-at-save nil
+
+    ;; comment the next line to use unicode syntax
+    dhall-format-arguments (\` ("--ascii"))
+
+    ;; header-line is obsoleted by lsp-mode
+    dhall-use-header-line nil))
+#+END_SRC
+
+#+RESULTS:
+| lsp |
+
 ** forge 
 #+BEGIN_SRC emacs-lisp
 ;;(use-package forge
@@ -514,7 +533,6 @@ text completion framework
 
   ;; Add company-lsp backend for metals
   (use-package company-lsp)
-
 #+END_SRC
 
 #+RESULTS:

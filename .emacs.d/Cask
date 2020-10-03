@@ -34,6 +34,7 @@
 (depends-on "kaomoji")
 (depends-on "key-chord")
 (depends-on "langtool")
+(depends-on "lsp-metals")
 (depends-on "lsp-mode")
 (depends-on "lsp-ui")
 (depends-on "magit")
