@@ -15,12 +15,11 @@
 #+RESULTS:
 : t
 
-
 ** Fonts
 download [[https://larsenwork.com/monoid/][monoid]] font
 #+BEGIN_SRC emacs-lisp
-  (if (member "Monoid" (font-family-list))
-      (set-default-font "Monoid-14:width=condensed:weight=light"))
+  (if (member "JetBrains Mono" (font-family-list))
+      (set-frame-font "JetBrains Mono Light 15"))
 
   (when (eq system-type 'gnu/linux)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
@@ -44,14 +43,13 @@ download [[https://larsenwork.com/monoid/][monoid]] font
     (menu-bar-mode -1)
     (delete-selection-mode 1)
     (global-auto-revert-mode 1)
-    (nyan-mode t)
     (electric-indent-mode t)
     (setq-default
      make-backup-files nil
      indent-tabs-mode nil)
     ;; make unix lineendings default
-    (unicode-fonts-setup)
-    (setq default-buffer-file-coding-system 'utf-8-unix)
+    ;;(unicode-fonts-setup)
+    ;; (setq default-buffer-file-coding-system 'utf-8-unix)
     (when (eq system-type 'darwin)
       (setq mac-option-modifier 'alt)
       (setq mac-option-modifier 'super) ; make opt key do Super
@@ -76,12 +74,47 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 
 * Modes
 
+** Dhall
+#+begin_src emacs-lisp
+  (use-package dhall-mode
+    :ensure t
+    :config
+    (setq
+      ;; uncomment the next line to disable automatic format
+      ;; dhall-format-at-save nil
+
+      ;; comment the next line to use unicode syntax
+      ;; dhall-format-arguments (\` ("--ascii"))
+
+      ;; header-line is obsoleted by lsp-mode
+      dhall-use-header-line nil))
+
+#+end_src
+** unicode
+#+begin_src emacs-lisp
+(use-package unicode-fonts
+   :ensure t
+   :config
+    (unicode-fonts-setup))
+#+end_src
+
+#+RESULTS:
+: t
+
+** Nya mode
+#+BEGIN_SRC emacs-lisp
+(use-package nyan-mode
+:ensure t
+:config (nyan-mode t))
+#+END_SRC
+
 ** [[https://github.com/winterTTr/ace-jump-mode][ace jump mode]]
 
 You can move your cursor to ANY position ( across window and frame ) in emacs by using only 3 times key press.
 
 #+BEGIN_SRC emacs-lisp
 (use-package ace-jump-mode
+:ensure t
 :bind
 ("C-c SPC" . ace-jump-mode)
 ("C-c u SPC" . ace-jump-mode-pop-mark)
@@ -108,8 +141,8 @@ text completion framework
 
 ** forge 
 #+BEGIN_SRC emacs-lisp
-(use-package forge
-:after magit)
+;;(use-package forge
+;;:after magit)
 #+END_SRC
 
 #+RESULTS:
@@ -156,14 +189,40 @@ text completion framework
   projectile-completion-system 'helm))
 
   (use-package helm-projectile
+:ensure t
     :config
     (helm-projectile-on)
     )
 #+END_SRC
 
+** ligature
+#+BEGIN_SRC emacs-lisp
+  (use-package ligature
+  :ensure t
+  :init
+     (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                           ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                           "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                           "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                           "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                           "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                           "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                           "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                           ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                           "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                           "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                           "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                           "\\" "://"))
+    (global-ligature-mode t))
+#+END_SRC
+
+#+RESULTS:
+| ligature | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
+
 ** textmate
 #+BEGIN_SRC emacs-lisp
 (use-package textmate
+:ensure t
 :config
 (textmate-mode)
 (bind-keys
@@ -196,7 +255,7 @@ text completion framework
 #+RESULTS:
 : ido-find-file
 
-** typescript
+** COMMENT typescript
 #+BEGIN_SRC emacs-lisp
 (defun setup-tide-mode ()
    (interactive)
@@ -259,8 +318,12 @@ text completion framework
 ** on screen
 
 #+BEGIN_SRC emacs-lisp
+(use-package on-screen
+:ensure t
+:config
 (on-screen-global-mode 1)
-(setq on-screen-highlight-method 'narrow-line)
+(setq on-screen-highlight-method 'narrow-line))
+
 #+END_SRC
 
 #+RESULTS:
@@ -268,6 +331,7 @@ text completion framework
 
 ** org mode
 #+BEGIN_SRC emacs-lisp
+(require 'org-tempo)
 (setq org-startup-folded 'nofold)
 (setq org-startup-indented t)
 (setq org-startup-with-inline-images t)
@@ -388,7 +452,8 @@ text completion framework
 #+END_SRC
 ** smartparens
 #+BEGIN_SRC emacs-lisp
-  (use-package smartparens-config
+  (use-package smartparens
+:ensure t
     :config
      (smartparens-global-mode t)
     (show-smartparens-global-mode t))
@@ -400,37 +465,65 @@ text completion framework
 
 ** Scala Metals
 #+BEGIN_SRC emacs-lisp
-(use-package scala-mode
-  :mode "\\.s\\(cala\\|bt\\)$")
+  ;; Enable defer and ensure by default for use-package
+  ;; Keep auto-save/backup files separate from source code:  https://github.com/scalameta/metals/issues/1027
+  (setq use-package-always-defer t
+        use-package-always-ensure t
+        backup-directory-alist `((".*" . ,temporary-file-directory))
+        auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
 
-(use-package sbt-mode
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map))
+  ;; Enable scala-mode for highlighting, indentation and motion commands
+  (use-package scala-mode
+    :mode "\\.s\\(cala\\|bt\\)$")
 
-;; Enable nice rendering of diagnostics like compile errors.
-(use-package flycheck
-  :init (global-flycheck-mode))
+  ;; Enable sbt mode for executing sbt commands
+  (use-package sbt-mode
+    :commands sbt-start sbt-command
+    :config
+    ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+    ;; allows using SPACE when in the minibuffer
+    (substitute-key-definition
+     'minibuffer-complete-word
+     'self-insert-command
+     minibuffer-local-completion-map)
+     ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+     (setq sbt:program-options '("-Dsbt.supershell=false"))
+  )
 
-(use-package lsp-mode
-  ;; Optional - enable lsp-mode automatically in scala files
-  :hook (scala-mode . lsp)
-  :config (setq lsp-prefer-flymake nil))
+  ;; Enable nice rendering of diagnostics like compile errors.
+  (use-package flycheck
+    :init (global-flycheck-mode))
 
-(use-package lsp-ui)
+  (use-package lsp-mode
+    ;; Optional - enable lsp-mode automatically in scala files
+    :hook  (scala-mode . lsp)
+           (lsp-mode . lsp-lens-mode)
+           (dhall-mode . lsp)
+    :config (setq lsp-prefer-flymake nil))
 
-;; Add company-lsp backend for metals
-(use-package company-lsp)
+  ;; Add metals backend for lsp-mode
+  (use-package lsp-metals)
+
+  ;; Enable nice rendering of documentation on hover
+  (use-package lsp-ui)
+
+  ;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
+  ;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings
+  ;;   to avoid odd behavior with snippets and indentation
+  (use-package yasnippet)
+
+  ;; Add company-lsp backend for metals
+  (use-package company-lsp)
+
 #+END_SRC
+
+#+RESULTS:
+
 ** Flyspell
 wsdf sjd js is
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
+:ensure t
     :init
     (global-flycheck-mode)
 :config

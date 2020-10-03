@@ -1,7 +1,7 @@
 (source gnu)
 (source melpa)
 (source melpa-stable)
-
+(depends-on "ligature" :git "git@github.com:mickeynp/ligature.el.git")
 (depends-on "ace-jump-mode")
 (depends-on "ag")
 (depends-on "async")
