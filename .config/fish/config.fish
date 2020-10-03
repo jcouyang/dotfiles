@@ -6,13 +6,16 @@ set -x LANG en_US.UTF-8
 set -x LC_ALL en_US.UTF-8
 
 # Java
+if test (uname) = "Darwin"
+set -x JAVA_HOME (/usr/libexec/java_home)
+else
 set -x JAVA_HOME $HOME/Applications/Graalvm
+end
 # emacs
 set -x EDITOR emacsclient
 
 set -gx PATH $HOME/.nix-profile/bin $HOME/Library/Application\ Support/Coursier/bin $HOME/.local/share/coursier/bin $JAVA_HOME/bin $HOME/.bloop $JAVA_HOME/jre/languages/js/bin $PATH
 
-set -x JAVA_HOME (/usr/libexec/java_home)
 # rust
 # set -x PATH $HOME/.cargo/bin $PATH
 # github
