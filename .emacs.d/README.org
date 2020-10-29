@@ -19,7 +19,7 @@
 download [[https://larsenwork.com/monoid/][monoid]] font
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
-      (set-frame-font "JetBrains Mono Light 15"))
+      (set-frame-font "JetBrains Mono Light 14"))
 
   (when (eq system-type 'gnu/linux)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
@@ -48,13 +48,14 @@ download [[https://larsenwork.com/monoid/][monoid]] font
      make-backup-files nil
      indent-tabs-mode nil)
     ;; make unix lineendings default
-    ;;(unicode-fonts-setup)
-    ;; (setq default-buffer-file-coding-system 'utf-8-unix)
+     (setq default-buffer-file-coding-system 'utf-8-unix)
     (when (eq system-type 'darwin)
       (setq mac-option-modifier 'alt)
       (setq mac-option-modifier 'super) ; make opt key do Super
       (setq mac-command-modifier 'meta))
   #+END_SRC
+
+  #+RESULTS:
 
 #+BEGIN_SRC emacs-lisp
 (setenv "PATH" "/usr/local/bin:/usr/bin:/bin")
@@ -350,17 +351,28 @@ text completion framework
 
 ** org mode
 #+BEGIN_SRC emacs-lisp
-(require 'org-tempo)
-(setq org-startup-folded 'nofold)
-(setq org-startup-indented t)
-(setq org-startup-with-inline-images t)
-(setq org-startup-truncated t)
-(setq org-src-tab-acts-natively t)
-(setq js-indent-level 2)
+  ;; (require 'org-tempo)
+ ;; (setq org-startup-folded 'nofold)
+  (setq org-startup-indented t)
+  (setq org-startup-with-inline-images t)
+  (setq org-startup-truncated t)
+  (setq org-src-tab-acts-natively t)
+  
+  (setq js-indent-level 2)
 #+END_SRC
 
 #+RESULTS:
 : 2
+#+BEGIN_SRC emacs-lisp
+(use-package org-crypt
+:config 
+(org-crypt-use-before-save-magic)
+(setq org-crypt-key "A506C38D5CC847D0DF01134ADA8B833B52604E63")
+(setq org-tags-exclude-from-inheritance '("crypt"))
+)
+#+END_SRC
+
+#+RESULTS:
 
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files (quote ("~/Dropbox/org")))
@@ -444,7 +456,7 @@ text completion framework
 #+END_SRC
 
 #+RESULTS:
-: kill-ring-save
+: er/contract-region
 
 ** pallet
 #+BEGIN_SRC emacs-lisp
@@ -607,6 +619,20 @@ extract them into =/usr/local/share/LanguageTool=
     (turn-on-purescript-indentation)))
 )
 #+END_SRC
+
+** Restclient
+#+BEGIN_SRC emacs-lisp
+  (use-package restclient
+:config
+(add-to-list 'company-backends 'company-restclient))
+  ;; :config
+  ;; ;
+                                          ; 
+  ;; :hook (company-mode))
+#+END_SRC
+
+#+RESULTS:
+
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
 (use-package yasnippet
