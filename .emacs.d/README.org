@@ -217,10 +217,11 @@ text completion framework
 
 ** ligature
 #+BEGIN_SRC emacs-lisp
-  (use-package ligature
-  :ensure t
-  :init
-     (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+  (when (cl-search "27." (emacs-version))
+    (use-package ligature
+      :ensure t
+      :init
+      (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
                                            ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
                                            "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
                                            "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
@@ -233,7 +234,9 @@ text completion framework
                                            "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
                                            "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
                                            "\\" "://"))
-    (global-ligature-mode t))
+      (global-ligature-mode t))
+    )
+
 #+END_SRC
 
 #+RESULTS:

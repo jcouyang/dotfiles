@@ -9,7 +9,7 @@
 (setq org-confirm-babel-evaluate nil
       vc-follow-symlinks nil)
 (setq load-prefer-newer t)
-(org-babel-load-file "~/.emacs.d/README.org")
+(org-babel-load-file "~/dotfiles/.emacs.d/README.org")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
