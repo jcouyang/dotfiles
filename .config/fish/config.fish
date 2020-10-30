@@ -14,6 +14,7 @@ set -x JAVA_HOME $HOME/Applications/Graalvm
 end
 # emacs
 set -x EDITOR emacsclient
+set -x ALTERNATE_EDITOR vim
 if test (uname) = "Darwin"
    set -gx PATH $HOME/Library/Application\ Support/Coursier/bin $PATH
 else
