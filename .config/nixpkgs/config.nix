@@ -25,5 +25,8 @@
         dhall-json
       ];
     };
+    mytex = texlive.combine {
+      inherit (texlive) collection-langchinese collection-xetex;
+    };
   };
 }

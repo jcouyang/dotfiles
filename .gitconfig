@@ -6,8 +6,6 @@
 [push]
 	default = simple
 	followTags = true
-[hub]
-	host = git.realestate.com.au
 [merge]
   tool = ediff
 [mergetool "ediff"]
