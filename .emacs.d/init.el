@@ -1,10 +1,5 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-;; (package-initialize)
-;; (package-install 'use-package)
-;; (require 'use-package)
 (require 'org)
 (setq org-confirm-babel-evaluate nil
       vc-follow-symlinks nil)
