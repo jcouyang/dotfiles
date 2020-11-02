@@ -30,3 +30,5 @@
    gpgsign = true
 [github]
 	user = jcouyang
+[pull]
+	rebase = true
