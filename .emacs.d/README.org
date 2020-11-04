@@ -215,6 +215,15 @@ text completion framework
     )
 #+END_SRC
 
+** indent guide
+#+begin_src emacs-lisp
+(use-package indent-guide
+:hook (prog-mode . indent-guide-mode))
+#+end_src
+
+#+RESULTS:
+| indent-guide-mode | rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
+
 ** ligature
 #+BEGIN_SRC emacs-lisp
   (when (cl-search "27." (emacs-version))
