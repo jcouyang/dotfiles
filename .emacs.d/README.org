@@ -465,6 +465,20 @@ text completion framework
 #+RESULTS:
 : mc/mark-all-like-this
 
+** shell-mode
+#+begin_src emacs-lisp
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(use-package shell-mode
+:hook (shell-mode-hook . ansi-color-for-comint-mode-on)
+:config
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+)
+#+end_src
+
+#+RESULTS:
+| ansi-color-for-comint-mode-on |
+
 ** expand region
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
@@ -476,6 +490,23 @@ text completion framework
 #+RESULTS:
 : er/contract-region
 
+** which key
+   #+begin_src emacs-lisp
+          (use-package which-key
+            :config
+            (setq which-key-use-C-h-commands t)
+            (setq which-key-paging-key "<f5>")
+     )
+   #+end_src
+
+   #+RESULTS:
+   : t
+
+** undo tree
+   #+begin_src emacs-lisp
+        (use-package undo-tree
+          :init (global-undo-tree-mode))
+   #+end_src
 ** pallet
 #+BEGIN_SRC emacs-lisp
 (use-package pallet
