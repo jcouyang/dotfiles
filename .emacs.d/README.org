@@ -121,25 +121,6 @@ text completion framework
       dhall-use-header-line nil))
 
 #+end_src
-** Dhall
-#+BEGIN_SRC emacs-lisp
-(use-package dhall-mode
-  :ensure t
-  :config
-  (setq
-    ;; uncomment the next line to disable automatic format
-    ;; dhall-format-at-save nil
-
-    ;; comment the next line to use unicode syntax
-    dhall-format-arguments (\` ("--ascii"))
-
-    ;; header-line is obsoleted by lsp-mode
-    dhall-use-header-line nil))
-#+END_SRC
-
-#+RESULTS:
-| lsp |
-
 ** expand region
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
