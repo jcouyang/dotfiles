@@ -16,7 +16,7 @@
 : t
 
 ** Fonts
-download [[https://larsenwork.com/monoid/][monoid]] font
+Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
       (set-frame-font "JetBrains Mono Light 14"))
@@ -75,40 +75,6 @@ download [[https://larsenwork.com/monoid/][monoid]] font
 
 * Modes
 
-** Dhall
-#+begin_src emacs-lisp
-  (use-package dhall-mode
-    :ensure t
-    :config
-    (setq
-      ;; uncomment the next line to disable automatic format
-      ;; dhall-format-at-save nil
-
-      ;; comment the next line to use unicode syntax
-      ;; dhall-format-arguments (\` ("--ascii"))
-
-      ;; header-line is obsoleted by lsp-mode
-      dhall-use-header-line nil))
-
-#+end_src
-** unicode
-#+begin_src emacs-lisp
-(use-package unicode-fonts
-   :ensure t
-   :config
-    (unicode-fonts-setup))
-#+end_src
-
-#+RESULTS:
-: t
-
-** Nya mode
-#+BEGIN_SRC emacs-lisp
-(use-package nyan-mode
-:ensure t
-:config (nyan-mode t))
-#+END_SRC
-
 ** [[https://github.com/winterTTr/ace-jump-mode][ace jump mode]]
 
 You can move your cursor to ANY position ( across window and frame ) in emacs by using only 3 times key press.
@@ -134,12 +100,27 @@ text completion framework
      :config
       (add-hook 'after-init-hook 'global-company-mode)
       )
-
  #+END_SRC
 
  #+RESULTS:
  : t
 
+** Dhall
+#+begin_src emacs-lisp
+  (use-package dhall-mode
+    :ensure t
+    :config
+    (setq
+      ;; uncomment the next line to disable automatic format
+      ;; dhall-format-at-save nil
+
+      ;; comment the next line to use unicode syntax
+      ;; dhall-format-arguments (\` ("--ascii"))
+
+      ;; header-line is obsoleted by lsp-mode
+      dhall-use-header-line nil))
+
+#+end_src
 ** Dhall
 #+BEGIN_SRC emacs-lisp
 (use-package dhall-mode
@@ -158,6 +139,44 @@ text completion framework
 
 #+RESULTS:
 | lsp |
+
+** expand region
+#+BEGIN_SRC emacs-lisp
+(use-package expand-region
+:bind
+("C-8" . er/expand-region)
+("C--" . er/contract-region))
+#+END_SRC
+
+#+RESULTS:
+: er/contract-region
+
+** Flyspell
+wsdf sjd js is
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+:ensure t
+    :init
+    (global-flycheck-mode)
+:config
+    (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda () 
+(flyspell-mode 1)
+(add-to-list 'company-backends 'company-ispell)
+(message "company-ispell enable")
+)
+))
+    (dolist (hook '(prog-mode-hook))
+      (add-hook hook (lambda () 
+(flyspell-prog-mode)
+(setq company-backends (delete 'company-ispell company-backends))
+(message "company-ispell disable")
+)))
+)
+#+End_SRC
+
+#+RESULTS:
+: t
 
 ** forge 
 #+BEGIN_SRC emacs-lisp
@@ -215,6 +234,19 @@ text completion framework
     )
 #+END_SRC
 
+** ido
+#+BEGIN_SRC emacs-lisp
+  (use-package ido
+    :bind
+    :config
+    (setq ido-everywhere t
+          ido-enable-flex-matching t)
+    (ido-mode 1))
+#+END_SRC
+
+#+RESULTS:
+: ido-find-file
+
 ** indent guide
 #+begin_src emacs-lisp
 (use-package indent-guide
@@ -223,6 +255,68 @@ text completion framework
 
 #+RESULTS:
 | indent-guide-mode | rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
+
+** js2 mode
+#+BEGIN_SRC emacs-lisp
+(use-package js2-mode
+:config
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.sjs$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.es6$" . js2-mode))
+(setq js2-allow-rhino-new-expr-initializer nil)
+(setq js2-enter-indents-newline t)
+(setq js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+(setq js2-idle-timer-delay 0.1)
+(setq js2-indent-on-enter-key nil)
+(setq js2-mirror-mode nil)
+(setq js2-strict-inconsistent-return-warning nil)
+(setq js2-auto-indent-p t)
+(setq js2-include-rhino-externs nil)
+(setq js2-include-gears-externs nil)
+(setq js2-concat-multiline-strings 'eol)
+(setq js2-rebind-eol-bol-keys nil)
+(setq js2-mode-show-parse-errors t)
+(setq js2-mode-show-strict-warnings nil))
+#+END_SRC
+
+#+RESULTS:
+: t
+
+** key chord
+#+BEGIN_SRC emacs-lisp
+    (use-package key-chord
+      :config
+      (key-chord-mode 1)
+      (setq key-chord-two-keys-delay 0.03)
+      (key-chord-define-global "vr"     'vr/replace)
+      (key-chord-define-global "ln"     'display-line-numbers-mode)
+      (key-chord-define-global ",."     "<>\C-b")
+  )
+#+END_SRC
+
+#+RESULTS:
+: t
+
+** Langtool
+Install LanguageTool version 3.0 or later (and java) https://languagetool.org/
+
+extract them into =/usr/local/share/LanguageTool=
+
+#+BEGIN_SRC emacs-lisp
+(use-package langtool
+:config
+(setq langtool-language-tool-jar "/usr/local/share/LanguageTool/languagetool-commandline.jar"
+      langtool-disabled-rules '("WHITESPACE_RULE"
+                                "EN_UNPAIRED_BRACKETS"
+                                "COMMA_PARENTHESIS_WHITESPACE"
+                                "EN_QUOTES")
+      langtool-default-language "en-US")
+)
+
+#+END_SRC
+
+#+RESULTS:
+: t
 
 ** ligature
 #+BEGIN_SRC emacs-lisp
@@ -251,101 +345,34 @@ text completion framework
 #+RESULTS:
 | ligature | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
 
-** textmate
+** magit
 #+BEGIN_SRC emacs-lisp
-(use-package textmate
+(use-package magit
+:bind
+("C-x g" . magit-status))
+#+END_SRC
+
+#+RESULTS:
+: magit-status
+
+** multi cursor
+#+BEGIN_SRC emacs-lisp
+(use-package multiple-cursors
+:bind
+("C-<" . mc/mark-previous-like-this)
+ ("C->" . mc/mark-next-like-this)
+ ("C-*" . mc/mark-all-like-this))
+#+END_SRC
+
+#+RESULTS:
+: mc/mark-all-like-this
+
+** Nya mode
+#+BEGIN_SRC emacs-lisp
+(use-package nyan-mode
 :ensure t
-:config
-(textmate-mode)
-(bind-keys
- :map *textmate-mode-map*
- ("M--" . text-scale-decrease)
- ("M-=" . text-scale-increase)
- ("M-}" . textmate-shift-right)
- ("M-c M-t" . textmate-clear-cache)
- ("M-<backspace>" . kill-whole-line)
- ("M-c" . kill-ring-save)
- ("M-{" . textmate-shift-left)
- ("M-/" . comment-line)
- ("M-l" . textmate-select-line)
- ))
+:config (nyan-mode t))
 #+END_SRC
-
-#+RESULTS:
-: t
-
-** ido
-#+BEGIN_SRC emacs-lisp
-  (use-package ido
-    :bind
-    :config
-    (setq ido-everywhere t
-          ido-enable-flex-matching t)
-    (ido-mode 1))
-#+END_SRC
-
-#+RESULTS:
-: ido-find-file
-
-** COMMENT typescript
-#+BEGIN_SRC emacs-lisp
-(defun setup-tide-mode ()
-   (interactive)
-   (tide-setup)
-   (flycheck-mode +1)
-   (setq flycheck-check-syntax-automatically '(save mode-enabled))
-   (eldoc-mode +1)
-   (tide-hl-identifier-mode +1)
-   ;; company is an optional dependency. You have to
-   ;; install it separately via package-install
-   ;; `M-x package-install [ret] company`
-   (company-mode +1))
-
- ;; aligns annotation to the right hand side
- (setq company-tooltip-align-annotations t)
-
- ;; formats the buffer before saving
-
-
- (add-hook 'typescript-mode-hook #'setup-tide-mode)
- (require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-(add-hook 'web-mode-hook
-         (lambda ()
-           (when (and (buffer-file-name)
-(string-equal "tsx" (file-name-extension buffer-file-name)))
-             (setup-tide-mode))))
-#+END_SRC
-
-#+RESULTS:
-| lambda | nil | (when (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (setup-tide-mode))       |
-| lambda | nil | (if (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (progn (setup-tide-mode))) |
-
-** js2 mode
-#+BEGIN_SRC emacs-lisp
-(use-package js2-mode
-:config
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.sjs$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.es6$" . js2-mode))
-(setq js2-allow-rhino-new-expr-initializer nil)
-(setq js2-enter-indents-newline t)
-(setq js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
-(setq js2-idle-timer-delay 0.1)
-(setq js2-indent-on-enter-key nil)
-(setq js2-mirror-mode nil)
-(setq js2-strict-inconsistent-return-warning nil)
-(setq js2-auto-indent-p t)
-(setq js2-include-rhino-externs nil)
-(setq js2-include-gears-externs nil)
-(setq js2-concat-multiline-strings 'eol)
-(setq js2-rebind-eol-bol-keys nil)
-(setq js2-mode-show-parse-errors t)
-(setq js2-mode-show-strict-warnings nil))
-#+END_SRC
-
-#+RESULTS:
-: t
 
 ** on screen
 
@@ -428,85 +455,6 @@ text completion framework
 #+RESULTS:
 : current-window
 
-** key chord
-#+BEGIN_SRC emacs-lisp
-    (use-package key-chord
-      :config
-      (key-chord-mode 1)
-      (setq key-chord-two-keys-delay 0.03)
-      (key-chord-define-global "vr"     'vr/replace)
-      (key-chord-define-global "ln"     'display-line-numbers-mode)
-      (key-chord-define-global ",."     "<>\C-b")
-  )
-#+END_SRC
-
-#+RESULTS:
-: t
-
-** magit
-#+BEGIN_SRC emacs-lisp
-(use-package magit
-:bind
-("C-x g" . magit-status))
-#+END_SRC
-
-#+RESULTS:
-: magit-status
-
-** multi cursor
-#+BEGIN_SRC emacs-lisp
-(use-package multiple-cursors
-:bind
-("C-<" . mc/mark-previous-like-this)
- ("C->" . mc/mark-next-like-this)
- ("C-*" . mc/mark-all-like-this))
-#+END_SRC
-
-#+RESULTS:
-: mc/mark-all-like-this
-
-** shell-mode
-#+begin_src emacs-lisp
-(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
-
-(use-package shell-mode
-:hook (shell-mode-hook . ansi-color-for-comint-mode-on)
-:config
-(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
-)
-#+end_src
-
-#+RESULTS:
-| ansi-color-for-comint-mode-on |
-
-** expand region
-#+BEGIN_SRC emacs-lisp
-(use-package expand-region
-:bind
-("C-8" . er/expand-region)
-("C--" . er/contract-region))
-#+END_SRC
-
-#+RESULTS:
-: er/contract-region
-
-** which key
-   #+begin_src emacs-lisp
-          (use-package which-key
-            :config
-            (setq which-key-use-C-h-commands t)
-            (setq which-key-paging-key "<f5>")
-     )
-   #+end_src
-
-   #+RESULTS:
-   : t
-
-** undo tree
-   #+begin_src emacs-lisp
-        (use-package undo-tree
-          :init (global-undo-tree-mode))
-   #+end_src
 ** pallet
 #+BEGIN_SRC emacs-lisp
 (use-package pallet
@@ -517,6 +465,16 @@ text completion framework
 #+RESULTS:
 : t
 
+** prompt
+#+BEGIN_SRC emacs-lisp
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq kill-buffer-query-functions
+      (remq 'process-kill-buffer-query-function
+            kill-buffer-query-functions))
+#+END_SRC
+
+#+RESULTS:
+   
 ** PureScript
 
 #+BEGIN_SRC emacs-lisp
@@ -532,6 +490,19 @@ text completion framework
 )
 #+END_SRC
 
+** PureScript
+#+BEGIN_SRC emacs-lisp
+(use-package psc-ide
+:config
+(add-hook 'purescript-mode-hook
+  (lambda ()
+    (psc-ide-mode)
+    (company-mode)
+    (flycheck-mode)
+    (turn-on-purescript-indentation)))
+)
+#+END_SRC
+
 ** rainbow delimiter
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
@@ -541,18 +512,18 @@ text completion framework
 #+RESULTS:
 | rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
 
-** smartparens
+** Restclient
 #+BEGIN_SRC emacs-lisp
-  (use-package smartparens
-:ensure t
-    :config
-     (smartparens-global-mode t)
-    (show-smartparens-global-mode t))
-
+  (use-package restclient
+:config
+(add-to-list 'company-backends 'company-restclient))
+  ;; :config
+  ;; ;
+                                          ; 
+  ;; :hook (company-mode))
 #+END_SRC
 
 #+RESULTS:
-: sp-backward-barf-sexp
 
 ** Scala Metals
 #+BEGIN_SRC emacs-lisp
@@ -609,89 +580,117 @@ text completion framework
 
 #+RESULTS:
 
-** Flyspell
-wsdf sjd js is
+** shell-mode
+#+begin_src emacs-lisp
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(use-package shell-mode
+:hook (shell-mode-hook . ansi-color-for-comint-mode-on)
+:config
+(add-to-list 'comint-output-filter-functions 'ansi-color-process-output)
+)
+#+end_src
+
+#+RESULTS:
+| ansi-color-for-comint-mode-on |
+
+** smartparens
 #+BEGIN_SRC emacs-lisp
-  (use-package flycheck
+  (use-package smartparens
 :ensure t
-    :init
-    (global-flycheck-mode)
-:config
-    (dolist (hook '(text-mode-hook))
-      (add-hook hook (lambda () 
-(flyspell-mode 1)
-(add-to-list 'company-backends 'company-ispell)
-(message "company-ispell enable")
-)
-))
-    (dolist (hook '(prog-mode-hook))
-      (add-hook hook (lambda () 
-(flyspell-prog-mode)
-(setq company-backends (delete 'company-ispell company-backends))
-(message "company-ispell disable")
-)))
-)
-#+End_SRC
+    :config
+     (smartparens-global-mode t)
+    (show-smartparens-global-mode t))
+
+#+END_SRC
 
 #+RESULTS:
-: t
+: sp-backward-barf-sexp
 
-** Langtool
-Install LanguageTool version 3.0 or later (and java) https://languagetool.org/
-
-extract them into =/usr/local/share/LanguageTool=
-
+** textmate
 #+BEGIN_SRC emacs-lisp
-(use-package langtool
+(use-package textmate
+:ensure t
 :config
-(setq langtool-language-tool-jar "/usr/local/share/LanguageTool/languagetool-commandline.jar"
-      langtool-disabled-rules '("WHITESPACE_RULE"
-                                "EN_UNPAIRED_BRACKETS"
-                                "COMMA_PARENTHESIS_WHITESPACE"
-                                "EN_QUOTES")
-      langtool-default-language "en-US")
-)
-
+(textmate-mode)
+(bind-keys
+ :map *textmate-mode-map*
+ ("M--" . text-scale-decrease)
+ ("M-=" . text-scale-increase)
+ ("M-}" . textmate-shift-right)
+ ("M-c M-t" . textmate-clear-cache)
+ ("M-<backspace>" . kill-whole-line)
+ ("M-c" . kill-ring-save)
+ ("M-{" . textmate-shift-left)
+ ("M-/" . comment-line)
+ ("M-l" . textmate-select-line)
+ ))
 #+END_SRC
 
 #+RESULTS:
 : t
 
-** prompt
+** COMMENT typescript
 #+BEGIN_SRC emacs-lisp
-(defalias 'yes-or-no-p 'y-or-n-p)
-(setq kill-buffer-query-functions
-      (remq 'process-kill-buffer-query-function
-            kill-buffer-query-functions))
+(defun setup-tide-mode ()
+   (interactive)
+   (tide-setup)
+   (flycheck-mode +1)
+   (setq flycheck-check-syntax-automatically '(save mode-enabled))
+   (eldoc-mode +1)
+   (tide-hl-identifier-mode +1)
+   ;; company is an optional dependency. You have to
+   ;; install it separately via package-install
+   ;; `M-x package-install [ret] company`
+   (company-mode +1))
+
+ ;; aligns annotation to the right hand side
+ (setq company-tooltip-align-annotations t)
+
+ ;; formats the buffer before saving
+
+
+ (add-hook 'typescript-mode-hook #'setup-tide-mode)
+ (require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+         (lambda ()
+           (when (and (buffer-file-name)
+(string-equal "tsx" (file-name-extension buffer-file-name)))
+             (setup-tide-mode))))
 #+END_SRC
 
 #+RESULTS:
-   
-** PureScript
-#+BEGIN_SRC emacs-lisp
-(use-package psc-ide
-:config
-(add-hook 'purescript-mode-hook
-  (lambda ()
-    (psc-ide-mode)
-    (company-mode)
-    (flycheck-mode)
-    (turn-on-purescript-indentation)))
-)
-#+END_SRC
+| lambda | nil | (when (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (setup-tide-mode))       |
+| lambda | nil | (if (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (progn (setup-tide-mode))) |
 
-** Restclient
-#+BEGIN_SRC emacs-lisp
-  (use-package restclient
-:config
-(add-to-list 'company-backends 'company-restclient))
-  ;; :config
-  ;; ;
-                                          ; 
-  ;; :hook (company-mode))
-#+END_SRC
+** undo tree
+   #+begin_src emacs-lisp
+        (use-package undo-tree
+          :init (global-undo-tree-mode))
+   #+end_src
+** unicode
+#+begin_src emacs-lisp
+(use-package unicode-fonts
+   :ensure t
+   :config
+    (unicode-fonts-setup))
+#+end_src
 
 #+RESULTS:
+: t
+
+** which key
+   #+begin_src emacs-lisp
+          (use-package which-key
+            :config
+            (setq which-key-use-C-h-commands t)
+            (setq which-key-paging-key "<f5>")
+     )
+   #+end_src
+
+   #+RESULTS:
+   : t
 
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
