@@ -363,14 +363,15 @@ text completion framework
 
 ** org mode
 #+BEGIN_SRC emacs-lisp
-  ;; (require 'org-tempo)
- ;; (setq org-startup-folded 'nofold)
-  (setq org-startup-indented t)
-  (setq org-startup-with-inline-images t)
-  (setq org-startup-truncated t)
-  (setq org-src-tab-acts-natively t)
-  
-  (setq js-indent-level 2)
+     (when (cl-search "27." (emacs-version))
+       (require 'org-tempo))
+     (setq org-startup-folded 'content)
+     (setq org-startup-indented nil)
+     (setq org-startup-with-inline-images t)
+     (setq org-startup-truncated t)
+     (setq org-src-tab-acts-natively t)
+
+     (setq js-indent-level 2)
 #+END_SRC
 
 #+RESULTS:
@@ -385,6 +386,7 @@ text completion framework
 #+END_SRC
 
 #+RESULTS:
+: t
 
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files (quote ("~/Dropbox/org")))
