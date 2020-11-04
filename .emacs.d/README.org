@@ -500,6 +500,16 @@ text completion framework
 (setq psc-ide-use-npm-bin t)
 )
 #+END_SRC
+
+** rainbow delimiter
+#+begin_src emacs-lisp
+(use-package rainbow-delimiters
+:hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+#+RESULTS:
+| rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
+
 ** smartparens
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
