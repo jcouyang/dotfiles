@@ -430,10 +430,14 @@ text completion framework
 
 ** key chord
 #+BEGIN_SRC emacs-lisp
-  (use-package key-chord
-    :config
-    (key-chord-mode 1)
-    (setq key-chord-two-keys-delay 0.03))
+    (use-package key-chord
+      :config
+      (key-chord-mode 1)
+      (setq key-chord-two-keys-delay 0.03)
+      (key-chord-define-global "vr"     'vr/replace)
+      (key-chord-define-global "ln"     'display-line-numbers-mode)
+      (key-chord-define-global ",."     "<>\C-b")
+  )
 #+END_SRC
 
 #+RESULTS:
@@ -483,6 +487,7 @@ text completion framework
 : t
 
 ** PureScript
+
 #+BEGIN_SRC emacs-lisp
 (use-package psc-ide
 :config
