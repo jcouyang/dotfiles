@@ -607,15 +607,13 @@ extract them into =/usr/local/share/LanguageTool=
 ** textmate
 #+BEGIN_SRC emacs-lisp
 (use-package textmate
-:ensure t
-:config
+:init
 (textmate-mode)
 (bind-keys
  :map *textmate-mode-map*
  ("M--" . text-scale-decrease)
  ("M-=" . text-scale-increase)
  ("M-}" . textmate-shift-right)
- ("M-c M-t" . textmate-clear-cache)
  ("M-<backspace>" . kill-whole-line)
  ("M-c" . kill-ring-save)
  ("M-{" . textmate-shift-left)
@@ -625,7 +623,7 @@ extract them into =/usr/local/share/LanguageTool=
 #+END_SRC
 
 #+RESULTS:
-: t
+: textmate-select-line
 
 ** COMMENT typescript
 #+BEGIN_SRC emacs-lisp
@@ -679,11 +677,12 @@ extract them into =/usr/local/share/LanguageTool=
 
 ** which key
    #+begin_src emacs-lisp
-          (use-package which-key
-            :config
-            (setq which-key-use-C-h-commands t)
-            (setq which-key-paging-key "<f5>")
-     )
+               (use-package which-key
+                 :config
+                 (which-key-mode)
+                 (setq which-key-use-C-h-commands t)
+                 (setq which-key-paging-key "<f5>")
+          )
    #+end_src
 
    #+RESULTS:
