@@ -1,3 +1,4 @@
+set -x TERM xterm-256color
 # UTF-8
 set -x LANGUAGE en_US.UTF-8
 
