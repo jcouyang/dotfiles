@@ -159,6 +159,17 @@ wsdf sjd js is
 #+RESULTS:
 : t
 
+** fish
+#+BEGIN_SRC emacs-lisp
+(use-package company-fish
+:hook (shell-mode-hook . company-mode)
+:init (add-to-list 'company-backends 'company-fish)
+)
+#+END_SRC
+
+#+RESULTS:
+| company-mode |
+
 ** forge 
 #+BEGIN_SRC emacs-lisp
 ;;(use-package forge
@@ -561,7 +572,7 @@ extract them into =/usr/local/share/LanguageTool=
 
 #+RESULTS:
 
-** shell-mode
+** [[https://github.com/atomontage/xterm-color][shell-mode]]
 #+begin_src emacs-lisp
 (setq comint-output-filter-functions
       (remove 'ansi-color-process-output comint-output-filter-functions))
