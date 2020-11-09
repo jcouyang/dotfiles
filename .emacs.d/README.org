@@ -44,6 +44,7 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
     (delete-selection-mode 1)
     (global-auto-revert-mode 1)
     (electric-indent-mode t)
+
     (setq-default
      make-backup-files nil
      indent-tabs-mode nil)
@@ -594,15 +595,14 @@ extract them into =/usr/local/share/LanguageTool=
 ** smartparens
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
-:ensure t
-    :config
+    :init
+    (require 'smartparens-config)
      (smartparens-global-mode t)
-    (show-smartparens-global-mode t))
+     (show-smartparens-global-mode t))
 
 #+END_SRC
 
 #+RESULTS:
-: sp-backward-barf-sexp
 
 ** textmate
 #+BEGIN_SRC emacs-lisp
