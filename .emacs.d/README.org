@@ -19,7 +19,7 @@
 Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
-      (set-frame-font "JetBrains Mono Light 14"))
+      (set-frame-font "JetBrains Mono Light 15"))
 
   (when (eq system-type 'gnu/linux)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
@@ -134,27 +134,27 @@ text completion framework
 : er/contract-region
 
 ** Flyspell
-wsdf sjd js is
+
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-:ensure t
+    :ensure t
     :init
     (global-flycheck-mode)
-:config
+    :config
     (dolist (hook '(text-mode-hook))
-      (add-hook hook (lambda () 
-(flyspell-mode 1)
-(add-to-list 'company-backends 'company-ispell)
-(message "company-ispell enable")
-)
-))
+      (add-hook hook (lambda ()
+                       (flyspell-mode 1)
+                       (add-to-list 'company-backends 'company-ispell)
+                       (message "company-ispell enable")
+                       )
+                ))
     (dolist (hook '(prog-mode-hook))
-      (add-hook hook (lambda () 
-(flyspell-prog-mode)
-(setq company-backends (delete 'company-ispell company-backends))
-(message "company-ispell disable")
-)))
-)
+      (add-hook hook (lambda ()
+                       (flyspell-prog-mode)
+                       (setq company-backends (delete 'company-ispell company-backends))
+                       (message "company-ispell disable")
+                       )))
+    )
 #+End_SRC
 
 #+RESULTS:
@@ -472,20 +472,8 @@ extract them into =/usr/local/share/LanguageTool=
 
 #+BEGIN_SRC emacs-lisp
 (use-package psc-ide
-:config
-(add-hook 'purescript-mode-hook
-  (lambda ()
-    (psc-ide-mode)
-    (company-mode)
-    (flycheck-mode)
-    (turn-on-purescript-indentation)))
+:init
 (setq psc-ide-use-npm-bin t)
-)
-#+END_SRC
-
-** PureScript
-#+BEGIN_SRC emacs-lisp
-(use-package psc-ide
 :config
 (add-hook 'purescript-mode-hook
   (lambda ()
@@ -493,13 +481,14 @@ extract them into =/usr/local/share/LanguageTool=
     (company-mode)
     (flycheck-mode)
     (turn-on-purescript-indentation)))
+
 )
 #+END_SRC
 
 ** rainbow delimiter
 #+begin_src emacs-lisp
-(use-package rainbow-delimiters
-:hook (prog-mode . rainbow-delimiters-mode))
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
 #+RESULTS:
@@ -507,26 +496,19 @@ extract them into =/usr/local/share/LanguageTool=
 
 ** Restclient
 #+BEGIN_SRC emacs-lisp
-  (use-package restclient
-:config
-(add-to-list 'company-backends 'company-restclient))
-  ;; :config
-  ;; ;
-                                          ; 
-  ;; :hook (company-mode))
+    (use-package restclient
+      :config
+      (add-to-list 'company-backends 'company-restclient))
+    ;; :config
+    ;; ;
+                                            ; 
+    ;; :hook (company-mode))
 #+END_SRC
 
 #+RESULTS:
 
 ** Scala Metals
 #+BEGIN_SRC emacs-lisp
-  ;; Enable defer and ensure by default for use-package
-  ;; Keep auto-save/backup files separate from source code:  https://github.com/scalameta/metals/issues/1027
-  (setq use-package-always-defer t
-        use-package-always-ensure t
-        backup-directory-alist `((".*" . ,temporary-file-directory))
-        auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-
   ;; Enable scala-mode for highlighting, indentation and motion commands
   (use-package scala-mode
     :mode "\\.s\\(cala\\|bt\\)$")
@@ -545,10 +527,6 @@ extract them into =/usr/local/share/LanguageTool=
      (setq sbt:program-options '("-Dsbt.supershell=false"))
   )
 
-  ;; Enable nice rendering of diagnostics like compile errors.
-  (use-package flycheck
-    :init (global-flycheck-mode))
-
   (use-package lsp-mode
     ;; Optional - enable lsp-mode automatically in scala files
     :hook  (scala-mode . lsp)
@@ -561,11 +539,6 @@ extract them into =/usr/local/share/LanguageTool=
 
   ;; Enable nice rendering of documentation on hover
   (use-package lsp-ui)
-
-  ;; lsp-mode supports snippets, but in order for them to work you need to use yasnippet
-  ;; If you don't want to use snippets set lsp-enable-snippet to nil in your lsp-mode settings
-  ;;   to avoid odd behavior with snippets and indentation
-  (use-package yasnippet)
 
   ;; Add company-lsp backend for metals
   (use-package company-lsp)
@@ -597,6 +570,7 @@ extract them into =/usr/local/share/LanguageTool=
   (use-package smartparens
     :init
     (require 'smartparens-config)
+    :config
      (smartparens-global-mode t)
      (show-smartparens-global-mode t))
 
@@ -674,6 +648,17 @@ extract them into =/usr/local/share/LanguageTool=
 
 #+RESULTS:
 : t
+
+** web-mode
+   #+begin_src emacs-lisp :results none
+          (use-package web-mode
+            :mode "\\.html$'" "\\.jsx$" "\\.tsx$"
+            :init 
+            (setq web-mode-markup-indent-offset 2)
+            (setq web-mode-css-indent-offset 2)
+            (setq web-mode-code-indent-offset 2)
+            )
+   #+end_src
 
 ** which key
    #+begin_src emacs-lisp
