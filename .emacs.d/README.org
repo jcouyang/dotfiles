@@ -388,7 +388,7 @@ extract them into =/usr/local/share/LanguageTool=
      (setq org-startup-folded 'content)
      (setq org-startup-indented nil)
      (setq org-startup-with-inline-images t)
-     (setq org-startup-truncated t)
+     (setq org-startup-truncated nil)
      (setq org-src-tab-acts-natively t)
 
      (setq js-indent-level 2)

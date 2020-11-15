@@ -1,0 +1,1 @@
+set -x JAVA_HOME $HOME/.nix-profile
