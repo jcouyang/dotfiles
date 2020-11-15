@@ -1,5 +1,7 @@
 {
-  packageOverrides = pkgs: with pkgs; {
+  packageOverrides = pkgs: with pkgs;
+    let myjre = if builtins.currentSystem == "x86_64-darwin" then jre else graalvm8-ce;
+    in {
     oyanglulu = pkgs.buildEnv {
       name = "oyanglulu-env";
       meta = {
@@ -16,10 +18,10 @@
         gitAndTools.hub
         gitAndTools.gh
         # Scala
-        graalvm8-ce
-        (ammonite.override {jre = graalvm8-ce; })
+        myjre
+        (ammonite.override {jre = myjre; })
         # coursier
-        (sbt.override { jre = graalvm8-ce; })
+        (sbt.override { jre = myjre; })
         # JS
         yarn
         dhall
