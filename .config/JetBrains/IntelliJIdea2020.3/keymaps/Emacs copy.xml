@@ -1,7 +1,6 @@
-<keymap version="1" name="Emacs copy" parent="Mac OS X 10.5+">
+<keymap version="1" name="Emacs copy" parent="macOS For All">
   <action id="$Copy">
-    <keyboard-shortcut first-keystroke="meta c" />
-    <keyboard-shortcut first-keystroke="escape" second-keystroke="w" />
+    <keyboard-shortcut first-keystroke="alt c" />
   </action>
   <action id="$Cut">
     <keyboard-shortcut first-keystroke="shift delete" />
@@ -15,7 +14,7 @@
   </action>
   <action id="$Redo">
     <keyboard-shortcut first-keystroke="shift ctrl z" />
-    <keyboard-shortcut first-keystroke="shift meta minus" />
+    <keyboard-shortcut first-keystroke="shift alt minus" />
   </action>
   <action id="$SelectAll">
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="h" />
@@ -25,8 +24,8 @@
     <keyboard-shortcut first-keystroke="ctrl slash" />
   </action>
   <action id="AutoIndentLines">
-    <keyboard-shortcut first-keystroke="ctrl meta i" />
-    <keyboard-shortcut first-keystroke="ctrl meta q" />
+    <keyboard-shortcut first-keystroke="ctrl alt i" />
+    <keyboard-shortcut first-keystroke="ctrl alt q" />
   </action>
   <action id="ChangesView.Move" />
   <action id="CloseAllEditors">
@@ -38,25 +37,25 @@
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="0" />
   </action>
   <action id="CodeCompletion">
-    <keyboard-shortcut first-keystroke="meta slash" />
+    <keyboard-shortcut first-keystroke="alt slash" />
   </action>
   <action id="CollapseAllRegions" />
   <action id="CommentByLineComment">
-    <keyboard-shortcut first-keystroke="meta semicolon" />
+    <keyboard-shortcut first-keystroke="alt semicolon" />
   </action>
   <action id="CompileProject">
-    <keyboard-shortcut first-keystroke="shift meta m" />
+    <keyboard-shortcut first-keystroke="shift alt m" />
   </action>
   <action id="Console.Execute">
     <keyboard-shortcut first-keystroke="enter" />
     <keyboard-shortcut first-keystroke="ctrl m" />
   </action>
   <action id="Diff.NextChange">
-    <keyboard-shortcut first-keystroke="meta right" />
+    <keyboard-shortcut first-keystroke="alt right" />
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="n" />
   </action>
   <action id="Diff.PrevChange">
-    <keyboard-shortcut first-keystroke="meta left" />
+    <keyboard-shortcut first-keystroke="alt left" />
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="p" />
   </action>
   <action id="EditorAddCaretPerSelectedLine" />
@@ -72,14 +71,14 @@
   </action>
   <action id="EditorCodeBlockEnd">
     <keyboard-shortcut first-keystroke="ctrl close_bracket" />
-    <keyboard-shortcut first-keystroke="ctrl meta close_bracket" />
+    <keyboard-shortcut first-keystroke="ctrl alt close_bracket" />
   </action>
   <action id="EditorCodeBlockStart">
     <keyboard-shortcut first-keystroke="ctrl open_bracket" />
-    <keyboard-shortcut first-keystroke="ctrl meta open_bracket" />
+    <keyboard-shortcut first-keystroke="ctrl alt open_bracket" />
   </action>
   <action id="EditorCutLineBackward">
-    <keyboard-shortcut first-keystroke="meta minus" second-keystroke="ctrl k" />
+    <keyboard-shortcut first-keystroke="alt minus" second-keystroke="ctrl k" />
   </action>
   <action id="EditorCutLineEnd">
     <keyboard-shortcut first-keystroke="ctrl k" />
@@ -87,15 +86,14 @@
   <action id="EditorDeleteLine" />
   <action id="EditorDeleteToWordStart">
     <keyboard-shortcut first-keystroke="ctrl back_space" />
-    <keyboard-shortcut first-keystroke="meta back_space" />
-    <keyboard-shortcut first-keystroke="escape" second-keystroke="back_space" />
+    <keyboard-shortcut first-keystroke="alt back_space" />
   </action>
   <action id="EditorDown">
     <keyboard-shortcut first-keystroke="down" />
     <keyboard-shortcut first-keystroke="ctrl n" />
   </action>
   <action id="EditorDuplicate">
-    <keyboard-shortcut first-keystroke="meta d" />
+    <keyboard-shortcut first-keystroke="alt d" />
   </action>
   <action id="EditorEnter">
     <keyboard-shortcut first-keystroke="enter" />
@@ -115,13 +113,13 @@
     <keyboard-shortcut first-keystroke="ctrl w" />
   </action>
   <action id="EditorKillRingSave">
-    <keyboard-shortcut first-keystroke="meta w" />
+    <keyboard-shortcut first-keystroke="alt w" />
   </action>
   <action id="EditorKillToWordEnd">
-    <keyboard-shortcut first-keystroke="meta d" />
+    <keyboard-shortcut first-keystroke="alt d" />
   </action>
   <action id="EditorKillToWordStart">
-    <keyboard-shortcut first-keystroke="meta delete" />
+    <keyboard-shortcut first-keystroke="alt delete" />
   </action>
   <action id="EditorLeft">
     <keyboard-shortcut first-keystroke="left" />
@@ -134,12 +132,11 @@
   <action id="EditorLineStart">
     <keyboard-shortcut first-keystroke="home" />
     <keyboard-shortcut first-keystroke="ctrl a" />
-    <keyboard-shortcut first-keystroke="meta m" />
+    <keyboard-shortcut first-keystroke="alt m" />
   </action>
   <action id="EditorNextWord">
     <keyboard-shortcut first-keystroke="ctrl right" />
-    <keyboard-shortcut first-keystroke="meta f" />
-    <keyboard-shortcut first-keystroke="escape" second-keystroke="ctrl f" />
+    <keyboard-shortcut first-keystroke="alt f" />
   </action>
   <action id="EditorPageDown">
     <keyboard-shortcut first-keystroke="page_down" />
@@ -148,12 +145,11 @@
   <action id="EditorPageUp">
     <keyboard-shortcut first-keystroke="page_up" />
     <keyboard-shortcut first-keystroke="ctrl z" />
-    <keyboard-shortcut first-keystroke="meta v" />
+    <keyboard-shortcut first-keystroke="alt v" />
   </action>
   <action id="EditorPreviousWord">
     <keyboard-shortcut first-keystroke="ctrl left" />
-    <keyboard-shortcut first-keystroke="meta b" />
-    <keyboard-shortcut first-keystroke="escape" second-keystroke="ctrl b" />
+    <keyboard-shortcut first-keystroke="alt b" />
   </action>
   <action id="EditorRight">
     <keyboard-shortcut first-keystroke="right" />
@@ -176,12 +172,11 @@
   <action id="EditorTab" />
   <action id="EditorTextEnd">
     <keyboard-shortcut first-keystroke="ctrl end" />
-    <keyboard-shortcut first-keystroke="shift meta period" />
+    <keyboard-shortcut first-keystroke="shift alt period" />
   </action>
   <action id="EditorTextStart">
     <keyboard-shortcut first-keystroke="ctrl home" />
-    <keyboard-shortcut first-keystroke="shift meta comma" />
-    <keyboard-shortcut first-keystroke="escape" second-keystroke="comma" />
+    <keyboard-shortcut first-keystroke="shift alt comma" />
   </action>
   <action id="EditorToggleStickySelection">
     <keyboard-shortcut first-keystroke="ctrl space" />
@@ -195,37 +190,35 @@
     <keyboard-shortcut first-keystroke="tab" />
   </action>
   <action id="Find">
-    <keyboard-shortcut first-keystroke="ctrl meta s" />
-    <keyboard-shortcut first-keystroke="meta f3" />
+    <keyboard-shortcut first-keystroke="ctrl alt s" />
+    <keyboard-shortcut first-keystroke="alt f3" />
     <keyboard-shortcut first-keystroke="ctrl s" />
   </action>
   <action id="FindNext">
     <keyboard-shortcut first-keystroke="f3" />
-    <keyboard-shortcut first-keystroke="meta s" />
+    <keyboard-shortcut first-keystroke="alt s" />
   </action>
   <action id="FindPrevious">
     <keyboard-shortcut first-keystroke="shift f3" />
-    <keyboard-shortcut first-keystroke="meta r" />
+    <keyboard-shortcut first-keystroke="alt r" />
     <keyboard-shortcut first-keystroke="ctrl r" />
   </action>
   <action id="FindUsages">
-    <keyboard-shortcut first-keystroke="meta f7" />
-    <keyboard-shortcut first-keystroke="shift meta s" />
+    <keyboard-shortcut first-keystroke="alt f7" />
+    <keyboard-shortcut first-keystroke="shift alt s" />
   </action>
   <action id="GotoAction">
-    <keyboard-shortcut first-keystroke="escape" second-keystroke="x" />
-    <keyboard-shortcut first-keystroke="meta x" />
+    <keyboard-shortcut first-keystroke="alt x" />
   </action>
   <action id="GotoChangedFile">
-    <keyboard-shortcut first-keystroke="shift meta g" />
+    <keyboard-shortcut first-keystroke="shift alt g" />
   </action>
   <action id="GotoClass">
-    <keyboard-shortcut first-keystroke="shift meta g" />
+    <keyboard-shortcut first-keystroke="shift alt g" />
   </action>
   <action id="GotoDeclaration">
-    <keyboard-shortcut first-keystroke="ctrl meta g" />
-    <keyboard-shortcut first-keystroke="escape" second-keystroke="period" />
-    <keyboard-shortcut first-keystroke="meta period" />
+    <keyboard-shortcut first-keystroke="ctrl alt g" />
+    <keyboard-shortcut first-keystroke="alt period" />
     <mouse-shortcut keystroke="control button1" />
   </action>
   <action id="GotoFile">
@@ -233,7 +226,7 @@
   </action>
   <action id="GotoImplementation" />
   <action id="GotoLine">
-    <keyboard-shortcut first-keystroke="meta g" />
+    <keyboard-shortcut first-keystroke="alt g" />
   </action>
   <action id="GotoNextError">
     <keyboard-shortcut first-keystroke="f2" />
@@ -245,17 +238,17 @@
   </action>
   <action id="IntroduceField" />
   <action id="MethodDown">
-    <keyboard-shortcut first-keystroke="meta down" />
-    <keyboard-shortcut first-keystroke="ctrl meta e" />
+    <keyboard-shortcut first-keystroke="alt down" />
+    <keyboard-shortcut first-keystroke="ctrl alt e" />
   </action>
   <action id="MethodUp">
-    <keyboard-shortcut first-keystroke="meta up" />
-    <keyboard-shortcut first-keystroke="ctrl meta a" />
+    <keyboard-shortcut first-keystroke="alt up" />
+    <keyboard-shortcut first-keystroke="ctrl alt a" />
   </action>
   <action id="MoveStatementDown" />
   <action id="MoveStatementUp" />
   <action id="NextEditorTab">
-    <keyboard-shortcut first-keystroke="shift meta right" />
+    <keyboard-shortcut first-keystroke="shift alt right" />
   </action>
   <action id="NextProjectWindow">
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="ctrl o" />
@@ -264,7 +257,7 @@
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="o" />
   </action>
   <action id="NextTab">
-    <keyboard-shortcut first-keystroke="meta right" />
+    <keyboard-shortcut first-keystroke="alt right" />
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="n" />
   </action>
   <action id="NextTemplateVariable">
@@ -274,40 +267,38 @@
   </action>
   <action id="OverrideMethods" />
   <action id="ParameterInfo">
-    <keyboard-shortcut first-keystroke="shift meta p" />
+    <keyboard-shortcut first-keystroke="shift alt p" />
   </action>
   <action id="PasteMultiple">
-    <keyboard-shortcut first-keystroke="meta y" />
+    <keyboard-shortcut first-keystroke="alt y" />
   </action>
   <action id="PreviousEditorTab">
-    <keyboard-shortcut first-keystroke="shift meta left" />
+    <keyboard-shortcut first-keystroke="shift alt left" />
   </action>
   <action id="PreviousProjectWindow" />
   <action id="PreviousTab">
-    <keyboard-shortcut first-keystroke="meta left" />
+    <keyboard-shortcut first-keystroke="alt left" />
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="p" />
   </action>
   <action id="RecentFiles" />
   <action id="ReformatCode" />
   <action id="Replace">
-    <keyboard-shortcut first-keystroke="shift meta 5" />
+    <keyboard-shortcut first-keystroke="shift alt 5" />
   </action>
   <action id="SafeDelete" />
   <action id="SaveAll">
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="ctrl s" />
   </action>
   <action id="Scala.ShowImplicits">
-    <keyboard-shortcut first-keystroke="shift ctrl meta equals" />
-    <keyboard-shortcut first-keystroke="shift ctrl meta add" />
     <keyboard-shortcut first-keystroke="shift ctrl alt equals" />
     <keyboard-shortcut first-keystroke="shift ctrl alt add" />
   </action>
-  <action id="SelectVirtumetaemplateElement">
-    <keyboard-shortcut first-keystroke="shift meta o" />
+  <action id="SelectVirtualtemplateElement">
+    <keyboard-shortcut first-keystroke="shift alt o" />
   </action>
   <action id="SmartTypeCompletion">
     <keyboard-shortcut first-keystroke="shift ctrl space" />
-    <keyboard-shortcut first-keystroke="ctrl meta slash" />
+    <keyboard-shortcut first-keystroke="ctrl alt slash" />
   </action>
   <action id="SplitHorizontally">
     <keyboard-shortcut first-keystroke="ctrl x" second-keystroke="2" />
@@ -321,8 +312,7 @@
   <action id="SwitcherIterateItems" />
   <action id="SwitcherRecentEditedChangedToggleCheckBox" />
   <action id="SynchronizeCurrentFile">
-    <keyboard-shortcut first-keystroke="meta u" />
-    <keyboard-shortcut first-keystroke="escape" second-keystroke="u" />
+    <keyboard-shortcut first-keystroke="alt u" />
   </action>
   <action id="ToggleBookmark2" />
   <action id="ToggleRenderedDocPresentation" />
@@ -333,9 +323,9 @@
   <action id="Vcs.ShowMessageHistory" />
   <action id="Vcs.ToggleAmendCommitMode" />
   <action id="VcsShowNextChangeMarker">
-    <keyboard-shortcut first-keystroke="shift ctrl meta down" />
+    <keyboard-shortcut first-keystroke="shift ctrl alt down" />
   </action>
   <action id="VcsShowPrevChangeMarker">
-    <keyboard-shortcut first-keystroke="shift ctrl meta up" />
+    <keyboard-shortcut first-keystroke="shift ctrl alt up" />
   </action>
 </keymap>

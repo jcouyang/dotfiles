@@ -59,19 +59,18 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
   #+RESULTS:
 
 #+BEGIN_SRC emacs-lisp
-(setenv "PATH" "/usr/local/bin:/usr/bin:/bin")
-    (if (eq system-type 'gnu/linux)
-(let ((path-from-shell (shell-command-to-string "/usr/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
-  (setenv "PATH" path-from-shell)
-  (setq exec-path (split-string path-from-shell ":")))
-(let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
-  (setenv "PATH" path-from-shell)
-  (setq exec-path (split-string path-from-shell ":")))
-        )
-
+  (setenv "PATH" "/usr/local/bin:/usr/bin:/sbin:/bin")
+  (if (eq system-type 'gnu/linux)
+      (let ((path-from-shell (shell-command-to-string "/usr/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
+        (setenv "PATH" path-from-shell)
+        (setq exec-path (split-string path-from-shell ":")))
+    (let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
+      (setenv "PATH" path-from-shell)
+      (setq exec-path (split-string path-from-shell ":")))
+    )
 #+END_SRC
   #+RESULTS:
-  : utf-8-unix
+  | /home/jcouyang/.nix-profile/bin | /home/jcouyang/.local/share/coursier/bin | /home/jcouyang/.nix-profile/bin | /home/jcouyang/.local/share/coursier/bin | /usr/local/bin | /usr/bin | /sbin | /bin |
 
 
 * Modes
@@ -511,7 +510,8 @@ extract them into =/usr/local/share/LanguageTool=
 #+BEGIN_SRC emacs-lisp
   ;; Enable scala-mode for highlighting, indentation and motion commands
   (use-package scala-mode
-    :mode "\\.s\\(cala\\|bt\\)$")
+    :mode "\\.s\\(cala\\|bt\\)$"
+    )
 
   ;; Enable sbt mode for executing sbt commands
   (use-package sbt-mode
