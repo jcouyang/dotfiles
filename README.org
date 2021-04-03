@@ -177,7 +177,7 @@ gpg --gen-key
 git init
 git add .
 git commit -m "some private dotfiles"
-git remote add dropbox gcrypt::rsync:///Users/jcouyang/Dropbox/dotfiles-private.git
+git remote add dropbox gcrypt::///Users/jcouyang/Dropbox/dotfiles-private.git
 git push
 #+END_SRC
 
