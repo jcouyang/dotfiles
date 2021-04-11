@@ -20,12 +20,17 @@
         # Scala
         myjre
         (ammonite.override {jre = myjre; })
-        # coursier
         (sbt.override { jre = myjre; })
         # JS
         yarn
+        # Haskell
+        stack
+        ghc
+        stylish-haskell
         dhall
         dhall-json
+        dhall-bash
+        dhall-lsp-server
       ];
     };
     mytex = texlive.combine {

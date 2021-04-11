@@ -178,6 +178,16 @@ text completion framework
 
 #+RESULTS:
 
+** Haskell
+   #+begin_src emacs-lisp
+              (use-package lsp-haskell
+                :config
+                (setq haskell-stylish-on-save t))   
+   #+end_src
+
+   #+RESULTS:
+   : t
+
 ** helm
 #+BEGIN_SRC emacs-lisp
 
@@ -276,14 +286,15 @@ text completion framework
 
 ** key chord
 #+BEGIN_SRC emacs-lisp
-    (use-package key-chord
-      :config
-      (key-chord-mode 1)
-      (setq key-chord-two-keys-delay 0.03)
-      (key-chord-define-global "vr"     'vr/replace)
-      (key-chord-define-global "ln"     'display-line-numbers-mode)
-      (key-chord-define-global ",."     "<>\C-b")
-  )
+      (use-package key-chord
+        :config
+        (key-chord-mode 1)
+        (setq key-chord-two-keys-delay 0.03)
+        (key-chord-define-global "vr"     'vr/replace)
+        (key-chord-define-global "ln"     'display-line-numbers-mode)
+        (key-chord-define-global ",."     "<>\C-b")
+        (key-chord-define-global " u"     'capitalize-word)
+    )
 #+END_SRC
 
 #+RESULTS:
@@ -328,14 +339,13 @@ extract them into =/usr/local/share/LanguageTool=
                                            "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
                                            "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
                                            "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                           "\\" "://"))
+                                            "://"))
       (global-ligature-mode t))
     )
 
 #+END_SRC
 
 #+RESULTS:
-| ligature | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
 
 ** magit
 #+BEGIN_SRC emacs-lisp
@@ -513,35 +523,36 @@ extract them into =/usr/local/share/LanguageTool=
     :mode "\\.s\\(cala\\|bt\\)$"
     )
 
-  ;; Enable sbt mode for executing sbt commands
-  (use-package sbt-mode
-    :commands sbt-start sbt-command
-    :config
-    ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-    ;; allows using SPACE when in the minibuffer
-    (substitute-key-definition
-     'minibuffer-complete-word
-     'self-insert-command
-     minibuffer-local-completion-map)
-     ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-     (setq sbt:program-options '("-Dsbt.supershell=false"))
-  )
+    ;; Enable sbt mode for executing sbt commands
+    (use-package sbt-mode
+      :commands sbt-start sbt-command
+      :config
+      ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+      ;; allows using SPACE when in the minibuffer
+      (substitute-key-definition
+       'minibuffer-complete-word
+       'self-insert-command
+       minibuffer-local-completion-map)
+       ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+       (setq sbt:program-options '("-Dsbt.supershell=false"))
+    )
 
-  (use-package lsp-mode
-    ;; Optional - enable lsp-mode automatically in scala files
-    :hook  (scala-mode . lsp)
-           (lsp-mode . lsp-lens-mode)
-           (dhall-mode . lsp)
-    :config (setq lsp-prefer-flymake nil))
+    (use-package lsp-mode
+      ;; Optional - enable lsp-mode automatically in scala files
+      :hook  (scala-mode . lsp)
+             (lsp-mode . lsp-lens-mode)
+             (dhall-mode . lsp)
+             (haskell-mode . lsp)
+      :config (setq lsp-prefer-flymake nil))
 
-  ;; Add metals backend for lsp-mode
-  (use-package lsp-metals)
+    ;; Add metals backend for lsp-mode
+    (use-package lsp-metals)
 
-  ;; Enable nice rendering of documentation on hover
-  (use-package lsp-ui)
+    ;; Enable nice rendering of documentation on hover
+    (use-package lsp-ui)
 
-  ;; Add company-lsp backend for metals
-  (use-package company-lsp)
+    ;; Add company-lsp backend for metals
+    (use-package company-lsp)
 #+END_SRC
 
 #+RESULTS:
@@ -641,7 +652,6 @@ extract them into =/usr/local/share/LanguageTool=
 ** unicode
 #+begin_src emacs-lisp
 (use-package unicode-fonts
-   :ensure t
    :config
     (unicode-fonts-setup))
 #+end_src
