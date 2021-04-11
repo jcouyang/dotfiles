@@ -16,7 +16,7 @@ grid.setMargins({0,0})
 grid.setGrid'4x3'
 -- constants
 local smash = {"cmd", "alt" }
-local hulk_smash = {"cmd", "alt", "ctrl"}
+local hulk_smash = {"alt", "shift", "ctrl"}
 local monitor = "LCD"
 local second_monitor = "extended LCD"
 
@@ -30,8 +30,8 @@ hotkey.bind(hulk_smash, "w", grid.resizeWindowWider)
 hotkey.bind(hulk_smash, "i", grid.resizeWindowTaller)
 hotkey.bind(hulk_smash, "m", grid.resizeWindowShorter)
 hotkey.bind(hulk_smash, "f", grid.maximizeWindow)
-hotkey.bind(hulk_smash, "p", hs.hints.windowHints)
-hotkey.bind(hulk_smash, "g", grid.toggleShow)
+hotkey.bind(smash, "p", hs.hints.windowHints)
+hotkey.bind("alt", "g", grid.toggleShow)
 hotkey.bind(hulk_smash, "R", hs.reload)
 
 
