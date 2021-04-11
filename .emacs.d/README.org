@@ -19,7 +19,7 @@
 Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
-      (set-frame-font "JetBrains Mono Light 15"))
+      (set-frame-font "JetBrains Mono ExtraLight 15"))
 
   (when (eq system-type 'gnu/linux)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
@@ -325,7 +325,6 @@ extract them into =/usr/local/share/LanguageTool=
 #+BEGIN_SRC emacs-lisp
   (when (cl-search "27." (emacs-version))
     (use-package ligature
-      :ensure t
       :init
       (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
                                            ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
@@ -518,44 +517,43 @@ extract them into =/usr/local/share/LanguageTool=
 
 ** Scala Metals
 #+BEGIN_SRC emacs-lisp
-  ;; Enable scala-mode for highlighting, indentation and motion commands
-  (use-package scala-mode
-    :mode "\\.s\\(cala\\|bt\\)$"
-    )
+      ;; Enable scala-mode for highlighting, indentation and motion commands
+      (use-package scala-mode
+        :mode "\\.s\\(cala\\|bt\\)$"
+        )
 
-    ;; Enable sbt mode for executing sbt commands
-    (use-package sbt-mode
-      :commands sbt-start sbt-command
-      :config
-      ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-      ;; allows using SPACE when in the minibuffer
-      (substitute-key-definition
-       'minibuffer-complete-word
-       'self-insert-command
-       minibuffer-local-completion-map)
-       ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-       (setq sbt:program-options '("-Dsbt.supershell=false"))
-    )
+      ;; Enable sbt mode for executing sbt commands
+      (use-package sbt-mode
+        :commands sbt-start sbt-command
+        :config
+        ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+        ;; allows using SPACE when in the minibuffer
+        (substitute-key-definition
+         'minibuffer-complete-word
+         'self-insert-command
+         minibuffer-local-completion-map)
+         ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+         (setq sbt:program-options '("-Dsbt.supershell=false"))
+      )
 
-    (use-package lsp-mode
-      ;; Optional - enable lsp-mode automatically in scala files
-      :hook  (scala-mode . lsp)
-             (lsp-mode . lsp-lens-mode)
-             (dhall-mode . lsp)
-             (haskell-mode . lsp)
-      :config (setq lsp-prefer-flymake nil))
+      (use-package lsp-mode
+        ;; Optional - enable lsp-mode automatically in scala files
+        :hook  (scala-mode . lsp)
+               (lsp-mode . lsp-lens-mode)
+               (dhall-mode . lsp)
+        :config (setq lsp-prefer-flymake nil))
 
-    ;; Add metals backend for lsp-mode
-    (use-package lsp-metals)
+      ;; Add metals backend for lsp-mode
+      (use-package lsp-metals)
 
-    ;; Enable nice rendering of documentation on hover
-    (use-package lsp-ui)
+      ;; Enable nice rendering of documentation on hover
+      (use-package lsp-ui)
 
-    ;; Add company-lsp backend for metals
-    (use-package company-lsp)
+  )
 #+END_SRC
 
 #+RESULTS:
+: t
 
 ** [[https://github.com/atomontage/xterm-color][shell-mode]]
 #+begin_src emacs-lisp

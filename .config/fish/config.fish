@@ -9,10 +9,13 @@ set -x LC_ALL en_US.UTF-8
 set -x SHELL fish
 set -x EDITOR emacsclient
 set -x ALTERNATE_EDITOR nano
+
 if test (uname) = "Darwin"
    set -gx PATH $HOME/Library/Application\ Support/Coursier/bin $PATH
 else
    set -gx PATH $HOME/.local/share/coursier/bin $PATH
+   set -x PATH /home/jcouyang/bin:$PATH
+   set -x DOCKER_HOST unix:///run/user/1000/docker.sock
 end
 
 alias git hub
@@ -31,5 +34,5 @@ set -x AWS_DEFAULT_REGION ap-southeast-2
 fenv source ~/.nix-profile/etc/profile.d/nix.sh
 # fix nix bash warning
 if test (uname) != "Darwin"
-set -x LOCALE_ARCHIVE (nix-env --installed --no-name --out-path --query glibc-locales)/lib/locale/locale-archive
+Set -x LOCALE_ARCHIVE (nix-env --installed --no-name --out-path --query glibc-locales)/lib/locale/locale-archive
 end
