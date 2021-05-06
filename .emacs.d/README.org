@@ -4,7 +4,7 @@
 
 * UI
 
-** Theme
+** COMMENT Theme
 [[https://draculatheme.com/][dracula]] dark theme
 #+BEGIN_SRC emacs-lisp
   (use-package dracula-theme
@@ -19,7 +19,7 @@
 Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
-      (set-frame-font "JetBrains Mono ExtraLight 15"))
+      (set-frame-font "JetBrains Mono ExtraLight 12"))
 
   (when (eq system-type 'gnu/linux)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
@@ -258,7 +258,7 @@ text completion framework
 #+RESULTS:
 | indent-guide-mode | rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
 
-** js2 mode
+** COMMENT js2 mode
 #+BEGIN_SRC emacs-lisp
 (use-package js2-mode
 :config
@@ -321,7 +321,7 @@ extract them into =/usr/local/share/LanguageTool=
 #+RESULTS:
 : t
 
-** ligature
+** COMMENT ligature
 #+BEGIN_SRC emacs-lisp
   (when (cl-search "27." (emacs-version))
     (use-package ligature
@@ -456,7 +456,7 @@ extract them into =/usr/local/share/LanguageTool=
 #+RESULTS:
 : current-window
 
-** pallet
+** COMMENT pallet
 #+BEGIN_SRC emacs-lisp
 (use-package pallet
 :config
@@ -548,8 +548,6 @@ extract them into =/usr/local/share/LanguageTool=
 
       ;; Enable nice rendering of documentation on hover
       (use-package lsp-ui)
-
-  )
 #+END_SRC
 
 #+RESULTS:
@@ -642,7 +640,7 @@ extract them into =/usr/local/share/LanguageTool=
 | lambda | nil | (when (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (setup-tide-mode))       |
 | lambda | nil | (if (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (progn (setup-tide-mode))) |
 
-** undo tree
+** COMMENT undo tree
    #+begin_src emacs-lisp
         (use-package undo-tree
           :init (global-undo-tree-mode))
