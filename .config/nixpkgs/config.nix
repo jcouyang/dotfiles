@@ -1,4 +1,5 @@
 {
+  allowUnfree = true;
   allowBroken = true;
   packageOverrides = pkgs: with pkgs;
     let myjre = if builtins.currentSystem == "x86_64-darwin" then jre else graalvm8-ce;

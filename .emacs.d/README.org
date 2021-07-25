@@ -4,17 +4,6 @@
 
 * UI
 
-** COMMENT Theme
-[[https://draculatheme.com/][dracula]] dark theme
-#+BEGIN_SRC emacs-lisp
-  (use-package dracula-theme
-    :config
-    (load-theme 'dracula t))
-#+END_SRC
-
-#+RESULTS:
-: t
-
 ** Fonts
 Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
@@ -34,43 +23,36 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 
 * Default Settings
   #+BEGIN_SRC emacs-lisp
-    ;; Setting
-    (server-start)
-    (keyboard-translate ?\C-h ?\C-?)
-    (column-number-mode 1)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    (menu-bar-mode -1)
-    (delete-selection-mode 1)
-    (global-auto-revert-mode 1)
-    (electric-indent-mode t)
+        ;; Setting
+        (load-theme 'misterioso t)
+        (server-start)
+        (keyboard-translate ?\C-h ?\C-?)
+        (column-number-mode 1)
+        (tool-bar-mode -1)
+        (scroll-bar-mode -1)
+        (menu-bar-mode -1)
+        (delete-selection-mode 1)
+        (global-auto-revert-mode 1)
+        (electric-indent-mode t)
 
-    (setq-default
-     make-backup-files nil
-     indent-tabs-mode nil)
-    ;; make unix lineendings default
-     (setq default-buffer-file-coding-system 'utf-8-unix)
-    (when (eq system-type 'darwin)
-      (setq mac-option-modifier 'alt)
-      (setq mac-option-modifier 'super) ; make opt key do Super
-      (setq mac-command-modifier 'meta))
+        (setq-default
+         make-backup-files nil
+         indent-tabs-mode nil)
+        ;; make unix lineendings default
+         (setq default-buffer-file-coding-system 'utf-8-unix)
+        (when (eq system-type 'darwin)
+          (setq mac-option-modifier 'alt)
+          (setq mac-option-modifier 'super) ; make opt key do Super
+          (setq mac-command-modifier 'meta))
   #+END_SRC
 
   #+RESULTS:
 
 #+BEGIN_SRC emacs-lisp
-  (setenv "PATH" "/usr/local/bin:/usr/bin:/sbin:/bin")
-  (if (eq system-type 'gnu/linux)
-      (let ((path-from-shell (shell-command-to-string "/usr/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
-        (setenv "PATH" path-from-shell)
-        (setq exec-path (split-string path-from-shell ":")))
-    (let ((path-from-shell (shell-command-to-string "/usr/local/bin/fish -c \"echo -n \\$PATH[1]; for val in \\$PATH[2..-1];echo -n \\\":\\$val\\\";end\"")))
-      (setenv "PATH" path-from-shell)
-      (setq exec-path (split-string path-from-shell ":")))
-    )
+  ;;(setenv "PATH" "${HOME}/.nix-profile/bin:/usr/local/bin:/usr/bin:/sbin:/bin")
 #+END_SRC
   #+RESULTS:
-  | /home/jcouyang/.nix-profile/bin | /home/jcouyang/.local/share/coursier/bin | /home/jcouyang/.nix-profile/bin | /home/jcouyang/.local/share/coursier/bin | /usr/local/bin | /usr/bin | /sbin | /bin |
+  : ${HOME}/.nix-profile/bin:/usr/local/bin:/usr/bin:/sbin:/bin
 
 
 * Modes
@@ -132,7 +114,7 @@ text completion framework
 #+RESULTS:
 : er/contract-region
 
-** Flyspell
+** COMMENT Flyspell
 
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
@@ -159,7 +141,7 @@ text completion framework
 #+RESULTS:
 : t
 
-** fish
+** COMMENT fish
 #+BEGIN_SRC emacs-lisp
 (use-package company-fish
 :hook (shell-mode-hook . company-mode)
@@ -180,13 +162,16 @@ text completion framework
 
 ** Haskell
    #+begin_src emacs-lisp
-              (use-package lsp-haskell
-                :config
-                (setq haskell-stylish-on-save t))   
+     (use-package lsp-haskell
+       :config
+       (setq lsp-haskell-server-path "/nix/store/rpji6p4srv56y24mhbqwc4dmgxknd0x2-haskell-language-server-1.1.0.0/bin/haskell-language-server-wrapper")
+       (setq haskell-stylish-on-save t)
+       :hook
+       (haskell-mode . lsp))   
    #+end_src
 
    #+RESULTS:
-   : t
+   | lsp |
 
 ** helm
 #+BEGIN_SRC emacs-lisp
@@ -517,41 +502,41 @@ extract them into =/usr/local/share/LanguageTool=
 
 ** Scala Metals
 #+BEGIN_SRC emacs-lisp
-      ;; Enable scala-mode for highlighting, indentation and motion commands
-      (use-package scala-mode
-        :mode "\\.s\\(cala\\|bt\\)$"
-        )
+  ;; Enable scala-mode for highlighting, indentation and motion commands
+  (use-package scala-mode
+    :mode "\\.s\\(cala\\|bt\\)$"
+    )
 
-      ;; Enable sbt mode for executing sbt commands
-      (use-package sbt-mode
-        :commands sbt-start sbt-command
-        :config
-        ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-        ;; allows using SPACE when in the minibuffer
-        (substitute-key-definition
-         'minibuffer-complete-word
-         'self-insert-command
-         minibuffer-local-completion-map)
-         ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-         (setq sbt:program-options '("-Dsbt.supershell=false"))
-      )
+  ;; Enable sbt mode for executing sbt commands
+  (use-package sbt-mode
+    :commands sbt-start sbt-command
+    :config
+    ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+    ;; allows using SPACE when in the minibuffer
+    (substitute-key-definition
+     'minibuffer-complete-word
+     'self-insert-command
+     minibuffer-local-completion-map)
+     ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+     (setq sbt:program-options '("-Dsbt.supershell=false"))
+  )
 
-      (use-package lsp-mode
-        ;; Optional - enable lsp-mode automatically in scala files
-        :hook  (scala-mode . lsp)
-               (lsp-mode . lsp-lens-mode)
-               (dhall-mode . lsp)
-        :config (setq lsp-prefer-flymake nil))
+  (use-package lsp-mode
+    ;; Optional - enable lsp-mode automatically in scala files
+    :hook  (scala-mode . lsp)
+           (lsp-mode . lsp-lens-mode)
+           (dhall-mode . lsp)
+         (haskell-mode . lsp)
+    :config (setq lsp-prefer-flymake nil))
 
-      ;; Add metals backend for lsp-mode
-      (use-package lsp-metals)
+  ;; Add metals backend for lsp-mode
+  (use-package lsp-metals)
 
-      ;; Enable nice rendering of documentation on hover
-      (use-package lsp-ui)
+  ;; Enable nice rendering of documentation on hover
+  (use-package lsp-ui)
 #+END_SRC
 
 #+RESULTS:
-: t
 
 ** [[https://github.com/atomontage/xterm-color][shell-mode]]
 #+begin_src emacs-lisp

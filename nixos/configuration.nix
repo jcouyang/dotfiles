@@ -50,6 +50,7 @@
 
   services.xserver.videoDrivers = [ "intel" "nvidia" ];
   services.xserver.desktopManager.plasma5.enable = true;
+  hardware.video.hidpi.enable = true;
   #services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.driSupport32Bit = true;
   # Enable the GNOME 3 Desktop Environment.
@@ -73,11 +74,13 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.defaultUserShell = pkgs.zsh;
-  # users.users.jane = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  # };
-
+  users.mutableUsers = false;
+  users.users.jcouyang = {
+    isNormalUser = true;
+    home = "/home/jcouyang";
+    extraGroups = [ "wheel" "docker" ];
+    hashedPassword = "$6$6THp6OqEiW6$Y1ary6ow62pkJELcj3Qcx6bmrE9YJ4WqlEtyFTZPwtN9m2ksFRBey/zW.9W1I5ZhlJMM2kBa9CIqYg3Bx5pfm0";
+  };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.shells = [ pkgs.bashInteractive pkgs.zsh ];
@@ -88,7 +91,12 @@
     dropbox
     keepassxc
     git
+    gitAndTools.hub
+    gh
     gnupg
+    python37
+    jetbrains.idea-ultimate
+    (import ./synology.nix { inherit pkgs; })
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -104,7 +112,7 @@
     autosuggestions.enable = true;
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" ];
+      plugins = [ "git" "z" ];
       theme = "lambda";
     };
   };
@@ -128,5 +136,13 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "20.09"; # Did you read the comment?
 
+  virtualisation = {
+    docker = {
+      enable = true;
+      autoPrune.dates = "weekly";
+      autoPrune.enable = true;
+    };
+  };
+  nix.trustedUsers = [ "root" "jcouyang" ];
 }
 

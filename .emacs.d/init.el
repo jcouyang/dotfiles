@@ -52,6 +52,8 @@
      ("" "hyperref" nil nil)))
  '(org-latex-listings t)
  '(org-plantuml-jar-path "/usr/local/bin/plantuml.jar")
+ '(package-selected-packages
+   '(helm-ag yasnippet-snippets which-key use-package unicode-fonts textmate smartparens rainbow-delimiters purescript-mode psc-ide nyan-mode nix-mode lsp-ui lsp-metals lsp-haskell langtool key-chord json-mode helm-swoop helm-projectile expand-region dhall-mode company-restclient ag ace-jump-mode on-screen))
  '(tex-run-command "xelatex"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
