@@ -85,18 +85,14 @@
   # $ nix search wget
   environment.shells = [ pkgs.bashInteractive pkgs.zsh ];
   environment.systemPackages = with pkgs; [
-    (import ./emacs.nix { inherit pkgs; })
     firefox
     kmix
     dropbox
     keepassxc
-    git
-    gitAndTools.hub
-    gh
     gnupg
-    python37
     jetbrains.idea-ultimate
-    (import ./synology.nix { inherit pkgs; })
+    (lib.optionals stdenv.isLinux (import ./synology.nix { inherit pkgs; }))
+    (import ./dev-tools.nix {inherit pkgs;})
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

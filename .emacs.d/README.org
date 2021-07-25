@@ -47,6 +47,7 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
   #+END_SRC
 
   #+RESULTS:
+  : meta
 
 #+BEGIN_SRC emacs-lisp
   ;;(setenv "PATH" "${HOME}/.nix-profile/bin:/usr/local/bin:/usr/bin:/sbin:/bin")

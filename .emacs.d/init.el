@@ -1,5 +1,3 @@
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
 (require 'org)
 (setq org-confirm-babel-evaluate nil
       vc-follow-symlinks nil)
