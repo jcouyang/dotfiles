@@ -2,7 +2,7 @@
   allowUnfree = true;
   allowBroken = true;
   packageOverrides = pkgs: with pkgs;
-    let myjre = if builtins.currentSystem == "x86_64-darwin" then jre else graalvm8-ce;
+    let myjre = graalvm8-ce;
     in {
     oyanglulu = pkgs.buildEnv {
       name = "oyanglulu-env";
@@ -18,7 +18,7 @@
         stow
         # Github
         gitAndTools.hub
-        gitAndTools.gh
+        gh
         # Scala
         myjre
         (ammonite.override {jre = myjre; })
@@ -27,12 +27,14 @@
         yarn
         # Haskell
         stack
-        ghc
+        haskell.compiler.ghc884
         stylish-haskell
         dhall
         dhall-json
         dhall-bash
         dhall-lsp-server
+        # Rust
+        cargo
       ];
     };
     mytex = texlive.combine {

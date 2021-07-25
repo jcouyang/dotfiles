@@ -8,7 +8,7 @@
 Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
-      (set-frame-font "JetBrains Mono ExtraLight 12"))
+      (set-frame-font "JetBrains Mono 14"))
 
   (when (eq system-type 'gnu/linux)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
@@ -435,7 +435,6 @@ extract them into =/usr/local/share/LanguageTool=
     (setq ido-default-buffer-method 'selected-window)
     ; Use the current window for indirect buffer display
     (setq org-indirect-buffer-display 'current-window)
-
 #+END_SRC
 
 #+RESULTS:
@@ -506,7 +505,6 @@ extract them into =/usr/local/share/LanguageTool=
   (use-package scala-mode
     :mode "\\.s\\(cala\\|bt\\)$"
     )
-
   ;; Enable sbt mode for executing sbt commands
   (use-package sbt-mode
     :commands sbt-start sbt-command

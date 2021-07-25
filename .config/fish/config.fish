@@ -11,7 +11,7 @@ set -x EDITOR emacsclient
 set -x ALTERNATE_EDITOR nano
 
 if test (uname) = "Darwin"
-   set -gx PATH $HOME/Library/Application\ Support/Coursier/bin $PATH
+   set -gx PATH $HOME/Library/Application\ Support/Coursier/bin $HOME/Library/Python/3.7/bin $PATH
 else
    set -gx PATH $HOME/.local/share/coursier/bin $PATH
    set -x PATH /home/jcouyang/bin:$PATH

@@ -1,5 +1,6 @@
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
 (require 'org)
-(package-initialize)
 (setq org-confirm-babel-evaluate nil
       vc-follow-symlinks nil)
 (setq load-prefer-newer t)
@@ -52,13 +53,14 @@
      ("" "hyperref" nil nil)))
  '(org-latex-listings t)
  '(org-plantuml-jar-path "/usr/local/bin/plantuml.jar")
- '(package-selected-packages
-   '(helm-ag yasnippet-snippets which-key use-package unicode-fonts textmate smartparens rainbow-delimiters purescript-mode psc-ide nyan-mode nix-mode lsp-ui lsp-metals lsp-haskell langtool key-chord json-mode helm-swoop helm-projectile expand-region dhall-mode company-restclient ag ace-jump-mode on-screen))
  '(tex-run-command "xelatex"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(org-level-1 ((t (:inherit org-tree-slide-heading-level-1))))
+ '(org-level-2 ((t (:inherit org-tree-slide-heading-level-2))))
+ '(org-level-3 ((t (:inherit org-tree-slide-heading-level-3))))
+ '(org-level-4 ((t (:inherit org-tree-slide-heading-level-4)))))
 (put 'downcase-region 'disabled nil)
