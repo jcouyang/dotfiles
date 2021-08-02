@@ -10,6 +10,7 @@ with pkgs; [
   graphviz
   stow
   awscli
+  fzf
   # Github
   git
   git-remote-gcrypt
