@@ -48,6 +48,7 @@ let
     yasnippet
     yasnippet-snippets
     unicode-fonts
+    indent-guide
     smartparens
     nix-mode
   ]));

@@ -85,15 +85,15 @@
   # $ nix search wget
   environment.shells = [ pkgs.bashInteractive pkgs.zsh ];
   environment.systemPackages = with pkgs; [
-    firefox
+    gnupg
+  ] ++ (import ./dev-tools.nix {inherit pkgs;}) ++ (lib.optionals stdenv.isLinux [
+    (import ./synology.nix { inherit pkgs; })
+    jetbrains.idea-ultimate
     kmix
+    firefox
     dropbox
     keepassxc
-    gnupg
-    jetbrains.idea-ultimate
-    (lib.optionals stdenv.isLinux (import ./synology.nix { inherit pkgs; }))
-    (import ./dev-tools.nix {inherit pkgs;})
-  ];
+  ]);
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
