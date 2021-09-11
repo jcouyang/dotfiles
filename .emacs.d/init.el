@@ -51,6 +51,8 @@
      ("" "hyperref" nil nil)))
  '(org-latex-listings t)
  '(org-plantuml-jar-path "/usr/local/bin/plantuml.jar")
+ '(package-selected-packages
+   '(dhall-mode yasnippet yaml-mode use-package textmate smartparens scala-mode sbt-mode psc-ide pallet on-screen nyan-mode multiple-cursors magit lsp-ui lsp-metals langtool key-chord js2-mode helm-swoop helm-projectile helm-ag expand-region dracula-theme company-lsp ace-jump-mode))
  '(tex-run-command "xelatex"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

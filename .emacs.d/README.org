@@ -10,11 +10,6 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
   (if (member "JetBrains Mono" (font-family-list))
       (set-frame-font "JetBrains Mono 14"))
 
-  (when (eq system-type 'gnu/linux)
-    (dolist (charset '(kana han symbol cjk-misc bopomofo))
-      (set-fontset-font (frame-parameter nil 'font) charset
-                        (font-spec :family "Noto Sans CJK SC"))))
-
   (global-prettify-symbols-mode 1)
 #+END_SRC
 
@@ -26,7 +21,7 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
         ;; Setting
         (load-theme 'misterioso t)
         (server-start)
-        (keyboard-translate ?\C-h ?\C-?)
+        ;; (keyboard-translate ?\C-h ?\C-?)
         (column-number-mode 1)
         (tool-bar-mode -1)
         (scroll-bar-mode -1)
@@ -50,10 +45,14 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
   : meta
 
 #+BEGIN_SRC emacs-lisp
-  ;;(setenv "PATH" "${HOME}/.nix-profile/bin:/usr/local/bin:/usr/bin:/sbin:/bin")
+  (when (eq system-type 'darwin)
+    (add-to-list 'exec-path "/run/current-system/sw/bin")
+    (add-to-list 'exec-path (expand-file-name "~/.nix-profile/bin"))
+    (setenv "PATH" "/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin")
+    )
 #+END_SRC
   #+RESULTS:
-  : ${HOME}/.nix-profile/bin:/usr/local/bin:/usr/bin:/sbin:/bin
+  : /run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin
 
 
 * Modes
@@ -142,17 +141,6 @@ text completion framework
 #+RESULTS:
 : t
 
-** COMMENT fish
-#+BEGIN_SRC emacs-lisp
-(use-package company-fish
-:hook (shell-mode-hook . company-mode)
-:init (add-to-list 'company-backends 'company-fish)
-)
-#+END_SRC
-
-#+RESULTS:
-| company-mode |
-
 ** forge 
 #+BEGIN_SRC emacs-lisp
 ;;(use-package forge
@@ -165,7 +153,10 @@ text completion framework
    #+begin_src emacs-lisp
      (use-package lsp-haskell
        :config
-       (setq lsp-haskell-server-path "/nix/store/rpji6p4srv56y24mhbqwc4dmgxknd0x2-haskell-language-server-1.1.0.0/bin/haskell-language-server-wrapper")
+       ;; (setq lsp-haskell-server-path
+       ;;       (replace-regexp-in-string "\n$" ""
+       ;;                                 (shell-command-to-string
+       ;;                                  "echo $(nix-build --no-out-link \"<nixpkgs>\" -A haskell-language-server)/bin/haskell-language-server")))
        (setq haskell-stylish-on-save t)
        :hook
        (haskell-mode . lsp))   
@@ -541,20 +532,7 @@ extract them into =/usr/local/share/LanguageTool=
 #+begin_src emacs-lisp
 (setq comint-output-filter-functions
       (remove 'ansi-color-process-output comint-output-filter-functions))
-
-(add-hook 'shell-mode-hook
-          (lambda ()
-            ;; Disable font-locking in this buffer to improve performance
-            (font-lock-mode -1)
-            ;; Prevent font-locking from being re-enabled in this buffer
-            (make-local-variable 'font-lock-function)
-            (setq font-lock-function (lambda (_) nil))
-            (add-hook 'comint-preoutput-filter-functions 'xterm-color-filter nil t)))
-(setenv "TERM" "xterm-256color")
 #+end_src
-
-#+RESULTS:
-: xterm-256color
 
 ** smartparens
 #+BEGIN_SRC emacs-lisp

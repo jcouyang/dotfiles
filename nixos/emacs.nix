@@ -15,42 +15,44 @@ let
         });
     };
   };
-  emacsWithPackages = ((pkgs.emacsPackagesGen pkgs.emacs).overrideScope' overrides).emacsWithPackages;
+  theEmacs = if pkgs.stdenv.isDarwin then pkgs.emacsMacport else pkgs.emacs;
+  emacsWithPackages = ((pkgs.emacsPackagesGen theEmacs).overrideScope' overrides).emacsWithPackages;
   myEmacs = emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
-    use-package
-    ag
     ace-jump-mode
+    ag
     company
     company-restclient
+    dhall-mode
+    expand-region
+    flycheck
     haskell-mode
     helm
+    helm-projectile
+    helm-swoop
+    indent-guide
     json-mode
     key-chord
+    langtool
     lsp-haskell
     lsp-metals
     lsp-mode
     lsp-ui
-    psc-ide
-    nyan-mode
-    langtool
-    helm-projectile
-    projectile
-    helm-swoop
-    flycheck
-    dhall-mode
     markdown-mode
-    rainbow-delimiters
+    nix-mode
+    nyan-mode
+    ob-restclient
+    projectile
+    psc-ide
     purescript-mode
-    expand-region
+    rainbow-delimiters
     restclient
+    smartparens
     textmate
+    unicode-fonts
+    use-package
     which-key
     yasnippet
     yasnippet-snippets
-    unicode-fonts
-    indent-guide
-    smartparens
-    nix-mode
   ]));
 in
 myEmacs

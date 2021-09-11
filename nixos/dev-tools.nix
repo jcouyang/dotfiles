@@ -22,6 +22,7 @@ with pkgs; [
   # Haskell
   stack
   stylish-haskell
+  haskell-language-server
   dhall
   dhall-json
   dhall-bash

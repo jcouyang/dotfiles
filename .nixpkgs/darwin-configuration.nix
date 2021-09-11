@@ -8,6 +8,7 @@ in {
   environment.systemPackages =
     nixos.environment.systemPackages ++ [
       pkgs.oh-my-zsh
+      pkgs.zsh-autosuggestions
     ];
 
   environment.variables = {
@@ -18,7 +19,12 @@ in {
     AWS_DEFAULT_REGION = "ap-southeast-2";
   };
   
-  environment.shellAliases.git = "hub";
+  environment.shellAliases = {
+    git = "hub";
+    dc = "docker compose";
+    em = "emacsclient";
+  };
+  
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
   # environment.darwinConfig = "$HOME/.config/nixpkgs/darwin/configuration.nix";
@@ -54,4 +60,5 @@ in {
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
+  system.defaults.trackpad.TrackpadThreeFingerDrag = true;
 }
