@@ -1,66 +1,85 @@
-{pkgs ? import <nixpkgs> {} }:
-with pkgs;
+{ stdenv, lib, qt5, fetchurl, autoPatchelfHook, dpkg, glibc, gnome, cpio, xar, undmg, gtk3, pango }:
 let
-  buildNumber = "12667";
-  versionNumber = "3.0.1";
-in stdenv.mkDerivation {
   pname = "synology-drive-client";
-
-  version = versionNumber;
-
-  srcs = [
-    (fetchurl {
-      url = "http://archive.ubuntu.com/ubuntu/pool/universe/q/qtlocation-opensource-src/libqt5positioning5_5.15.2+dfsg-2_amd64.deb";
-      sha256 = "01f9qgqkd6m3idr5f0w2k5cl9sjk7617fzp023d0qfnsw661wy56";
-    })
-    (fetchurl {
-      url = "https://global.download.synology.com/download/Utility/SynologyDriveClient/${versionNumber}-${buildNumber}/Ubuntu/Installer/x86_64/synology-drive-client-${buildNumber}.x86_64.deb";
-      sha256 = "16j2wyk04xchgd501gzayzclb0kwjn4h5jjl570f074sa4d5930p";
-    })
-  ];
-
-  nativeBuildInputs = [
-    autoPatchelfHook
-    dpkg
-  ];
-
-  buildInputs = [
-    xorg.libX11
-    glib
-    freetype
-    libxkbcommon
-    xorg.libICE
-    xorg.libXrender
-    xorg.libSM
-    fontconfig
-    pango
-    gtk3
-    gtk2-x11
-    gcc-unwrapped
-    dbus_libs
-    qt5.qtbase
-    qt5.qtx11extras
-  ];
-
-  unpackPhase = "true";
-
-  installPhase = ''
-    mkdir -p $out
-    for _src in $srcs; do
-      dpkg -x $_src $out
-    done
-    rm -rf $out/usr/lib/nautilus
-    rm -rf $out/opt/Synology/SynologyDrive/package/cloudstation/icon-overlay
-    cp -r $out/usr/bin $out/bin
-  '';
-
-  dontWrapQtApps = true;
-
+  buildNumber = "12682";
+  version = "3.0.2";
+  baseUrl =
+    "https://global.download.synology.com/download/Utility/SynologyDriveClient";
+  dmgImage =
+    "${baseUrl}/${version}-${buildNumber}/Mac/Installer/synology-drive-client-${buildNumber}.dmg";
+  debImage =
+    "${baseUrl}/${version}-${buildNumber}/Ubuntu/Installer/x86_64/synology-drive-client-${buildNumber}.x86_64.deb";
   meta = with lib; {
-    description = "Desktop application to synchronize files and folders between the computer and the Synology Drive server to access, browse, and share files via file browser";
+    description =
+      "Desktop application to synchronize files and folders between the computer and the Synology Drive server.";
     homepage = "https://www.synology.com/en-global/dsm/feature/drive";
     license = licenses.unfree;
     maintainers = with maintainers; [ jcouyang ];
-    platforms = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" "x86_64-darwin" ];
   };
-}
+  linux = qt5.mkDerivation rec {
+    inherit pname version;
+
+    src = fetchurl {
+      url = debImage;
+      sha256 = "19fd2r39lb7bb6vkxfxyq0gp3l7pk5wy9fl0r7qwhym2jpi8yv6l";
+    };
+
+
+    nativeBuildInputs = [ autoPatchelfHook dpkg ];
+
+    buildInputs = [ glibc gtk3 pango ];
+
+    unpackPhase = ''
+    mkdir -p $out
+    dpkg -x $src $out
+    rm -rf $out/usr/lib/nautilus
+    rm -rf $out/opt/Synology/SynologyDrive/package/cloudstation/icon-overlay
+    '';
+
+    installPhase = ''
+    # synology-drive executable
+    cp -av $out/usr/* $out
+    rm -rf $out/usr
+
+    runHook postInstall
+  '';
+
+    postInstall = ''
+    substituteInPlace $out/bin/synology-drive --replace /opt $out/opt
+  '';
+
+    meta = with lib; {
+      homepage = "https://www.synology.com/";
+      description = "Synchronize files between client and Synology NAS.";
+      longDescription =
+        "Drive for PC, the desktop utility of the DSM add-on package, Drive, allows you to sync and share files owned by you or shared by others between a centralized Synology NAS and multiple client computers.";
+      license = licenses.unfree;
+      maintainers = with maintainers; [ MoritzBoehme ];
+      platforms = [ "x86_64-linux" ];
+    };
+  };
+  darwin = stdenv.mkDerivation {
+    inherit pname version;
+    src = fetchurl {
+      url = dmgImage;
+      sha256 = "1mlv8gxzivgxm59mw1pd63yq9d7as79ihm7166qyy0h0b0m04q2m";
+    };
+
+    nativeBuildInputs = [ cpio xar undmg ];
+
+    postUnpack = ''
+      xar -xf 'Install Synology Drive Client.pkg'
+      cd synology-drive.installer.pkg
+      gunzip -dc Payload | cpio -i
+    '';
+
+    sourceRoot = ".";
+
+    installPhase = ''
+      mkdir -p $out/Applications/
+      cp -R 'Synology Drive Client.app' $out/Applications/
+    '';
+
+  };
+in if stdenv.isDarwin then darwin else linux

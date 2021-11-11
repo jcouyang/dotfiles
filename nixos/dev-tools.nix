@@ -1,8 +1,8 @@
-{pkgs}:
+{pkgs, ...}:
 
 with pkgs; [
   # General
-  (import ./emacs.nix { inherit pkgs; })
+  (callPackage ./emacs.nix {})
   silver-searcher
   fasd
   jq

@@ -1,6 +1,7 @@
 #+OPTIONS: H:2
 #+TITLE: Literal Programming Emacs Configure
 #+AUTHOR: Jichao Ouyang
+#+PROPERTY: header-args :tangle "README.el"
 
 * UI
 
