@@ -2,7 +2,7 @@
 
 with pkgs; [
   # General
-  (callPackage ./emacs.nix {})
+  (callPackage ./pkgs/emacs.nix {})
   silver-searcher
   fasd
   jq

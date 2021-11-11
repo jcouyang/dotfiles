@@ -1,5 +1,5 @@
 { config, pkgs, ... }:
-let nixos = import ../dotfiles/nixos/configuration.nix { inherit config; inherit pkgs; };
+let nixos = callPackage ../common.nix { };
 in {
   nixpkgs.config.allowBroken = true;
   nixpkgs.config.allowUnfree = true;

@@ -20,7 +20,7 @@ let
   myEmacsConf = runCommand "default.el" {
     src = builtins.path {
       name = "emacsConfigSrc";
-      path = ./.. + "/.emacs.d";
+      path = ./../.. + "/.emacs.d";
     };
   } ''
       mkdir -p $out/share/emacs/site-lisp

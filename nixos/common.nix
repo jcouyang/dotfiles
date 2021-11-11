@@ -5,18 +5,28 @@
 { config, pkgs, ... }:
 
 {
-  nixpkgs.config.allowBroken = true;
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    config = {
+      allowBroken = true;
+      allowUnfree = true;
+    };
+  };
+  nix.trustedUsers = [ "root" "jcouyang" ];
+  
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Australia/Sydney";
 
-  networking.useDHCP = false;
-  networking.interfaces.wlp0s20f3.useDHCP = true;
-  networking.networkmanager.enable = true;
+  networking = {
+    useDHCP = false;
+    interfaces.wlp0s20f3.useDHCP = true;
+    networkmanager.enable = true;
+  };
 
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.inputMethod = {
@@ -25,11 +35,15 @@
   };
   fonts.fonts = [ pkgs.jetbrains-mono ];
   fonts.fontconfig.defaultFonts.monospace = [ "JetBrains Mono" ];
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+
+  services = {
+    # Enable the X11 windowing system.
+    xserver.enable = true;
+    # Enable the Plasma 5 Desktop Environment.
+    xserver.displayManager.sddm.enable = true;
+    xserver.desktopManager.plasma5.enable = true;
+  };
+
   # Audio
   hardware.pulseaudio.enable = true;
   sound.enable = true;
@@ -50,7 +64,7 @@
       gnupg
       firefox
       keepassxc
-      (callPackage ./synology.nix {})
+      (callPackage ./pkgs/synology.nix {})
     ] ++ (callPackage ./dev-tools.nix {});
   };
 
@@ -65,7 +79,6 @@
     };
   };
 
-  nix.trustedUsers = [ "root" "jcouyang" ];
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
@@ -107,4 +120,11 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.05"; # Did you read the comment?
 
+  virtualisation = {
+    docker = {
+      enable = true;
+      autoPrune.dates = "weekly";
+      autoPrune.enable = true;
+    };
+  };
 }
