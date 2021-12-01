@@ -9,14 +9,15 @@ with pkgs; [
   ispell
   graphviz
   stow
+  awscli
   # Github
   git
-  gitAndTools.hub
+  git-remote-gcrypt
   gh
-  # Scala
-  graalvm8-ce
-  (ammonite.override {jre = graalvm8-ce; })
-  (sbt.override { jre = graalvm8-ce; })
+  ## Scala
+  # graalvm8-ce
+  # (ammonite.override {jre = graalvm8-ce; })
+  # (sbt.override { jre = graalvm8-ce; })
   # JS
   yarn
   # Haskell

@@ -11,12 +11,19 @@
       allowUnfree = true;
     };
   };
-  nix.trustedUsers = [ "root" "jcouyang" ];
+  nix = {
+    trustedUsers = [ "root" "jcouyang" ];
+    trustedBinaryCaches = ["s3://myob-api-nixpkgs?region=ap-southeast-2"];
+    binaryCachePublicKeys = [
+      "myob-api-nix-cache:2r+2/m5vOo/6PI1PTas0wc7OtVLv4wYXE9u3t8CEr4I="
+    ];
+  };
   
   # Use the systemd-boot EFI boot loader.
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+    kernelPackages = pkgs.linuxPackages_5_15;
   };
 
   # Set your time zone.
@@ -46,7 +53,7 @@
 
   # Audio
   hardware.pulseaudio.enable = true;
-  sound.enable = true;
+  # sound.enable = true;
 
   # User
   users.defaultUserShell = pkgs.zsh;
@@ -54,15 +61,14 @@
   users.users.jcouyang = {
     isNormalUser = true;
     home = "/home/jcouyang";
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" "podman" "audio" ];
     hashedPassword = "$6$6THp6OqEiW6$Y1ary6ow62pkJELcj3Qcx6bmrE9YJ4WqlEtyFTZPwtN9m2ksFRBey/zW.9W1I5ZhlJMM2kBa9CIqYg3Bx5pfm0";
   };
 
   environment = {
     shells = [ pkgs.bashInteractive pkgs.zsh ];
     systemPackages = with pkgs; [
-      gnupg
-      firefox
+      (callPackage ./pkgs/firefox.nix {})
       keepassxc
       (callPackage ./pkgs/synology.nix {})
     ] ++ (callPackage ./dev-tools.nix {});
@@ -74,11 +80,11 @@
     autosuggestions.enable = true;
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "z" ];
+      plugins = [ "git" "z" "fzf" ];
       theme = "lambda";
     };
   };
-
+  
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
@@ -96,10 +102,10 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
 
   # List services that you want to enable:
 
@@ -121,10 +127,12 @@
   system.stateVersion = "21.05"; # Did you read the comment?
 
   virtualisation = {
-    docker = {
+    docker.enable = false;
+    podman = {
       enable = true;
-      autoPrune.dates = "weekly";
-      autoPrune.enable = true;
+      dockerCompat = true;
+      dockerSocket.enable = true;
+      defaultNetwork.dnsname.enable = true;
     };
   };
 }

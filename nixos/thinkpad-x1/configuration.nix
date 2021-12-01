@@ -10,5 +10,12 @@
       ./hardware-configuration.nix
       ../common.nix
     ];
+  services.fprintd.enable = true;
+  security.pam.services = {
+    login.unixAuth = true;
+    login.fprintAuth = true;
+    xscreensaver.fprintAuth = true;
+    kwallet.fprintAuth = true;
+  };
 }
 
