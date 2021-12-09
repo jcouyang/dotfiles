@@ -161,17 +161,21 @@ text completion framework
    #+begin_src emacs-lisp
      (use-package lsp-haskell
        :config
-       ;; (setq lsp-haskell-server-path
-       ;;       (replace-regexp-in-string "\n$" ""
-       ;;                                 (shell-command-to-string
-       ;;                                  "echo $(nix-build --no-out-link \"<nixpkgs>\" -A haskell-language-server)/bin/haskell-language-server")))
+       ;; (lsp-make-interactive-code-action wingman-fill-hole "")
+       (lsp-make-interactive-code-action wingman-case-split "Wingman: Case split on sec")
+       ;; (lsp-make-interactive-code-action wingman-refine "refactor.wingman.refine")
+       ;; (lsp-make-interactive-code-action wingman-split-func-args "refactor.wingman.spltFuncArgs")
+       ;; (lsp-make-interactive-code-action wingman-use-constructor "refactor.wingman.useConstructor")
        (setq haskell-stylish-on-save t)
        :hook
-       (haskell-mode . lsp))   
+       (haskell-mode . lsp)
+       :bind (:map haskell-mode-map
+                   ("C-c h" . lsp-wingman-fill-hole)
+                   ("C-c s" . lsp-wingman-case-split)))
    #+end_src
 
    #+RESULTS:
-   | lsp |
+   : lsp-wingman-case-split
 
 ** helm
 #+BEGIN_SRC emacs-lisp

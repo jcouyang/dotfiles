@@ -20,7 +20,6 @@ in {
   };
   
   environment.shellAliases = {
-    git = "hub";
     dc = "docker compose";
     em = "emacsclient";
   };
