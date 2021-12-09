@@ -37,6 +37,7 @@ let
     dhall-mode
     expand-region
     flycheck
+    go-mode
     haskell-mode
     helm
     helm-projectile

@@ -21,9 +21,6 @@
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [alias]
 	semtag = !git tag -a $(semver tag) -m \"tagging $(semver tag)\"
 [commit]
@@ -34,3 +31,5 @@
 	rebase = true
 [init]
 	defaultBranch = main
+[credential "https://github.com"]
+        helper = !gh auth git-credential

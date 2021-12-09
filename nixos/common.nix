@@ -70,7 +70,7 @@
     systemPackages = with pkgs; [
       (callPackage ./pkgs/firefox.nix {})
       keepassxc
-      (callPackage ./pkgs/synology.nix {})
+      synology-drive-client
     ] ++ (callPackage ./dev-tools.nix {});
   };
 

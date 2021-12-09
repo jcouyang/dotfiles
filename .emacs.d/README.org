@@ -150,6 +150,13 @@ text completion framework
 
 #+RESULTS:
 
+** Go
+   #+begin_src emacs-lisp
+     (use-package go-mode
+       :hook
+       (go-mode . lsp))
+   #+end_src
+
 ** Haskell
    #+begin_src emacs-lisp
      (use-package lsp-haskell

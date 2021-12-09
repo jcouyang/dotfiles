@@ -11,16 +11,20 @@ with pkgs; [
   stow
   awscli
   fzf
+
   # Github
   git
   git-remote-gcrypt
   gh
+
   ## Scala
   # graalvm8-ce
   # (ammonite.override {jre = graalvm8-ce; })
   # (sbt.override { jre = graalvm8-ce; })
+
   # JS
   yarn
+
   # Haskell
   stack
   stylish-haskell
@@ -29,8 +33,14 @@ with pkgs; [
   dhall-json
   dhall-bash
   dhall-lsp-server
+
+  # Go
+  go
+  gopls
+
   # Rust
   cargo
+
   # python
-  python38
+  python39
 ]
