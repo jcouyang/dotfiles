@@ -64,6 +64,7 @@ let
     unicode-fonts
     use-package
     which-key
+    yaml-mode
     yasnippet
     yasnippet-snippets
   ]));

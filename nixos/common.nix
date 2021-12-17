@@ -49,6 +49,7 @@
     # Enable the Plasma 5 Desktop Environment.
     xserver.displayManager.sddm.enable = true;
     xserver.desktopManager.plasma5.enable = true;
+    xserver.xkbOptions = "ctrl:swapcaps";
   };
 
   # Audio
@@ -67,11 +68,24 @@
 
   environment = {
     shells = [ pkgs.bashInteractive pkgs.zsh ];
+
     systemPackages = with pkgs; [
+      fzf
       (callPackage ./pkgs/firefox.nix {})
       keepassxc
       synology-drive-client
     ] ++ (callPackage ./dev-tools.nix {});
+
+    variables = {
+      LANG = "en_US.UTF-8";
+      EDITOR = "emacsclient";
+      ALTERNATE_EDITOR = "vim";
+      AWS_DEFAULT_REGION = "ap-southeast-2";
+    };
+    
+    shellAliases = {
+      em = "emacsclient";
+    };
   };
 
   programs.zsh = {
@@ -84,10 +98,6 @@
       theme = "lambda";
     };
   };
-  
-  # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e";
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;

@@ -27,6 +27,7 @@ with pkgs; [
 
   # Haskell
   stack
+  ghc
   stylish-haskell
   haskell-language-server
   dhall
