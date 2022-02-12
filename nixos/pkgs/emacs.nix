@@ -40,6 +40,7 @@ let
     go-mode
     haskell-mode
     helm
+    helm-ag
     helm-projectile
     helm-swoop
     indent-guide

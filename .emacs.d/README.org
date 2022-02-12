@@ -9,7 +9,7 @@
 Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
-      (set-frame-font "JetBrains Mono 14"))
+      (set-frame-font "JetBrains Mono 11"))
 
   (global-prettify-symbols-mode 1)
 #+END_SRC
