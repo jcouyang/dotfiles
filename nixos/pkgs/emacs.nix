@@ -1,22 +1,8 @@
 {pkgs, runCommand}:
 
 let
-  # https://discourse.nixos.org/t/how-to-override-an-emacs-package-src-url-to-fix-404/13947
-  spinner-lzip = builtins.fetchurl {
-    url = "https://elpa.gnu.org/packages/spinner-1.7.3.el.lz";
-    sha256 = "188i2r7ixva78qd99ksyh3jagnijpvzzjvvx37n57x8nkp8jc4i4";
-  };
-  overrides = self: super: {
-    spinner = super.spinner.override {
-      elpaBuild = args: super.elpaBuild (args // {
-          src = pkgs.runCommandLocal "spinner-1.7.3.el" {} ''
-            ${pkgs.lzip}/bin/lzip -d -c ${spinner-lzip} > $out
-          '';
-        });
-    };
-  };
   theEmacs = if pkgs.stdenv.isDarwin then pkgs.emacsMacport else pkgs.emacs;
-  emacsWithPackages = ((pkgs.emacsPackagesGen theEmacs).overrideScope' overrides).emacsWithPackages;
+  emacsWithPackages = pkgs.emacsWithPackages;
   myEmacsConf = runCommand "default.el" {
     src = builtins.path {
       name = "emacsConfigSrc";
@@ -51,6 +37,7 @@ let
     lsp-mode
     lsp-ui
     markdown-mode
+    magit
     nix-mode
     nyan-mode
     ob-restclient
@@ -61,6 +48,7 @@ let
     restclient
     smartparens
     textmate
+    typescript-mode
     unicode-fonts
     use-package
     which-key

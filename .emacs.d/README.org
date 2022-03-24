@@ -9,7 +9,7 @@
 Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
-      (set-frame-font "JetBrains Mono 14"))
+      (set-frame-font "JetBrains Mono 11"))
 
   (global-prettify-symbols-mode 1)
 #+END_SRC
@@ -376,15 +376,15 @@ extract them into =/usr/local/share/LanguageTool=
 
 ** org mode
 #+BEGIN_SRC emacs-lisp
-     (when (cl-search "27." (emacs-version))
-       (require 'org-tempo))
-     (setq org-startup-folded 'content)
-     (setq org-startup-indented nil)
-     (setq org-startup-with-inline-images t)
-     (setq org-startup-truncated nil)
-     (setq org-src-tab-acts-natively t)
+  (when (cl-search "27." (emacs-version))
+    (require 'org-tempo))
+  (setq org-startup-folded 'content)
+  (setq org-startup-indented nil)
+  (setq org-startup-with-inline-images t)
+  (setq org-startup-truncated nil)
+  (setq org-src-tab-acts-natively t)
 
-     (setq js-indent-level 2)
+  (setq js-indent-level 2)
 #+END_SRC
 
 #+RESULTS:
@@ -402,39 +402,41 @@ extract them into =/usr/local/share/LanguageTool=
 : t
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-files (quote ("~/Dropbox/org")))
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                   (org-agenda-files :maxlevel . 9))))
-      (setq org-directory "~/Dropbox/org")
-      (setq org-default-notes-file "~/Dropbox/org/refile.org")
+  (require 'org-protocol)
+    (setq org-agenda-files (quote ("~/SynologyDrive/Documents/notes")))
+    (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                     (org-agenda-files :maxlevel . 9))))
+        (setq org-directory "~/SynologyDrive/Documents/notes")
+        (setq org-default-notes-file (concat org-directory "/refile.org") )
 
-      ;; I use C-c c to start capture mode
-      (global-set-key (kbd "C-c c") 'org-capture)
-      (global-set-key (kbd "C-c a") 'org-agenda)
+        ;; I use C-c c to start capture mode
+        (global-set-key (kbd "C-c c") 'org-capture)
+        (global-set-key (kbd "C-c a") 'org-agenda)
 
-      ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
-      (setq org-capture-templates
-            (quote (("t" "Todo" entry (file+headline "~/Dropbox/org/refile.org" "Todos")
-                     "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                    ("n" "Note" entry (file+headline "~/Dropbox/org/note.org" "Notes")
-                     "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                    ("w" "Work" entry (file+headline "~/Dropbox/org/myob.org" "Work Notes")
-                     "* %?\n%U\n" :clock-in t :clock-resume t)
-                    )))
-    (setq org-refile-use-outline-path t)
+        ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+        (setq org-capture-templates
+              (quote (("t" "Todo" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Todos")
+                       "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                      ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
+                       "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                      ("w" "Work" entry (file+headline (lambda () (concat org-directory "/myob.org")) "Work Notes"))
+                       ("x" "protocol" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Org Capture")
+                       "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+                      )))
+      (setq org-refile-use-outline-path t)
 
-    ; Targets complete directly with IDO
-    (setq org-outline-path-complete-in-steps nil)
-    ; Use IDO for both buffer and file completion and ido-everywhere to t
-    (setq org-completion-use-ido t)
-    (setq ido-everywhere t)
-    (setq ido-max-directory-size 100000)
-    (ido-mode (quote both))
-    ; Use the current window when visiting files and buffers with ido
-    (setq ido-default-file-method 'selected-window)
-    (setq ido-default-buffer-method 'selected-window)
-    ; Use the current window for indirect buffer display
-    (setq org-indirect-buffer-display 'current-window)
+      ; Targets complete directly with IDO
+      (setq org-outline-path-complete-in-steps nil)
+      ; Use IDO for both buffer and file completion and ido-everywhere to t
+      (setq org-completion-use-ido t)
+      (setq ido-everywhere t)
+      (setq ido-max-directory-size 100000)
+      (ido-mode (quote both))
+      ; Use the current window when visiting files and buffers with ido
+      (setq ido-default-file-method 'selected-window)
+      (setq ido-default-buffer-method 'selected-window)
+      ; Use the current window for indirect buffer display
+      (setq org-indirect-buffer-display 'current-window)
 #+END_SRC
 
 #+RESULTS:
@@ -520,12 +522,9 @@ extract them into =/usr/local/share/LanguageTool=
   )
 
   (use-package lsp-mode
-    ;; Optional - enable lsp-mode automatically in scala files
-    :hook  (scala-mode . lsp)
-           (lsp-mode . lsp-lens-mode)
-           (dhall-mode . lsp)
-         (haskell-mode . lsp)
-    :config (setq lsp-prefer-flymake nil))
+    :config
+    (setq lsp-prefer-flymake nil)
+    (setq lsp-enable-file-watchers nil))
 
   ;; Add metals backend for lsp-mode
   (use-package lsp-metals)
