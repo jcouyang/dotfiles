@@ -10,10 +10,13 @@
       ./hardware-configuration.nix
       ../common.nix
     ];
+
   services.fprintd.enable = true;
   security.pam.services = {
     login.unixAuth = true;
-    login.fprintAuth = true;
+    # fprint is not stable, locked sometimes after suspend
+    login.fprintAuth = false;
+    sddm.fprintAuth = false;
     xscreensaver.fprintAuth = true;
     kwallet.fprintAuth = true;
   };

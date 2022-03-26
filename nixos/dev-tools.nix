@@ -36,7 +36,7 @@ with pkgs; [
   dhall-lsp-server
 
   # Go
-  go
+  (callPackage ./pkgs/go.nix {})
   gopls
 
   # Rust

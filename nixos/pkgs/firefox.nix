@@ -9,5 +9,6 @@ else wrapFirefox firefox-unwrapped {
     pref("ui.key.contentAccess", 6);
     pref("ui.key.contentAccess", 6);
     pref("ui.key.menuAccessKey", -1);
+    pref("network.protocol-handler.expose.org-protocol", false);
   '';
 }

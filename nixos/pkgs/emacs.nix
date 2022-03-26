@@ -36,8 +36,9 @@ let
     lsp-metals
     lsp-mode
     lsp-ui
-    markdown-mode
     magit
+    markdown-mode
+    multiple-cursors
     nix-mode
     nyan-mode
     ob-restclient
