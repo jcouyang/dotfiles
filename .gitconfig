@@ -32,4 +32,4 @@
 [init]
 	defaultBranch = main
 [credential "https://github.com"]
-        helper = !gh auth git-credential
+        helper = !/nix/store/gniqyyppbdd6a7q2zhi9hz7m41km7pxc-gh-1.10.3/bin/gh auth git-credential
