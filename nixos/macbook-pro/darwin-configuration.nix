@@ -1,5 +1,5 @@
 { config, pkgs, ... }:
-let nixos = callPackage ../common.nix { };
+let nixos = pkgs.callPackage ../common.nix { };
 in {
   nixpkgs.config.allowBroken = true;
   nixpkgs.config.allowUnfree = true;
@@ -30,7 +30,6 @@ in {
 
   # Auto upgrade nix package and the daemon service.
   nix.package = pkgs.nix;
-  services.nix-daemon.enable = false;
 
   # Create /etc/bashrc that loads the nix-darwin environment.
   programs.zsh = {
@@ -55,6 +54,7 @@ in {
     '';
   };
   # programs.fish.enable = true;
+  services.nix-daemon.enable = true;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

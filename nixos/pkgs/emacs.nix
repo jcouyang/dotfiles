@@ -31,6 +31,7 @@ let
     helm-swoop
     indent-guide
     json-mode
+    jq-mode
     key-chord
     langtool
     lsp-haskell

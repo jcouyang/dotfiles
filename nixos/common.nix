@@ -21,7 +21,7 @@
       "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     ];
   };
-  
+
   # Use the systemd-boot EFI boot loader.
   boot = {
     loader.systemd-boot.enable = true;
@@ -74,11 +74,11 @@
 
     systemPackages = with pkgs; [
       fzf
-      (callPackage ./pkgs/firefox.nix {})
       keepassxc
       synology-drive-client
-    ] ++ (callPackage ./dev-tools.nix {});
-
+    ] ++ (callPackage ./dev-tools.nix {})
+    ++ lib.optional stdenv.isLinux (callPackage ./firefox.nix { });
+    
     variables = {
       LANG = "en_US.UTF-8";
       EDITOR = "emacsclient";

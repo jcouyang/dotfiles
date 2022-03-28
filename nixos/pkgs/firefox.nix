@@ -1,7 +1,5 @@
 {stdenv, wrapFirefox, firefox-unwrapped, firefox}:
-if stdenv.isDarwin then
-  firefox
-else wrapFirefox firefox-unwrapped {
+wrapFirefox firefox-unwrapped {
   # https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
   extraPrefs = ''
     pref("ui.key.accelKey", 18);
