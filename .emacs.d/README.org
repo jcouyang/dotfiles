@@ -9,7 +9,7 @@
 Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 #+BEGIN_SRC emacs-lisp
   (if (member "JetBrains Mono" (font-family-list))
-      (set-frame-font "JetBrains Mono 11"))
+      (set-frame-font "JetBrains Mono 14"))
 
   (global-prettify-symbols-mode 1)
 #+END_SRC
@@ -49,11 +49,11 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
   (when (eq system-type 'darwin)
     (add-to-list 'exec-path "/run/current-system/sw/bin")
     (add-to-list 'exec-path (expand-file-name "~/.nix-profile/bin"))
-    (setenv "PATH" "/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin")
+    (setenv "PATH" "/Users/jichao.ouyang/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin")
     )
 #+END_SRC
   #+RESULTS:
-  : /run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin
+  : /Users/jichao.ouyang/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin
 
 
 * Modes
@@ -92,18 +92,26 @@ text completion framework
 #+begin_src emacs-lisp
   (use-package dhall-mode
     :ensure t
+    :hook
+    (dhall-mode . lsp)
     :config
     (setq
       ;; uncomment the next line to disable automatic format
-      ;; dhall-format-at-save nil
+      ;;dhall-format-at-save nil
 
       ;; comment the next line to use unicode syntax
       ;; dhall-format-arguments (\` ("--ascii"))
 
       ;; header-line is obsoleted by lsp-mode
-      dhall-use-header-line nil))
+      dhall-use-header-line nil
+      dhall-type-check-inactivity-timeout 10
+     ))
 
 #+end_src
+
+#+RESULTS:
+| lsp |
+
 ** expand region
 #+BEGIN_SRC emacs-lisp
 (use-package expand-region
@@ -155,27 +163,25 @@ text completion framework
      (use-package go-mode
        :hook
        (go-mode . lsp))
+     (use-package protobuf-mode)
    #+end_src
 
 ** Haskell
    #+begin_src emacs-lisp
-     (use-package lsp-haskell
-       :config
-       ;; (lsp-make-interactive-code-action wingman-fill-hole "")
-       (lsp-make-interactive-code-action wingman-case-split "Wingman: Case split on sec")
-       ;; (lsp-make-interactive-code-action wingman-refine "refactor.wingman.refine")
-       ;; (lsp-make-interactive-code-action wingman-split-func-args "refactor.wingman.spltFuncArgs")
-       ;; (lsp-make-interactive-code-action wingman-use-constructor "refactor.wingman.useConstructor")
-       (setq haskell-stylish-on-save t)
-       :hook
-       (haskell-mode . lsp)
-       :bind (:map haskell-mode-map
-                   ("C-c h" . lsp-wingman-fill-hole)
-                   ("C-c s" . lsp-wingman-case-split)))
+        (use-package lsp-haskell
+          :config
+          ;; (lsp-make-interactive-code-action wingman-fill-hole "")
+          (lsp-make-interactive-code-action wingman-case-split "Wingman: Case split on sec")
+          ;; (lsp-make-interactive-code-action wingman-refine "refactor.wingman.refine")
+          ;; (lsp-make-interactive-code-action wingman-split-func-args "refactor.wingman.spltFuncArgs")
+          ;; (lsp-make-interactive-code-action wingman-use-constructor "refactor.wingman.useConstructor")
+          (setq haskell-stylish-on-save t)
+          :hook
+          (haskell-mode . lsp))
    #+end_src
 
    #+RESULTS:
-   : lsp-wingman-case-split
+   | lsp |
 
 ** helm
 #+BEGIN_SRC emacs-lisp
@@ -494,16 +500,19 @@ extract them into =/usr/local/share/LanguageTool=
 
 ** Restclient
 #+BEGIN_SRC emacs-lisp
-    (use-package restclient
-      :config
-      (add-to-list 'company-backends 'company-restclient))
-    ;; :config
-    ;; ;
-                                            ; 
-    ;; :hook (company-mode))
+  (use-package restclient
+    :config
+    (add-to-list 'company-backends 'company-restclient))
+    (use-package restclient-jq)
+  (use-package restclient-helm)
+  ;; :config
+  ;; ;
+                                          ; 
+  ;; :hook (company-mode))
 #+END_SRC
 
 #+RESULTS:
+: t
 
 ** Scala Metals
 #+BEGIN_SRC emacs-lisp
@@ -526,6 +535,8 @@ extract them into =/usr/local/share/LanguageTool=
   )
 
   (use-package lsp-mode
+    :hook
+    (lsp-mode . lsp-enable-which-key-integration)
     :config
     (setq lsp-prefer-flymake nil)
     (setq lsp-enable-file-watchers nil))
@@ -579,39 +590,15 @@ extract them into =/usr/local/share/LanguageTool=
 #+RESULTS:
 : textmate-select-line
 
-** COMMENT typescript
+** typescript
 #+BEGIN_SRC emacs-lisp
-(defun setup-tide-mode ()
-   (interactive)
-   (tide-setup)
-   (flycheck-mode +1)
-   (setq flycheck-check-syntax-automatically '(save mode-enabled))
-   (eldoc-mode +1)
-   (tide-hl-identifier-mode +1)
-   ;; company is an optional dependency. You have to
-   ;; install it separately via package-install
-   ;; `M-x package-install [ret] company`
-   (company-mode +1))
-
- ;; aligns annotation to the right hand side
- (setq company-tooltip-align-annotations t)
-
- ;; formats the buffer before saving
-
-
- (add-hook 'typescript-mode-hook #'setup-tide-mode)
- (require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-(add-hook 'web-mode-hook
-         (lambda ()
-           (when (and (buffer-file-name)
-(string-equal "tsx" (file-name-extension buffer-file-name)))
-             (setup-tide-mode))))
+  (use-package typescript-mode
+    :hook
+    (typescript-mode . lsp))
 #+END_SRC
 
 #+RESULTS:
-| lambda | nil | (when (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (setup-tide-mode))       |
-| lambda | nil | (if (and (buffer-file-name) (string-equal tsx (file-name-extension buffer-file-name))) (progn (setup-tide-mode))) |
+| lsp |
 
 ** COMMENT undo tree
    #+begin_src emacs-lisp

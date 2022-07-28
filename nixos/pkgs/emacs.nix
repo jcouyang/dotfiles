@@ -2,7 +2,7 @@
 
 let
   theEmacs = if pkgs.stdenv.isDarwin then pkgs.emacsMacport else pkgs.emacs;
-  emacsWithPackages = pkgs.emacsWithPackages;
+  emacsWithPackages = (pkgs.emacsPackagesFor theEmacs).emacsWithPackages;
   myEmacsConf = runCommand "default.el" {
     src = builtins.path {
       name = "emacsConfigSrc";
@@ -45,10 +45,13 @@ let
     nyan-mode
     ob-restclient
     projectile
+    protobuf-mode
     psc-ide
     purescript-mode
     rainbow-delimiters
     restclient
+    restclient-jq
+    restclient-helm
     smartparens
     textmate
     typescript-mode

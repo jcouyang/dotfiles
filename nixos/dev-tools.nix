@@ -33,10 +33,11 @@ with pkgs; [
   dhall
   dhall-json
   dhall-bash
-  dhall-lsp-server
+  ## 1.1.1 has bug
+  # dhall-lsp-server
 
   # Go
-  (callPackage ./pkgs/go.nix {})
+  go_1_18
   gopls
 
   # Rust

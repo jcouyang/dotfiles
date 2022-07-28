@@ -74,7 +74,7 @@
 
     systemPackages = with pkgs; [
       fzf
-      keepassxc
+      # keepassxc
       synology-drive-client
     ] ++ (callPackage ./dev-tools.nix {})
     ++ lib.optional stdenv.isLinux (callPackage ./firefox.nix { });
