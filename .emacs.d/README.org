@@ -507,16 +507,6 @@
     #+RESULTS:
     : selected-window
 
-** COMMENT pallet
-   #+BEGIN_SRC emacs-lisp
-     (use-package pallet
-       :config
-       (pallet-mode t))
-   #+END_SRC
-
-   #+RESULTS:
-   : t
-
 ** prompt
    #+BEGIN_SRC emacs-lisp
      (defalias 'yes-or-no-p 'y-or-n-p)

@@ -26,7 +26,6 @@
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
-    kernelPackages = pkgs.linuxPackages_5_16;
   };
 
   # Set your time zone.
@@ -74,10 +73,11 @@
 
     systemPackages = with pkgs; [
       fzf
-      # keepassxc
+      coreutils
+      (callPackage ./pkgs/firefox.nix {})
       synology-drive-client
     ] ++ (callPackage ./dev-tools.nix {})
-    ++ lib.optional stdenv.isLinux (callPackage ./firefox.nix { });
+    ++ lib.optional stdenv.isLinux [(callPackage ./firefox.nix { }) keepassxc];
     
     variables = {
       LANG = "en_US.UTF-8";
