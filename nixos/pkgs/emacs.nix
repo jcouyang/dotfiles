@@ -15,7 +15,6 @@ let
       cp README.el $out/share/emacs/site-lisp/default.el
   '';
   myEmacs = emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
-    myEmacsConf
     ace-jump-mode
     ag
     company
@@ -30,8 +29,8 @@ let
     helm-projectile
     helm-swoop
     indent-guide
-    json-mode
     jq-mode
+    json-mode
     key-chord
     langtool
     lsp-haskell
@@ -41,17 +40,19 @@ let
     magit
     markdown-mode
     multiple-cursors
+    myEmacsConf
     nix-mode
     nyan-mode
     ob-restclient
+    org-bullets 
     projectile
     protobuf-mode
     psc-ide
     purescript-mode
     rainbow-delimiters
     restclient
-    restclient-jq
     restclient-helm
+    restclient-jq
     smartparens
     textmate
     typescript-mode

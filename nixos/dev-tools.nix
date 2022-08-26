@@ -38,7 +38,8 @@ with pkgs; [
 
   # Go
   go_1_18
-  gopls
+  ## gopls has to build from go1.18
+  # gopls
 
   # Rust
   cargo

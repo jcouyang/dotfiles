@@ -43,7 +43,7 @@
     enabled = "ibus";
     ibus.engines = with pkgs.ibus-engines; [ libpinyin ];
   };
-  fonts.fonts = [ pkgs.jetbrains-mono ];
+  fonts.fonts = [ pkgs.jetbrains-mono pkgs.etBook ];
   fonts.fontconfig.defaultFonts.monospace = [ "JetBrains Mono" ];
 
   services = {
