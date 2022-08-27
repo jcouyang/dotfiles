@@ -29,7 +29,7 @@
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
-  services.xserver.videoDrivers = [ "intel" "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.video.hidpi.enable = true;
   hardware.opengl.driSupport32Bit = true;
 }
