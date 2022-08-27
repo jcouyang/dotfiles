@@ -77,7 +77,7 @@
       (callPackage ./pkgs/firefox.nix {})
       synology-drive-client
     ] ++ (callPackage ./dev-tools.nix {})
-    ++ lib.optional stdenv.isLinux [(callPackage ./firefox.nix { }) keepassxc];
+    ++ lib.optional stdenv.isLinux keepassxc;
     
     variables = {
       LANG = "en_US.UTF-8";

@@ -9,11 +9,15 @@
    Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
    #+BEGIN_SRC emacs-lisp
      (if (member "JetBrains Mono" (font-family-list))
-         (set-frame-font "JetBrains Mono 14"))
+         (set-frame-font "JetBrains Mono 11"))
 
      (global-prettify-symbols-mode 1)
                                              ;(load-theme 'misterioso t)
    #+END_SRC
+
+   #+RESULTS:
+   : t
+
 ** Theme
    #+begin_src emacs-lisp
      (load-theme 'misterioso)
@@ -179,7 +183,7 @@
    #+begin_src emacs-lisp
      (use-package lsp-haskell
        :config
-       ;; (lsp-make-interactive-code-action wingman-fill-hole "")
+       (lsp-make-interactive-code-action wingman-fill-hole "")
        (lsp-make-interactive-code-action wingman-case-split "Wingman: Case split on sec")
        ;; (lsp-make-interactive-code-action wingman-refine "refactor.wingman.refine")
        ;; (lsp-make-interactive-code-action wingman-split-func-args "refactor.wingman.spltFuncArgs")
@@ -329,16 +333,23 @@
 
 ** lsp
    #+begin_src emacs-lisp
-     (use-package lsp-mode
-       :config
-       (setq lsp-prefer-flymake nil)
-       (setq lsp-enable-file-watchers nil))
+                    (use-package lsp-mode
+                      :config
+                      (setq lsp-prefer-flymake nil
+                       lsp-enable-file-watchers nil
+                       lsp-lens-enable nil
+                       lsp-ui-doc-show-with-cursor t
+                       lsp-ui-sideline-show-code-actions t
+                       lsp-ui-sideline-enable t
+                       lsp-signature-auto-activate t
+                       lsp-completion-show-detail t )
+                      )
 
-     ;; Add metals backend for lsp-mode
-     (use-package lsp-metals)
+                    ;; Add metals backend for lsp-mode
+                    ;; (use-package lsp-metals)
 
-     ;; Enable nice rendering of documentation on hover
-     (use-package lsp-ui)
+                    ;; Enable nice rendering of documentation on hover
+                    (use-package lsp-ui)
    #+end_src
 
    #+RESULTS:
