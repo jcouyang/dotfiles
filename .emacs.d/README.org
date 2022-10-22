@@ -159,6 +159,13 @@
    #+RESULTS:
    : t
 
+** direnv
+#+begin_src emacs-lisp
+  (use-package direnv)
+#+end_src
+
+#+RESULTS:
+
 ** forge 
    #+BEGIN_SRC emacs-lisp
      ;;(use-package forge

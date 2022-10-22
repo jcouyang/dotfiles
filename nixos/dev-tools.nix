@@ -11,6 +11,8 @@ with pkgs; [
   stow
   awscli
   fzf
+  direnv
+  nix-direnv
 
   # Github
   git

@@ -20,6 +20,7 @@ let
     company
     company-restclient
     dhall-mode
+    direnv
     expand-region
     flycheck
     go-mode

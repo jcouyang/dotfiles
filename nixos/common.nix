@@ -14,12 +14,13 @@
   nix = {
     trustedUsers = [ "root" "jcouyang" ];
     trustedBinaryCaches = ["s3://myob-api-nixpkgs?region=ap-southeast-2" "https://jcouyang.cachix.org"];
-    binaryCaches = ["https://jcouyang.cachix.org" "https://hydra.iohk.io"];
+    binaryCaches = ["https://jcouyang.cachix.org" "https://hydra.iohk.io" "https://cache.iog.io"];
     binaryCachePublicKeys = [
       "myob-api-nix-cache:2r+2/m5vOo/6PI1PTas0wc7OtVLv4wYXE9u3t8CEr4I="
       "jcouyang.cachix.org-1:TsD057OCpomDztwQiONvnXfLnOaGDhOAAB3C8ODLr14="
       "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     ];
+    settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
   # Use the systemd-boot EFI boot loader.
@@ -62,6 +63,7 @@
   users.defaultUserShell = pkgs.zsh;
   users.mutableUsers = false;
   users.users.jcouyang = {
+    name = "jcouyang";
     isNormalUser = true;
     home = "/home/jcouyang";
     extraGroups = [ "wheel" "podman" "audio" ];
