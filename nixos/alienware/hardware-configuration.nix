@@ -23,13 +23,16 @@
       fsType = "vfat";
     };
 
+  fileSystems."/data" = {
+    device = "/dev/disk/by-uuid/c3b03619-4a86-49a4-9ec6-37c891062b24";
+    fsType = "ext4";
+  };
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/b2f2c7af-2e55-4e98-857b-3a60ec28b875"; }
-    ];
+    [ { device = "/dev/disk/by-uuid/b2f2c7af-2e55-4e98-857b-3a60ec28b875"; } ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "intel" "nvidia" ];
   hardware.video.hidpi.enable = true;
   hardware.opengl.driSupport32Bit = true;
 }
