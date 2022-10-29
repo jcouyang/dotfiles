@@ -4,7 +4,9 @@
 
 { config, pkgs, ... }:
 
-{
+rec {
+  imports = [ (import ./secrets/config.nix {users = users.users;}) ];
+  
   nixpkgs = {
     config = {
       allowBroken = true;
@@ -78,6 +80,7 @@
       coreutils
       (callPackage ./pkgs/firefox.nix {})
       synology-drive-client
+      (pkgs.callPackage "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/pkgs/agenix.nix" {})
     ] ++ (callPackage ./dev-tools.nix {})
     ++ lib.optional stdenv.isLinux keepassxc;
     
