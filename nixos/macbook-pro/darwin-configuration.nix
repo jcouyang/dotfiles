@@ -1,5 +1,5 @@
 { config, pkgs, ... }:
-let nixos = pkgs.callPackage ../common.nix { };
+let nixos = pkgs.callPackage ../shared-config.nix { };
 in {
   nixpkgs.config.allowBroken = true;
   nixpkgs.config.allowUnfree = true;

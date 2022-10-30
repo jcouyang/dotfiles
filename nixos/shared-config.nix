@@ -64,6 +64,8 @@ rec {
     xserver.displayManager.sddm.enable = true;
     xserver.desktopManager.plasma5.enable = true;
     xserver.xkbOptions = "ctrl:swapcaps";
+
+    offlineimap.enable = true;
   };
 
   # Audio

@@ -27,6 +27,10 @@ in {
         path = "${cfg.home}/.config/gh/hosts.yml";
         owner = cfg.owner;
       };
+      "offlineimap/gmailpass" = {
+        file = ./offlineimap/gmailpass.age;
+        owner = cfg.owner;
+      };
     };
   };
-}  
+}

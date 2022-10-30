@@ -1,0 +1,18 @@
+[general]
+accounts = Gmail
+
+[Account Gmail]
+localrepository = LocalGmail
+remoterepository = RemoteGmail
+
+[Repository LocalGmail]
+type = GmailMaildir
+localfolders = ~/SynologyDrive/Mail/Gmail
+
+[Repository RemoteGmail]
+type = Gmail
+remoteuser = oyanglulu@gmail.com
+remotepassfile = /run/agenix/offlineimap/gmailpass
+sslcacertfile = /etc/pki/tls/certs/ca-bundle.crt
+maxconnections = 5
+folderfilter = lambda foldername: foldername in ['INBOX']

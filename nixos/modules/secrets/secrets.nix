@@ -3,4 +3,5 @@ in {
   ".netrc.age".publicKeys = [jcouyang];
   ".npmrc.age".publicKeys = [jcouyang];
   "gh_hosts.yaml.age".publicKeys = [jcouyang];
+  "offlineimap/gmailpass.age".publicKeys = [jcouyang];
 }
