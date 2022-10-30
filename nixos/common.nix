@@ -5,8 +5,17 @@
 { config, pkgs, ... }:
 
 rec {
-  imports = [ (import ./secrets/config.nix {users = users.users;}) ];
-  
+  imports = (import ./modules/module-list.nix);
+
+  secrets = {
+    enable = true;
+    owner = users.users.jcouyang.name;
+    home = users.users.jcouyang.home;
+    identityPaths = ["${users.users.jcouyang.home}/.ssh/id_ed25519"];
+  };
+
+  devtools.enable = true;
+
   nixpkgs = {
     config = {
       allowBroken = true;
@@ -73,38 +82,12 @@ rec {
   };
 
   environment = {
-    shells = [ pkgs.bashInteractive pkgs.zsh ];
-
     systemPackages = with pkgs; [
-      fzf
-      coreutils
       (callPackage ./pkgs/firefox.nix {})
       synology-drive-client
       (pkgs.callPackage "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/pkgs/agenix.nix" {})
-    ] ++ (callPackage ./dev-tools.nix {})
+    ]
     ++ lib.optional stdenv.isLinux keepassxc;
-    
-    variables = {
-      LANG = "en_US.UTF-8";
-      EDITOR = "emacsclient";
-      ALTERNATE_EDITOR = "vim";
-      AWS_DEFAULT_REGION = "ap-southeast-2";
-    };
-    
-    shellAliases = {
-      em = "emacsclient";
-    };
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableBashCompletion = true;
-    autosuggestions.enable = true;
-    ohMyZsh = {
-      enable = true;
-      plugins = [ "git" "z" "fzf" ];
-      theme = "lambda";
-    };
   };
 
   # Enable CUPS to print documents.
@@ -143,14 +126,4 @@ rec {
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.05"; # Did you read the comment?
-
-  virtualisation = {
-    docker.enable = false;
-    podman = {
-      enable = true;
-      dockerCompat = true;
-      dockerSocket.enable = true;
-      defaultNetwork.dnsname.enable = true;
-    };
-  };
 }
