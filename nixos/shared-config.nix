@@ -31,7 +31,16 @@ rec {
       "jcouyang.cachix.org-1:TsD057OCpomDztwQiONvnXfLnOaGDhOAAB3C8ODLr14="
       "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
     ];
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      trusted-substituters = ["https://jcouyang.cachix.org" "https://hydra.iohk.io" "https://cache.iog.io" "s3://myob-api-nixpkgs?region=ap-southeast-2"];
+      trusted-public-keys = [
+      "myob-api-nix-cache:2r+2/m5vOo/6PI1PTas0wc7OtVLv4wYXE9u3t8CEr4I="
+      "jcouyang.cachix.org-1:TsD057OCpomDztwQiONvnXfLnOaGDhOAAB3C8ODLr14="
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+      ];
+      substituters = ["https://jcouyang.cachix.org" "https://hydra.iohk.io" "https://cache.iog.io"];
+    };
   };
 
   # Use the systemd-boot EFI boot loader.

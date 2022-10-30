@@ -10,7 +10,7 @@ in {
       pkgs.oh-my-zsh
       pkgs.zsh-autosuggestions
     ];
-  fonts.enableFontDir = true;
+  fonts.fontDir.enable = true;
   fonts.fonts = nixos.fonts.fonts;
   environment.variables = {
     SHELL = "${pkgs.zsh}/bin/zsh";
@@ -30,8 +30,8 @@ in {
   # environment.darwinConfig = "$HOME/.config/nixpkgs/darwin/configuration.nix";
 
   # Auto upgrade nix package and the daemon service.
-  nix.package = pkgs.nix;
-
+  nix.settings = nixos.nix.settings;
+  
   # Create /etc/bashrc that loads the nix-darwin environment.
   programs.zsh = {
     enable = true;  # default shell on catalina
