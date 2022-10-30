@@ -16,6 +16,17 @@ in {
       em = "emacsclient";
     };
 
+    virtualisation = {
+      docker.enable = false;
+      podman = {
+        enable = true;
+        dockerCompat = true;
+        dockerSocket.enable = true;
+        defaultNetwork.dnsname.enable = true;
+      };
+    };
+
+
     programs.zsh = {
       enable = true;
       enableBashCompletion = true;
@@ -27,13 +38,20 @@ in {
       };
     };
 
-    virtualisation = {
-      docker.enable = false;
-      podman = {
-        enable = true;
-        dockerCompat = true;
-        dockerSocket.enable = true;
-        defaultNetwork.dnsname.enable = true;
+    programs.git = {
+      enable = true;
+      config = {
+        user = {
+          name = "Jichao Ouyang";
+          email = "oyanglulu@gmail.com";
+          signingkey = "DA8B833B52604E63";
+        };
+        core.editor = "emacsclient";
+        commit.gpgsign = true;
+        github.user = "jcouyang";
+        init.defaultBranch = "master";
+        credential."https://github.com".helper = "${pkgs.gh}/bin/gh auth git-credential";
+        credential."https://gist.github.com".helper = "${pkgs.gh}/bin/gh auth git-credential";
       };
     };
     environment.systemPackages = with pkgs;[
@@ -52,8 +70,6 @@ in {
       nix-direnv
 
       # Github
-      git
-      git-remote-gcrypt
       gh
 
       ## Scala

@@ -1,5 +1,5 @@
 {stdenv, wrapFirefox, firefox-unwrapped, firefox}:
-wrapFirefox firefox-unwrapped {
+if stdenv.isLinux then wrapFirefox firefox-unwrapped {
   # https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
   extraPrefs = ''
     pref("ui.key.accelKey", 18);
@@ -9,4 +9,4 @@ wrapFirefox firefox-unwrapped {
     pref("ui.key.menuAccessKey", -1);
     pref("network.protocol-handler.expose.org-protocol", false);
   '';
-}
+} else firefox
