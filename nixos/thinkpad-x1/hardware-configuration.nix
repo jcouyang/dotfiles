@@ -12,6 +12,11 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  # Use the systemd-boot EFI boot loader.
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+  };
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/7e715946-b422-4d77-88eb-dfe2fa327b19";
@@ -28,4 +33,13 @@
     ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  # Audio
+  hardware.pulseaudio.enable = true;
+
+  networking = {
+    useDHCP = false;
+    interfaces.wlp0s20f3.useDHCP = true;
+    networkmanager.enable = true;
+  };
+
 }

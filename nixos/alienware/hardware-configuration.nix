@@ -12,6 +12,11 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  # Use the systemd-boot EFI boot loader.
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+  };
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/18e5b6ce-340a-4f9e-a895-1e1ecc018828";
@@ -35,4 +40,13 @@
   services.xserver.videoDrivers = [ "intel" "nvidia" ];
   hardware.video.hidpi.enable = true;
   hardware.opengl.driSupport32Bit = true;
+  # Audio
+  hardware.pulseaudio.enable = true;
+
+  networking = {
+    useDHCP = false;
+    interfaces.wlp0s20f3.useDHCP = true;
+    networkmanager.enable = true;
+  };
+
 }

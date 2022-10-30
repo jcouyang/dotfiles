@@ -1,12 +1,15 @@
-{pkgs,lib, config, ...}:
+{lib, config, options, pkgs, ...}:
 with lib;
 let cfg = config.secrets;
+    isDarwin = builtins.hasAttr "darwinConfig" options.environment;
+    agenixurl = "https://github.com/montchr/agenix/archive/refs/heads/darwin-support.tar.gz";
 in {
-  imports = [ "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/modules/age.nix" ];
+  imports = [ "${builtins.fetchTarball agenixurl}/modules/age.nix" ];
   options.secrets = {
     enable = mkEnableOption "mount secrets";
     home = mkOption {type = types.str;};
     owner = mkOption {type = types.str;};
+    agenixurl = mkOption {type = types.str; default = "https://github.com/ryantm/agenix/archive/main.tar.gz";};
     identityPaths = mkOption {type = types.listOf types.str;default = [];};
   };
   config = mkIf cfg.enable {

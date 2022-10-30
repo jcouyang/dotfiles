@@ -16,18 +16,7 @@ in {
       em = "emacsclient";
     };
 
-    virtualisation = {
-      docker.enable = false;
-      podman = {
-        enable = true;
-        dockerCompat = true;
-        dockerSocket.enable = true;
-        defaultNetwork.dnsname.enable = true;
-      };
-    };
-
-
-    programs.zsh = {
+    programs.zsh = if pkgs.stdenv.isLinux then {
       enable = true;
       enableBashCompletion = true;
       autosuggestions.enable = true;
@@ -36,24 +25,28 @@ in {
         plugins = [ "git" "z" "fzf" ];
         theme = "lambda";
       };
+    } else {
+      enable = true;  # default shell on catalina
+      enableCompletion = true;
+      enableBashCompletion = true;
+      enableFzfGit = true;
+      enableFzfCompletion = true;
+      enableFzfHistory = true;
+      variables = {
+        ZSH_THEME="lambda";
+        ZSH_CACHE_DIR="$HOME/.cache/ohmyzsh";
+      };
+      promptInit = ''
+      plugins=(
+          git
+          z
+          aws
+                                            )
+      source ${pkgs.oh-my-zsh}/share/oh-my-zsh/oh-my-zsh.sh
+      source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    '';
     };
 
-    programs.git = {
-      enable = true;
-      config = {
-        user = {
-          name = "Jichao Ouyang";
-          email = "oyanglulu@gmail.com";
-          signingkey = "DA8B833B52604E63";
-        };
-        core.editor = "emacsclient";
-        commit.gpgsign = true;
-        github.user = "jcouyang";
-        init.defaultBranch = "master";
-        credential."https://github.com".helper = "${pkgs.gh}/bin/gh auth git-credential";
-        credential."https://gist.github.com".helper = "${pkgs.gh}/bin/gh auth git-credential";
-      };
-    };
     environment.systemPackages = with pkgs;[
       # General
       (callPackage ../../pkgs/emacs.nix {})
@@ -71,6 +64,7 @@ in {
 
       # Github
       gh
+      git
 
       ## Scala
       # graalvm8-ce

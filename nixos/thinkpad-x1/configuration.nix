@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../shared-config.nix
+      ../linux.nix
     ];
 
   services.fprintd.enable = true;

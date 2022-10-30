@@ -1,4 +1,4 @@
 [
-  ./secrets/config.nix
+  ./secrets/default.nix
   ./devtools/default.nix
 ]
