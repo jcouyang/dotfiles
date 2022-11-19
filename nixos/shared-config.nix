@@ -45,6 +45,7 @@ rec {
     systemPackages = with pkgs; [
       #(callPackage ./pkgs/firefox.nix {})
       synology-drive-client
+      notmuch
       (pkgs.callPackage "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/pkgs/agenix.nix" {})
     ]
     ++ lib.optional stdenv.isLinux keepassxc;

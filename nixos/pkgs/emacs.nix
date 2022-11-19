@@ -44,6 +44,7 @@ let
     multiple-cursors
     myEmacsConf
     nix-mode
+    notmuch
     nyan-mode
     ob-restclient
     org-bullets 

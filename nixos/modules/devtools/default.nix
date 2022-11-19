@@ -26,7 +26,7 @@ in {
         theme = "lambda";
       };
     } else {
-      enable = true;  # default shell on catalina
+      enable = true;
       enableCompletion = true;
       enableBashCompletion = true;
       enableFzfGit = true;
