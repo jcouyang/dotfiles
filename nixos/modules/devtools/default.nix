@@ -11,7 +11,7 @@ in {
       ALTERNATE_EDITOR = "vim";
       AWS_DEFAULT_REGION = "ap-southeast-2";
     };
-    
+
     environment.shellAliases = {
       em = "emacsclient";
     };
@@ -45,16 +45,21 @@ in {
         ZSH_THEME="lambda";
         ZSH_CACHE_DIR="$HOME/.cache/ohmyzsh";
       };
-      promptInit = ''
-      plugins=(
-          git
-          z
-          aws
-                                            )
-      source ${pkgs.oh-my-zsh}/share/oh-my-zsh/oh-my-zsh.sh
-      source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-      export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=246,bg=8,underline"
-    '';
+      promptInit =
+        ''
+          plugins=(
+            git
+            z
+            aws
+          )
+          source ${pkgs.oh-my-zsh}/share/oh-my-zsh/oh-my-zsh.sh
+          source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+          if [[ "$INSIDE_EMACS" = 'vterm' ]] \
+            && [[ -n ''${EMACS_VTERM_PATH} ]] \
+            && [[ -f ''${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
+                	source ''${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
+          fi
+        '';
     };
 
     environment.systemPackages = with pkgs;[
@@ -97,7 +102,7 @@ in {
 
       # Go
       go
-      ## gopls has to build from go1.18
+      ## gopls
       gopls
 
       # Rust

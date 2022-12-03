@@ -1,8 +1,8 @@
 {pkgs, runCommand}:
 
 let
-  # theEmacs = if pkgs.stdenv.isDarwin then pkgs.emacsMacport else pkgs.emacs;
-  theEmacs = pkgs.emacs;
+  theEmacs = if pkgs.stdenv.isDarwin then pkgs.emacsMacport else pkgs.emacs;
+  # theEmacs = pkgs.emacs;
   emacsWithPackages = (pkgs.emacsPackagesFor theEmacs).emacsWithPackages;
   myEmacsConf = runCommand "default.el" {
     src = builtins.path {
