@@ -40,7 +40,7 @@
     };
   };
 
-  system.stateVersion = "21.05";
+  system.stateVersion = "22.11";
 
   # Set your time zone.
   time.timeZone = "Australia/Sydney";

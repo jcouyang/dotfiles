@@ -62,7 +62,6 @@
       )
   #+END_SRC
   #+RESULTS:
-  : /Users/jichao.ouyang/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin
 
 
 * Modes
@@ -456,32 +455,36 @@
              )
        :hook
        (org-mode . visual-line-mode)
-       (org-mode . (lambda ()
-                     (variable-pitch-mode 1)
-                     (mapc
-                      (lambda (face)
-                        (set-face-attribute face nil :inherit 'fixed-pitch))
-                      (list 'org-code
-                            'org-link 
-                            'org-block
-                            'org-table
-                            'org-block-begin-line
-                            'org-block-end-line
-                            'org-meta-line
-                            'org-property-value
-                            'org-tag
-                            'org-document-info-keyword))))
+       ;; (org-mode . (lambda ()
+       ;;               (variable-pitch-mode 1)
+       ;;               (mapc
+       ;;                (lambda (face)
+       ;;                  (set-face-attribute face nil :inherit 'fixed-pitch))
+       ;;                (list 'org-code
+       ;;                      'org-link 
+       ;;                      'org-block
+       ;;                      'org-table
+       ;;                      'org-block-begin-line
+       ;;                      'org-block-end-line
+       ;;                      'org-meta-line
+       ;;                      'org-property-value
+       ;;                      'org-tag
+       ;;                      'org-document-info-keyword))))
        :config
-       (custom-theme-set-faces
-        'user
-        '(variable-pitch ((t (:family "ETBembo" :weight thin :height 1.25 ))))
-        '(fixed-pitch ((t ( :family "JetBrains Mono" :weight thin  :height 0.8 )))))
+       ;; (custom-theme-set-faces
+       ;; ;;  'user
+       ;; ;;  '(variable-pitch 
+       ;; ((t (:family "ETBembo" :weight thin :height 1.25 ))))
+       ;;  '(fixed-pitch ((t ( :family "JetBrains Mono" :weight thin  :height 0.8 )))))
        (global-set-key (kbd "C-c c") 'org-capture)
        (global-set-key (kbd "C-c a") 'org-agenda)
        )
 
 
    #+END_SRC
+
+   #+RESULTS:
+   | (lambda nil (variable-pitch-mode 1) (mapc (lambda (face) (set-face-attribute face nil :inherit 'fixed-pitch)) (list 'org-code 'org-link 'org-block 'org-table 'org-block-begin-line 'org-block-end-line 'org-meta-line 'org-property-value 'org-tag 'org-document-info-keyword))) | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #<subr F616e6f6e796d6f75732d6c616d626461_anonymous_lambda_9> | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | org-bullets-mode | (lambda nil (variable-pitch-mode 1) (mapc #'(lambda (face) (set-face-attribute face nil :inherit 'fixed-pitch)) (list 'org-code 'org-link 'org-block 'org-table 'org-block-begin-line 'org-block-end-line 'org-meta-line 'org-property-value 'org-tag 'org-document-info-keyword))) | visual-line-mode |
 
 *** Bullet
     #+begin_src emacs-lisp

@@ -61,6 +61,7 @@ let
     typescript-mode
     unicode-fonts
     use-package
+    vterm
     which-key
     yaml-mode
     yasnippet

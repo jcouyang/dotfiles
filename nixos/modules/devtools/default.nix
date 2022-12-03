@@ -19,6 +19,15 @@ in {
     programs.zsh = if pkgs.stdenv.isLinux then {
       enable = true;
       enableBashCompletion = true;
+      enableCompletion = true;
+      interactiveShellInit = ''
+      if [[ "$INSIDE_EMACS" = 'vterm' ]] \
+          && [[ -n ''${EMACS_VTERM_PATH} ]] \
+          && [[ -f ''${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
+          	source ''${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
+      fi
+      '';
+      autosuggestions.highlightStyle = "fg=246,bg=8,underline";
       autosuggestions.enable = true;
       ohMyZsh = {
         enable = true;
@@ -44,6 +53,7 @@ in {
                                             )
       source ${pkgs.oh-my-zsh}/share/oh-my-zsh/oh-my-zsh.sh
       source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+      export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=246,bg=8,underline"
     '';
     };
 
@@ -86,9 +96,9 @@ in {
       # dhall-lsp-server
 
       # Go
-      go_1_18
+      go
       ## gopls has to build from go1.18
-      # gopls
+      gopls
 
       # Rust
       cargo
