@@ -12,10 +12,12 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+
   # Use the systemd-boot EFI boot loader.
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+    loader.grub.configurationLimit = 5;
   };
 
   fileSystems."/" =
@@ -38,11 +40,11 @@
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
   services.xserver.videoDrivers = [ "intel" "nvidia" ];
-  hardware.video.hidpi.enable = true;
-  hardware.opengl.driSupport32Bit = true;
-  # Audio
-  hardware.pulseaudio.enable = true;
+  hardware.video.hidpi.enable = false;
+  hardware.opengl.driSupport32Bit = false;
 
+  hardware.pulseaudio.enable = true;
+  hardware.bluetooth.enable = true;
   networking = {
     useDHCP = false;
     interfaces.wlp0s20f3.useDHCP = true;
