@@ -41,24 +41,23 @@ in {
       enableFzfGit = true;
       enableFzfCompletion = true;
       enableFzfHistory = true;
-      variables = {
-        ZSH_THEME="lambda";
-        ZSH_CACHE_DIR="$HOME/.cache/ohmyzsh";
-      };
       promptInit =
         ''
+          SAVEHIST=200000
+          HISTSIZE=200000
           plugins=(
             git
             z
             aws
           )
+          source $HOME/.bashrc
+          export ZSH_CACHE_DIR="$HOME/.cache/ohmyzsh"
+          export ZSH_THEME=lambda
+
           source ${pkgs.oh-my-zsh}/share/oh-my-zsh/oh-my-zsh.sh
           source ${pkgs.zsh-autosuggestions}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-          if [[ "$INSIDE_EMACS" = 'vterm' ]] \
-            && [[ -n ''${EMACS_VTERM_PATH} ]] \
-            && [[ -f ''${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh ]]; then
-                	source ''${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
-          fi
+
+          export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=246,bg=8,underline"
         '';
     };
 
@@ -94,11 +93,13 @@ in {
       ghc
       stylish-haskell
       haskell-language-server
+
+      # Dhall
       dhall
       dhall-json
       dhall-bash
-      ## 1.1.1 has bug
-      # dhall-lsp-server
+
+      dhall-lsp-server
 
       # Go
       go
