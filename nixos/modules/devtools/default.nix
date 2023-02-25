@@ -6,7 +6,6 @@ in {
   config = mkIf cfg.enable {
     environment.shells = [ pkgs.bashInteractive pkgs.zsh ];
     environment.variables = {
-      LANG = "en_US.UTF-8";
       EDITOR = "emacsclient";
       ALTERNATE_EDITOR = "vim";
       AWS_DEFAULT_REGION = "ap-southeast-2";
@@ -27,7 +26,7 @@ in {
           	source ''${EMACS_VTERM_PATH}/etc/emacs-vterm-bash.sh
       fi
       '';
-      autosuggestions.highlightStyle = "fg=246,bg=8,underline";
+      autosuggestions.highlightStyle = "fg=243,underline";
       autosuggestions.enable = true;
       ohMyZsh = {
         enable = true;

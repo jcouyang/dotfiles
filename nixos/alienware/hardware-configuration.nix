@@ -8,47 +8,57 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
+
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot = {
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
-    loader.grub.configurationLimit = 5;
-  };
-
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/18e5b6ce-340a-4f9e-a895-1e1ecc018828";
+    { device = "/dev/disk/by-uuid/5941af9b-9872-4a64-a735-269f2e6ce7f4";
       fsType = "ext4";
     };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/775D-DD1E";
+  fileSystems."/boot/efi" =
+    { device = "/dev/disk/by-uuid/DECA-FE87";
       fsType = "vfat";
     };
 
-  fileSystems."/data" = {
-    device = "/dev/disk/by-uuid/c3b03619-4a86-49a4-9ec6-37c891062b24";
-    fsType = "ext4";
-  };
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/b2f2c7af-2e55-4e98-857b-3a60ec28b875"; } ];
+    [ { device = "/dev/disk/by-uuid/04732d7a-04dd-4de7-9e6b-957f37cc15ff"; }
+    ];
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  services.xserver.videoDrivers = ["intel" "nvidia" ];
+  # GeForce 1060
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_390;
+  networking.useDHCP = false;
+  networking.interfaces.wlp0s20f3.useDHCP = true;
+  networking.networkmanager.enable = true;
 
-  services.xserver.videoDrivers = [ "intel" "nvidia" ];
-  hardware.video.hidpi.enable = false;
-  hardware.opengl.driSupport32Bit = false;
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
 
-  hardware.pulseaudio.enable = true;
-  hardware.bluetooth.enable = true;
-  networking = {
-    useDHCP = false;
-    interfaces.wlp0s20f3.useDHCP = true;
-    networkmanager.enable = true;
+  # Enable sound with pipewire.
+  sound.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
   };
-
 }

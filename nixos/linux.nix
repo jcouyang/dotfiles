@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 {
   imports = [./shared-config.nix];
-  i18n.defaultLocale = "en_US.UTF-8";
   i18n.inputMethod = {
     enabled = "ibus";
     ibus.engines = with pkgs.ibus-engines; [ libpinyin ];
@@ -26,7 +25,7 @@
     # Enable the Plasma 5 Desktop Environment.
     xserver.displayManager.sddm.enable = true;
     xserver.desktopManager.plasma5.enable = true;
-    xserver.xkbOptions = "ctrl:swapcaps";
+    xserver.xkbOptions = "caps:ctrl_modifier";
 
   };
 
@@ -41,7 +40,4 @@
   };
 
   system.stateVersion = "22.11";
-
-  # Set your time zone.
-  time.timeZone = "Australia/Sydney";
 }
