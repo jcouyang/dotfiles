@@ -34,6 +34,14 @@ in {
         file = ./offlineimap/gmailpass.age;
         owner = cfg.owner;
       };
+      "gpg/oyanglulu.sec.gpg" = {
+        file = ./gpg/oyanglulu.sec.gpg.age;
+        owner = cfg.owner;
+      };
+      "gpg/jichao.sec.gpg" = {
+        file = ./gpg/jichao.sec.gpg.age;
+        owner = cfg.owner;
+      };
     };
   };
 }
