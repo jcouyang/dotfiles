@@ -6,157 +6,159 @@
 * UI
 
 ** Fonts
-   Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
-   #+BEGIN_SRC emacs-lisp
-     (if (member "JetBrains Mono" (font-family-list))
-         (set-frame-font "JetBrains Mono 13"))
+Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
+#+BEGIN_SRC emacs-lisp
+  (when (member "JetBrains Mono" (font-family-list))
+    (if (eq system-type 'gnu/linux)
+        (set-frame-font "JetBrains Mono 11")
+      (set-frame-font "JetBrains Mono 13"))
+    )
 
-     (global-prettify-symbols-mode 1)
-                                             ;(load-theme 'misterioso t)
-   #+END_SRC
+  (global-prettify-symbols-mode 1)
+#+END_SRC
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** Theme
-   #+begin_src emacs-lisp
-     (load-theme 'misterioso)
-   #+end_src
+#+begin_src emacs-lisp
+  (load-theme 'misterioso)
+#+end_src
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 * Default Settings
-  #+BEGIN_SRC emacs-lisp
-    ;; Setting
-    ;; (load-theme 'misterioso t)
-    (server-start)
-    ;; (keyboard-translate ?\C-h ?\C-?)
-    (column-number-mode 1)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    (menu-bar-mode -1)
-    (delete-selection-mode 1)
-    (global-auto-revert-mode 1)
-    (electric-indent-mode t)
+#+BEGIN_SRC emacs-lisp
+  ;; Setting
+  ;; (load-theme 'misterioso t)
+  (server-start)
+  ;; (keyboard-translate ?\C-h ?\C-?)
+  (column-number-mode 1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (menu-bar-mode -1)
+  (delete-selection-mode 1)
+  (global-auto-revert-mode 1)
+  (electric-indent-mode t)
 
-    (setq-default
-     make-backup-files nil
-     indent-tabs-mode nil)
-    ;; make unix lineendings default
-    (setq default-buffer-file-coding-system 'utf-8-unix)
-    (when (eq system-type 'darwin)
-      (setq mac-option-modifier 'alt)
-      (setq mac-option-modifier 'super) ; make opt key do Super
-      (setq mac-command-modifier 'meta))
-  #+END_SRC
+  (setq-default
+   make-backup-files nil
+   indent-tabs-mode nil)
+  ;; make unix lineendings default
+  (setq default-buffer-file-coding-system 'utf-8-unix)
+  (when (eq system-type 'darwin)
+    (setq mac-option-modifier 'alt)
+    (setq mac-option-modifier 'super) ; make opt key do Super
+    (setq mac-command-modifier 'meta))
+#+END_SRC
 
-  #+RESULTS:
-  : meta
+#+RESULTS:
+: meta
 
-  #+BEGIN_SRC emacs-lisp
-    (when (eq system-type 'darwin)
-      (add-to-list 'exec-path "/run/current-system/sw/bin")
-      (add-to-list 'exec-path (expand-file-name "~/.nix-profile/bin"))
-      (setenv "PATH" "/Users/jichao.ouyang/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin")
-      )
-  #+END_SRC
-  #+RESULTS:
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'darwin)
+    (add-to-list 'exec-path "/run/current-system/sw/bin")
+    (add-to-list 'exec-path (expand-file-name "~/.nix-profile/bin"))
+    (setenv "PATH" "/Users/jichao.ouyang/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/usr/sbin:/bin:/sbin")
+    )
+#+END_SRC
+#+RESULTS:
 
 
 * Modes
 
 ** [[https://github.com/winterTTr/ace-jump-mode][ace jump mode]]
 
-   You can move your cursor to ANY position ( across window and frame ) in emacs by using only 3 times key press.
+You can move your cursor to ANY position ( across window and frame ) in emacs by using only 3 times key press.
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package ace-jump-mode
-       :ensure t
-       :bind
-       ("C-c SPC" . ace-jump-mode)
-       ("C-c u SPC" . ace-jump-mode-pop-mark)
-       ("C-c l SPC" . ace-jump-line-mode))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-jump-mode
+    :ensure t
+    :bind
+    ("C-c SPC" . ace-jump-mode)
+    ("C-c u SPC" . ace-jump-mode-pop-mark)
+    ("C-c l SPC" . ace-jump-line-mode))
+#+END_SRC
 
-   #+RESULTS:
-   : ace-jump-line-mode
+#+RESULTS:
+: ace-jump-line-mode
 
 ** [[https://github.com/company-mode/company-mode][company]]
 
-   text completion framework
+text completion framework
  
-   #+BEGIN_SRC emacs-lisp
-     (use-package company
-       :config
-       (add-hook 'after-init-hook 'global-company-mode)
-       )
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :config
+    (add-hook 'after-init-hook 'global-company-mode)
+    )
+#+END_SRC
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** Dhall
-   #+begin_src emacs-lisp
-     (use-package dhall-mode
-       :ensure t
-       :hook
-       (dhall-mode . lsp)
-       :config
-       (setq
-        ;; uncomment the next line to disable automatic format
-        ;;dhall-format-at-save nil
+#+begin_src emacs-lisp
+  (use-package dhall-mode
+    :ensure t
+    :hook
+    (dhall-mode . lsp)
+    :config
+    (setq
+     ;; uncomment the next line to disable automatic format
+     ;;dhall-format-at-save nil
 
-        ;; comment the next line to use unicode syntax
-        ;; dhall-format-arguments (\` ("--ascii"))
+     ;; comment the next line to use unicode syntax
+     ;; dhall-format-arguments (\` ("--ascii"))
 
-        ;; header-line is obsoleted by lsp-mode
-        dhall-use-header-line nil
-        dhall-type-check-inactivity-timeout 10
-        ))
+     ;; header-line is obsoleted by lsp-mode
+     dhall-use-header-line nil
+     dhall-type-check-inactivity-timeout 10
+     ))
 
-   #+end_src
+#+end_src
 
-   #+RESULTS:
-   | lsp |
+#+RESULTS:
+| lsp |
 
 ** expand region
-   #+BEGIN_SRC emacs-lisp
-     (use-package expand-region
-       :bind
-       ("C-8" . er/expand-region)
-       ("C--" . er/contract-region))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :bind
+    ("C-8" . er/expand-region)
+    ("C--" . er/contract-region))
+#+END_SRC
 
-   #+RESULTS:
-   : er/contract-region
+#+RESULTS:
+: er/contract-region
 
 ** COMMENT Flyspell
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package flycheck
-       :ensure t
-       :init
-       (global-flycheck-mode)
-       :config
-       (dolist (hook '(text-mode-hook))
-         (add-hook hook (lambda ()
-                          (flyspell-mode 1)
-                          (add-to-list 'company-backends 'company-ispell)
-                          (message "company-ispell enable")
-                          )
-                   ))
-       (dolist (hook '(prog-mode-hook))
-         (add-hook hook (lambda ()
-                          (flyspell-prog-mode)
-                          (setq company-backends (delete 'company-ispell company-backends))
-                          (message "company-ispell disable")
-                          )))
-       )
-   #+End_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init
+    (global-flycheck-mode)
+    :config
+    (dolist (hook '(text-mode-hook))
+      (add-hook hook (lambda ()
+                       (flyspell-mode 1)
+                       (add-to-list 'company-backends 'company-ispell)
+                       (message "company-ispell enable")
+                       )
+                ))
+    (dolist (hook '(prog-mode-hook))
+      (add-hook hook (lambda ()
+                       (flyspell-prog-mode)
+                       (setq company-backends (delete 'company-ispell company-backends))
+                       (message "company-ispell disable")
+                       )))
+    )
+#+End_SRC
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** direnv
 #+begin_src emacs-lisp
@@ -166,534 +168,530 @@
 #+RESULTS:
 
 ** forge 
-   #+BEGIN_SRC emacs-lisp
-     ;;(use-package forge
-     ;;:after magit)
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  ;;(use-package forge
+  ;;:after magit)
+#+END_SRC
 
-   #+RESULTS:
+#+RESULTS:
 
 ** Go
-   #+begin_src emacs-lisp
-     (use-package go-mode
-       :hook
-       (go-mode . lsp)
-       :config
-       (setq lsp-go-gopls-server-path (expand-file-name "~/go/bin/gopls")))
-     (use-package protobuf-mode)
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package go-mode
+    :hook
+    (go-mode . lsp)
+    :config
+    (setq lsp-go-gopls-server-path (expand-file-name "~/go/bin/gopls")))
+  (use-package protobuf-mode)
+#+end_src
 
-   #+RESULTS:
+#+RESULTS:
 
 ** Haskell
-   #+begin_src emacs-lisp
-     (use-package lsp-haskell
-       :config
-       (lsp-make-interactive-code-action wingman-fill-hole "")
-       (lsp-make-interactive-code-action wingman-case-split "Wingman: Case split on sec")
-       ;; (lsp-make-interactive-code-action wingman-refine "refactor.wingman.refine")
-       ;; (lsp-make-interactive-code-action wingman-split-func-args "refactor.wingman.spltFuncArgs")
-       ;; (lsp-make-interactive-code-action wingman-use-constructor "refactor.wingman.useConstructor")
-       (setq haskell-stylish-on-save t)
-       :hook
-       (haskell-mode . lsp))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package lsp-haskell
+    :config
+    (lsp-make-interactive-code-action wingman-fill-hole "")
+    (lsp-make-interactive-code-action wingman-case-split "Wingman: Case split on sec")
+    ;; (lsp-make-interactive-code-action wingman-refine "refactor.wingman.refine")
+    ;; (lsp-make-interactive-code-action wingman-split-func-args "refactor.wingman.spltFuncArgs")
+    ;; (lsp-make-interactive-code-action wingman-use-constructor "refactor.wingman.useConstructor")
+    (setq haskell-stylish-on-save t)
+    :hook
+    (haskell-mode . lsp))
+#+end_src
 
-   #+RESULTS:
-   | lsp |
+#+RESULTS:
+| lsp |
 
 ** helm
-   #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 
-     (use-package helm
-       :ensure t
-       :bind
-       ("M-x" . helm-M-x)
-       ("C-x b" . helm-mini)
-       ("M-y" . helm-show-kill-ring)
-       :bind (:map helm-map
-                   ("<tab>" . helm-execute-persistent-action) ; rebind tab to run persistent action
-                   ("C-i" . helm-execute-persistent-action) ; make TAB works in terminal
-                   ("C-z" . helm-select-action))
-       :config
-  
-       (helm-autoresize-mode 1)
-       (setq 
-        helm-M-x-fuzzy-match t
-        helm-buffers-fuzzy-matching t
-        helm-recentf-fuzzy-match t
-        helm-ag-fuzzy-match t ;(ref: ag-fuzzy-match)
-        helm-locate-fuzzy-match t
-        )
-       )
-     (use-package helm-swoop
-       :ensure t
-       :bind (("M-m" . helm-multi-swoop-projectile)
-              ("M-M" . helm-swoop-back-to-last-point))
-       :init
-       (bind-key "M-m" 'helm-swoop-from-isearch isearch-mode-map))
+  (use-package helm
+    :ensure t
+    :bind
+    ("M-x" . helm-M-x)
+    ("C-x b" . helm-mini)
+    ("M-y" . helm-show-kill-ring)
+    :bind (:map helm-map
+                ("<tab>" . helm-execute-persistent-action) ; rebind tab to run persistent action
+                ("C-i" . helm-execute-persistent-action) ; make TAB works in terminal
+                ("C-z" . helm-select-action))
+    :config
 
-     (use-package projectile
-       :ensure t
-       :bind-keymap
-       ("C-c p" . projectile-command-map)
-       :config
-       (projectile-global-mode)
-       (setq projectile-indexing-method 'alien
-             projectile-enable-caching t
-             projectile-completion-system 'helm))
+    (helm-autoresize-mode 1)
+    (setq 
+     helm-M-x-fuzzy-match t
+     helm-buffers-fuzzy-matching t
+     helm-recentf-fuzzy-match t
+     helm-ag-fuzzy-match t ;(ref: ag-fuzzy-match)
+     helm-locate-fuzzy-match t
+     )
+    )
+  (use-package helm-swoop
+    :ensure t
+    :bind (("M-m" . helm-multi-swoop-projectile)
+           ("M-M" . helm-swoop-back-to-last-point))
+    :init
+    (bind-key "M-m" 'helm-swoop-from-isearch isearch-mode-map))
 
-     (use-package helm-projectile
-       :ensure t
-       :config
-       (helm-projectile-on)
-       )
-   #+END_SRC
+  (use-package projectile
+    :ensure t
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
+    :config
+    (projectile-global-mode)
+    (setq projectile-indexing-method 'alien
+          projectile-enable-caching t
+          projectile-completion-system 'helm))
+
+  (use-package helm-projectile
+    :ensure t
+    :config
+    (helm-projectile-on)
+    )
+#+END_SRC
 
 ** ido
-   #+BEGIN_SRC emacs-lisp
-     (use-package ido
-       :config
-       (setq ido-everywhere t
-             ido-enable-flex-matching t
-             ido-max-directory-size 100000
-             ido-default-file-method 'selected-window
-             ido-default-buffer-method 'selected-window)
-       (ido-mode 1))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package ido
+    :config
+    (setq ido-everywhere t
+          ido-enable-flex-matching t
+          ido-max-directory-size 100000
+          ido-default-file-method 'selected-window
+          ido-default-buffer-method 'selected-window)
+    (ido-mode 1))
+#+END_SRC
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** indent guide
-   #+begin_src emacs-lisp
-     (use-package indent-guide
-       :hook (prog-mode . indent-guide-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package indent-guide
+    :hook (prog-mode . indent-guide-mode))
+#+end_src
 
-   #+RESULTS:
-   | indent-guide-mode | rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
+#+RESULTS:
+| indent-guide-mode | rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
 
 ** COMMENT js2 mode
-   #+BEGIN_SRC emacs-lisp
-     (use-package js2-mode
-       :config
-       (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-       (add-to-list 'auto-mode-alist '("\\.sjs$" . js2-mode))
-       (add-to-list 'auto-mode-alist '("\\.es6$" . js2-mode))
-       (setq js2-allow-rhino-new-expr-initializer nil)
-       (setq js2-enter-indents-newline t)
-       (setq js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
-       (setq js2-idle-timer-delay 0.1)
-       (setq js2-indent-on-enter-key nil)
-       (setq js2-mirror-mode nil)
-       (setq js2-strict-inconsistent-return-warning nil)
-       (setq js2-auto-indent-p t)
-       (setq js2-include-rhino-externs nil)
-       (setq js2-include-gears-externs nil)
-       (setq js2-concat-multiline-strings 'eol)
-       (setq js2-rebind-eol-bol-keys nil)
-       (setq js2-mode-show-parse-errors t)
-       (setq js2-mode-show-strict-warnings nil))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :config
+    (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+    (add-to-list 'auto-mode-alist '("\\.sjs$" . js2-mode))
+    (add-to-list 'auto-mode-alist '("\\.es6$" . js2-mode))
+    (setq js2-allow-rhino-new-expr-initializer nil)
+    (setq js2-enter-indents-newline t)
+    (setq js2-global-externs '("module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON"))
+    (setq js2-idle-timer-delay 0.1)
+    (setq js2-indent-on-enter-key nil)
+    (setq js2-mirror-mode nil)
+    (setq js2-strict-inconsistent-return-warning nil)
+    (setq js2-auto-indent-p t)
+    (setq js2-include-rhino-externs nil)
+    (setq js2-include-gears-externs nil)
+    (setq js2-concat-multiline-strings 'eol)
+    (setq js2-rebind-eol-bol-keys nil)
+    (setq js2-mode-show-parse-errors t)
+    (setq js2-mode-show-strict-warnings nil))
+#+END_SRC
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** key chord
-   #+BEGIN_SRC emacs-lisp
-     (use-package key-chord
-       :config
-       (key-chord-mode 1)
-       (setq key-chord-two-keys-delay 0.03)
-       (key-chord-define-global "vr"     'vr/replace)
-       (key-chord-define-global "ln"     'display-line-numbers-mode)
-       (key-chord-define-global ",."     "<>\C-b")
-       (key-chord-define-global " u"     'capitalize-word)
-       )
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package key-chord
+    :config
+    (key-chord-mode 1)
+    (setq key-chord-two-keys-delay 0.03)
+    (key-chord-define-global "vr"     'vr/replace)
+    (key-chord-define-global "ln"     'display-line-numbers-mode)
+    (key-chord-define-global ",."     "<>\C-b")
+    (key-chord-define-global " u"     'capitalize-word)
+    )
+#+END_SRC
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** Langtool
-   Install LanguageTool version 3.0 or later (and java) https://languagetool.org/
+Install LanguageTool version 3.0 or later (and java) https://languagetool.org/
 
-   extract them into =/usr/local/share/LanguageTool=
+extract them into =/usr/local/share/LanguageTool=
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package langtool
-       :config
-       (setq langtool-language-tool-jar "/usr/local/share/LanguageTool/languagetool-commandline.jar"
-             langtool-disabled-rules '("WHITESPACE_RULE"
-                                       "EN_UNPAIRED_BRACKETS"
-                                       "COMMA_PARENTHESIS_WHITESPACE"
-                                       "EN_QUOTES")
-             langtool-default-language "en-US")
-       )
+#+BEGIN_SRC emacs-lisp
+  (use-package langtool
+    :config
+    (setq langtool-language-tool-jar "/usr/local/share/LanguageTool/languagetool-commandline.jar"
+          langtool-disabled-rules '("WHITESPACE_RULE"
+                                    "EN_UNPAIRED_BRACKETS"
+                                    "COMMA_PARENTHESIS_WHITESPACE"
+                                    "EN_QUOTES")
+          langtool-default-language "en-US")
+    )
 
-   #+END_SRC
+#+END_SRC
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** lsp
-   #+begin_src emacs-lisp
-                    (use-package lsp-mode
-                      :config
-                      (setq lsp-prefer-flymake nil
-                       lsp-enable-file-watchers nil
-                       lsp-lens-enable nil
-                       lsp-ui-doc-show-with-cursor t
-                       lsp-ui-sideline-show-code-actions t
-                       lsp-ui-sideline-enable t
-                       lsp-signature-auto-activate t
-                       lsp-completion-show-detail t )
-                      )
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :config
+    (setq lsp-prefer-flymake nil
+          lsp-enable-file-watchers nil
+          lsp-lens-enable nil
+          lsp-ui-doc-show-with-cursor t
+          lsp-ui-sideline-show-code-actions t
+          lsp-ui-sideline-enable t
+          lsp-signature-auto-activate t
+          lsp-completion-show-detail t )
+    )
 
-                    ;; Add metals backend for lsp-mode
-                    ;; (use-package lsp-metals)
+  ;; Add metals backend for lsp-mode
+  ;; (use-package lsp-metals)
 
-                    ;; Enable nice rendering of documentation on hover
-                    (use-package lsp-ui)
-   #+end_src
+  ;; Enable nice rendering of documentation on hover
+  (use-package lsp-ui)
+#+end_src
 
-   #+RESULTS:
+#+RESULTS:
 
 ** COMMENT ligature
-   #+BEGIN_SRC emacs-lisp
-     (when (cl-search "27." (emacs-version))
-       (use-package ligature
-         :init
-         (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
-                                              ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
-                                              "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
-                                              "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
-                                              "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
-                                              "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
-                                              "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
-                                              "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
-                                              ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
-                                              "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
-                                              "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
-                                              "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
-                                              "://"))
-         (global-ligature-mode t))
-       )
+#+BEGIN_SRC emacs-lisp
+  (when (cl-search "27." (emacs-version))
+    (use-package ligature
+      :init
+      (ligature-set-ligatures 'prog-mode '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
+                                           ":::" "::=" "=:=" "===" "==>" "=!=" "=>>" "=<<" "=/=" "!=="
+                                           "!!." ">=>" ">>=" ">>>" ">>-" ">->" "->>" "-->" "---" "-<<"
+                                           "<~~" "<~>" "<*>" "<||" "<|>" "<$>" "<==" "<=>" "<=<" "<->"
+                                           "<--" "<-<" "<<=" "<<-" "<<<" "<+>" "</>" "###" "#_(" "..<"
+                                           "..." "+++" "/==" "///" "_|_" "www" "&&" "^=" "~~" "~@" "~="
+                                           "~>" "~-" "**" "*>" "*/" "||" "|}" "|]" "|=" "|>" "|-" "{|"
+                                           "[|" "]#" "::" ":=" ":>" ":<" "$>" "==" "=>" "!=" "!!" ">:"
+                                           ">=" ">>" ">-" "-~" "-|" "->" "--" "-<" "<~" "<*" "<|" "<:"
+                                           "<$" "<=" "<>" "<-" "<<" "<+" "</" "#{" "#[" "#:" "#=" "#!"
+                                           "##" "#(" "#?" "#_" "%%" ".=" ".-" ".." ".?" "+>" "++" "?:"
+                                           "?=" "?." "??" ";;" "/*" "/=" "/>" "//" "__" "~~" "(*" "*)"
+                                           "://"))
+      (global-ligature-mode t))
+    )
 
-   #+END_SRC
+#+END_SRC
 
-   #+RESULTS:
+#+RESULTS:
 
 ** magit
-   #+BEGIN_SRC emacs-lisp
-     (use-package magit
-       :bind
-       ("C-x g" . magit-status))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :bind
+    ("C-x g" . magit-status))
+#+END_SRC
 
-   #+RESULTS:
-   : magit-status
+#+RESULTS:
+: magit-status
 
 ** multi cursor
-   #+BEGIN_SRC emacs-lisp
-     (use-package multiple-cursors
-       :bind
-       ("C-<" . mc/mark-previous-like-this)
-       ("C->" . mc/mark-next-like-this)
-       ("C-*" . mc/mark-all-like-this))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package multiple-cursors
+    :bind
+    ("C-<" . mc/mark-previous-like-this)
+    ("C->" . mc/mark-next-like-this)
+    ("C-*" . mc/mark-all-like-this))
+#+END_SRC
 
-   #+RESULTS:
-   : mc/mark-all-like-this
+#+RESULTS:
+: mc/mark-all-like-this
 
 ** Nya mode
-   #+BEGIN_SRC emacs-lisp
-     (use-package nyan-mode
-       :ensure t
-       :config (nyan-mode t))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode
+    :ensure t
+    :config (nyan-mode t))
+#+END_SRC
 
 ** on screen
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package on-screen
-       :ensure t
-       :config
-       (on-screen-global-mode 1)
-       (setq on-screen-highlight-method 'narrow-line))
+#+BEGIN_SRC emacs-lisp
+  (use-package on-screen
+    :ensure t
+    :config
+    (on-screen-global-mode 1)
+    (setq on-screen-highlight-method 'narrow-line))
 
-   #+END_SRC
+#+END_SRC
 
-   #+RESULTS:
-   : narrow-line
+#+RESULTS:
+: narrow-line
 
 ** org mode
 
 *** Commond settings
-   #+BEGIN_SRC emacs-lisp :noresult
-     (use-package org
-       :init
-       (setq org-agenda-files (quote ("~/SynologyDrive/Documents/notes"))
-             org-refile-targets (quote ((nil :maxlevel . 9)
-                                        (org-agenda-files :maxlevel . 9)))
-             org-directory "~/SynologyDrive/Documents/notes"
-             org-default-notes-file (concat org-directory "/refile.org")
-             org-refile-use-outline-path t
-             org-outline-path-complete-in-steps nil
-             org-completion-use-ido t
-             org-indirect-buffer-display 'current-window
-             org-hide-emphasis-markers t
-             org-startup-folded 'content
-             org-startup-indented nil
-             org-startup-with-inline-images t
-             org-startup-truncated nil
-             org-src-tab-acts-natively t
-             org-fontify-done-headline t
-             org-pretty-entities t
-             org-odd-levels-only t
-             )
-       :hook
-       (org-mode . visual-line-mode)
-       ;; (org-mode . (lambda ()
-       ;;               (variable-pitch-mode 1)
-       ;;               (mapc
-       ;;                (lambda (face)
-       ;;                  (set-face-attribute face nil :inherit 'fixed-pitch))
-       ;;                (list 'org-code
-       ;;                      'org-link 
-       ;;                      'org-block
-       ;;                      'org-table
-       ;;                      'org-block-begin-line
-       ;;                      'org-block-end-line
-       ;;                      'org-meta-line
-       ;;                      'org-property-value
-       ;;                      'org-tag
-       ;;                      'org-document-info-keyword))))
-       :config
-       ;; (custom-theme-set-faces
-       ;; ;;  'user
-       ;; ;;  '(variable-pitch 
-       ;; ((t (:family "ETBembo" :weight thin :height 1.25 ))))
-       ;;  '(fixed-pitch ((t ( :family "JetBrains Mono" :weight thin  :height 0.8 )))))
-       (global-set-key (kbd "C-c c") 'org-capture)
-       (global-set-key (kbd "C-c a") 'org-agenda)
-       )
+#+BEGIN_SRC emacs-lisp :noresult
+  (use-package org
+    :init
+    (setq org-agenda-files (quote ("~/SynologyDrive/Documents/notes"))
+          org-refile-targets (quote ((nil :maxlevel . 9)
+                                     (org-agenda-files :maxlevel . 9)))
+          org-directory "~/SynologyDrive/Documents/notes"
+          org-default-notes-file (concat org-directory "/refile.org")
+          org-refile-use-outline-path t
+          org-outline-path-complete-in-steps nil
+          org-completion-use-ido t
+          org-indirect-buffer-display 'current-window
+          org-hide-emphasis-markers t
+          org-startup-folded 'content
+          org-startup-indented nil
+          org-startup-with-inline-images t
+          org-startup-truncated nil
+          org-src-tab-acts-natively t
+          org-fontify-done-headline t
+          org-pretty-entities t
+          org-odd-levels-only t
+          )
+    :hook
+    (org-mode . visual-line-mode)
+    ;; (org-mode . (lambda ()
+    ;;               (variable-pitch-mode 1)
+    ;;               (mapc
+    ;;                (lambda (face)
+    ;;                  (set-face-attribute face nil :inherit 'fixed-pitch))
+    ;;                (list 'org-code
+    ;;                      'org-link 
+    ;;                      'org-block
+    ;;                      'org-table
+    ;;                      'org-block-begin-line
+    ;;                      'org-block-end-line
+    ;;                      'org-meta-line
+    ;;                      'org-property-value
+    ;;                      'org-tag
+    ;;                      'org-document-info-keyword))))
+    :config
+    ;; (custom-theme-set-faces
+    ;; ;;  'user
+    ;; ;;  '(variable-pitch 
+    ;; ((t (:family "ETBembo" :weight thin :height 1.25 ))))
+    ;;  '(fixed-pitch ((t ( :family "JetBrains Mono" :weight thin  :height 0.8 )))))
+    (global-set-key (kbd "C-c c") 'org-capture)
+    (global-set-key (kbd "C-c a") 'org-agenda)
+    )
 
 
-   #+END_SRC
+#+END_SRC
 
-   #+RESULTS:
-   | (lambda nil (variable-pitch-mode 1) (mapc (lambda (face) (set-face-attribute face nil :inherit 'fixed-pitch)) (list 'org-code 'org-link 'org-block 'org-table 'org-block-begin-line 'org-block-end-line 'org-meta-line 'org-property-value 'org-tag 'org-document-info-keyword))) | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #<subr F616e6f6e796d6f75732d6c616d626461_anonymous_lambda_9> | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | org-bullets-mode | (lambda nil (variable-pitch-mode 1) (mapc #'(lambda (face) (set-face-attribute face nil :inherit 'fixed-pitch)) (list 'org-code 'org-link 'org-block 'org-table 'org-block-begin-line 'org-block-end-line 'org-meta-line 'org-property-value 'org-tag 'org-document-info-keyword))) | visual-line-mode |
+#+RESULTS:
+| (lambda nil (variable-pitch-mode 1) (mapc (lambda (face) (set-face-attribute face nil :inherit 'fixed-pitch)) (list 'org-code 'org-link 'org-block 'org-table 'org-block-begin-line 'org-block-end-line 'org-meta-line 'org-property-value 'org-tag 'org-document-info-keyword))) | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #<subr F616e6f6e796d6f75732d6c616d626461_anonymous_lambda_9> | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | org-bullets-mode | (lambda nil (variable-pitch-mode 1) (mapc #'(lambda (face) (set-face-attribute face nil :inherit 'fixed-pitch)) (list 'org-code 'org-link 'org-block 'org-table 'org-block-begin-line 'org-block-end-line 'org-meta-line 'org-property-value 'org-tag 'org-document-info-keyword))) | visual-line-mode |
 
 *** Bullet
-    #+begin_src emacs-lisp
-      (use-package org-bullets
-        :hook (org-mode . org-bullets-mode))
-    #+end_src
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode))
+#+end_src
 
-    #+RESULTS:
+#+RESULTS:
    
 *** Encryption
-    #+BEGIN_SRC emacs-lisp
-      (use-package org-crypt
-        :config 
-        (org-crypt-use-before-save-magic)
-        (setq org-crypt-key "A506C38D5CC847D0DF01134ADA8B833B52604E63")
-        (setq org-tags-exclude-from-inheritance '("crypt"))
-        )
-    #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package org-crypt
+    :config
+    (org-crypt-use-before-save-magic)
+    (setq org-crypt-key "A506C38D5CC847D0DF01134ADA8B833B52604E63")
+    (setq org-tags-exclude-from-inheritance '("crypt"))
+    )
+#+END_SRC
 
-    #+RESULTS:
-    : t
+#+RESULTS:
+: t
 *** Org Protocol
-    #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 
-      ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
-      (use-package org-protocol
-        :config
-        (setq org-capture-templates
-              (quote (("t" "Todo" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Todos")
-                       "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                      ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
-                       "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                      ("w" "Work" entry (file+headline (lambda () (concat org-directory "/myob.org")) "Work Notes"))
-                      ("x" "protocol" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Org Capture")
-                       "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
-                      )))
-        )
+  ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+  (use-package org-protocol
+    :config
+    (setq org-capture-templates
+          (quote (("t" "Todo" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Todos")
+                   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                  ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
+                   "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                  ("w" "Work" entry (file+headline (lambda () (concat org-directory "/myob.org")) "Work Notes"))
+                  ("x" "protocol" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Org Capture")
+                   "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+                  )))
+    )
 
-    #+END_SRC
+#+END_SRC
 
-    #+RESULTS:
-    : selected-window
+#+RESULTS:
+: selected-window
 
 ** prompt
-   #+BEGIN_SRC emacs-lisp
-     (defalias 'yes-or-no-p 'y-or-n-p)
-     (setq kill-buffer-query-functions
-           (remq 'process-kill-buffer-query-function
-                 kill-buffer-query-functions))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (setq kill-buffer-query-functions
+        (remq 'process-kill-buffer-query-function
+              kill-buffer-query-functions))
+#+END_SRC
 
-   #+RESULTS:
+#+RESULTS:
    
 ** PureScript
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package psc-ide
-       :init
-       (setq psc-ide-use-npm-bin t)
-       :config
-       (add-hook 'purescript-mode-hook
-                 (lambda ()
-                   (psc-ide-mode)
-                   (company-mode)
-                   (flycheck-mode)
-                   (turn-on-purescript-indentation)))
+#+BEGIN_SRC emacs-lisp
+  (use-package psc-ide
+    :init
+    (setq psc-ide-use-npm-bin t)
+    :config
+    (add-hook 'purescript-mode-hook
+              (lambda ()
+                (psc-ide-mode)
+                (company-mode)
+                (flycheck-mode)
+                (turn-on-purescript-indentation)))
 
-       )
-   #+END_SRC
+    )
+#+END_SRC
 
 ** rainbow delimiter
-   #+begin_src emacs-lisp
-     (use-package rainbow-delimiters
-       :hook (prog-mode . rainbow-delimiters-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
 
-   #+RESULTS:
-   | rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
+#+RESULTS:
+| rainbow-delimiters-mode | (lambda nil (flyspell-prog-mode) (setq company-backends (delete 'company-ispell company-backends)) (message company-ispell disable)) |
 
 ** Restclient
-   #+BEGIN_SRC emacs-lisp
-     (use-package restclient
-       :config
-       (add-to-list 'company-backends 'company-restclient))
-     (use-package restclient-jq)
-     (use-package restclient-helm)
-     ;; :config
-     ;; ;
-                                             ; 
-     ;; :hook (company-mode))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package restclient
+    :config
+    (add-to-list 'company-backends 'company-restclient))
+  (use-package restclient-jq)
+  (use-package restclient-helm)
+#+END_SRC
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** COMMENT Scala Metals
-   #+BEGIN_SRC emacs-lisp
-     ;; Enable scala-mode for highlighting, indentation and motion commands
-     (use-package scala-mode
-       :mode "\\.s\\(cala\\|bt\\)$"
-       )
-     ;; Enable sbt mode for executing sbt commands
-     (use-package sbt-mode
-       :commands sbt-start sbt-command
-       :config
-       ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-       ;; allows using SPACE when in the minibuffer
-       (substitute-key-definition
-        'minibuffer-complete-word
-        'self-insert-command
-        minibuffer-local-completion-map)
-       ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-       (setq sbt:program-options '("-Dsbt.supershell=false"))
-       )
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  ;; Enable scala-mode for highlighting, indentation and motion commands
+  (use-package scala-mode
+    :mode "\\.s\\(cala\\|bt\\)$"
+    )
+  ;; Enable sbt mode for executing sbt commands
+  (use-package sbt-mode
+    :commands sbt-start sbt-command
+    :config
+    ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+    ;; allows using SPACE when in the minibuffer
+    (substitute-key-definition
+     'minibuffer-complete-word
+     'self-insert-command
+     minibuffer-local-completion-map)
+    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+    (setq sbt:program-options '("-Dsbt.supershell=false"))
+    )
+#+END_SRC
 
-   #+RESULTS:
+#+RESULTS:
 
 ** [[https://github.com/atomontage/xterm-color][shell-mode]]
-   #+begin_src emacs-lisp
-     (setq comint-output-filter-functions
-           (remove 'ansi-color-process-output comint-output-filter-functions))
-   #+end_src
+#+begin_src emacs-lisp
+  (setq comint-output-filter-functions
+        (remove 'ansi-color-process-output comint-output-filter-functions))
+#+end_src
 
 ** smartparens
-   #+BEGIN_SRC emacs-lisp
-     (use-package smartparens
-       :init
-       (require 'smartparens-config)
-       :config
-       (smartparens-global-mode t)
-       (show-smartparens-global-mode t))
+#+BEGIN_SRC emacs-lisp
+  (use-package smartparens
+    :init
+    (require 'smartparens-config)
+    :config
+    (smartparens-global-mode t)
+    (show-smartparens-global-mode t))
 
-   #+END_SRC
+#+END_SRC
 
-   #+RESULTS:
+#+RESULTS:
 
 ** textmate
-   #+BEGIN_SRC emacs-lisp
-     (use-package textmate
-       :init
-       (textmate-mode)
-       (bind-keys
-        :map *textmate-mode-map*
-        ("M--" . text-scale-decrease)
-        ("M-=" . text-scale-increase)
-        ("M-}" . textmate-shift-right)
-        ("M-<backspace>" . kill-whole-line)
-        ("M-c" . kill-ring-save)
-        ("M-{" . textmate-shift-left)
-        ("M-/" . comment-line)
-        ("M-l" . textmate-select-line)
-        ))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package textmate
+    :init
+    (textmate-mode)
+    (bind-keys
+     :map *textmate-mode-map*
+     ("M--" . text-scale-decrease)
+     ("M-=" . text-scale-increase)
+     ("M-}" . textmate-shift-right)
+     ("M-<backspace>" . kill-whole-line)
+     ("M-c" . kill-ring-save)
+     ("M-{" . textmate-shift-left)
+     ("M-/" . comment-line)
+     ("M-l" . textmate-select-line)
+     ))
+#+END_SRC
 
-   #+RESULTS:
-   : textmate-select-line
+#+RESULTS:
+: textmate-select-line
 
 ** typescript
-   #+BEGIN_SRC emacs-lisp
-     (use-package typescript-mode
-       :hook
-       (typescript-mode . lsp))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package typescript-mode
+    :hook
+    (typescript-mode . lsp))
+#+END_SRC
 
-   #+RESULTS:
-   | lsp |
+#+RESULTS:
+| lsp |
 
 ** COMMENT undo tree
-   #+begin_src emacs-lisp
-     (use-package undo-tree
-       :init (global-undo-tree-mode))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :init (global-undo-tree-mode))
+#+end_src
 ** unicode
-   #+begin_src emacs-lisp
-     (use-package unicode-fonts
-       :config
-       (unicode-fonts-setup))
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package unicode-fonts
+    :config
+    (unicode-fonts-setup))
+#+end_src
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** web-mode
-   #+begin_src emacs-lisp :results none
-     (use-package web-mode
-       :mode "\\.html$'" "\\.jsx$" "\\.tsx$"
-       :init 
-       (setq web-mode-markup-indent-offset 2)
-       (setq web-mode-css-indent-offset 2)
-       (setq web-mode-code-indent-offset 2)
-       )
-   #+end_src
+#+begin_src emacs-lisp :results none
+  (use-package web-mode
+    :mode "\\.html$'" "\\.jsx$" "\\.tsx$"
+    :init
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-css-indent-offset 2)
+    (setq web-mode-code-indent-offset 2)
+    )
+#+end_src
 
 ** which key
-   #+begin_src emacs-lisp
-     (use-package which-key
-       :config
-       (which-key-mode)
-       (setq which-key-use-C-h-commands t)
-       (setq which-key-paging-key "<f5>")
-       )
-   #+end_src
+#+begin_src emacs-lisp
+  (use-package which-key
+    :config
+    (which-key-mode)
+    (setq which-key-use-C-h-commands t)
+    (setq which-key-paging-key "<f5>")
+    )
+#+end_src
 
-   #+RESULTS:
-   : t
+#+RESULTS:
+: t
 
 ** yasnippet
-   #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (use-package yasnippet
 :config
 (yas-global-mode 1))
