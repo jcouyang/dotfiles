@@ -87,12 +87,6 @@ in {
       # JS
       yarn
 
-      # Haskell
-      stack
-      ghc
-      stylish-haskell
-      haskell-language-server
-
       # Dhall
       dhall
       dhall-json

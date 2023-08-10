@@ -66,6 +66,7 @@ let
     yaml-mode
     yasnippet
     yasnippet-snippets
+    zig-mode
   ]));
 in
 myEmacs

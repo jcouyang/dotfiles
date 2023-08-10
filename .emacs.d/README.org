@@ -702,3 +702,12 @@
 
 #+RESULTS:
 r
+
+** zig
+   #+begin_src emacs-lisp
+     (use-package zig-mode
+       :ensure t
+       :hook
+       (zig-mode . lsp)
+     )
+        #+end_src
