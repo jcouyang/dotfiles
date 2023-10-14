@@ -35,7 +35,7 @@
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   # Audio
   hardware.pulseaudio.enable = true;
-
+  hardware.bluetooth.enable = true;
   networking = {
     useDHCP = false;
     interfaces.wlp0s20f3.useDHCP = true;

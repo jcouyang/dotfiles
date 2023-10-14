@@ -15,6 +15,11 @@ in {
   config = mkIf cfg.enable {
     age.identityPaths = cfg.identityPaths;
     age.secrets = {
+      "pulumi/passphase" = {
+        file = ./pulumi/passphase.age;
+        path = "${cfg.home}/.config/pulumi/passphase";
+        owner = cfg.owner;
+      };
       netrc = {
         file = ./.netrc.age;
         path = "${cfg.home}/.netrc";

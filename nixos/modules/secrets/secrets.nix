@@ -6,4 +6,5 @@ in {
   "offlineimap/gmailpass.age".publicKeys = [jcouyang];
   "gpg/oyanglulu.sec.gpg.age".publicKeys = [jcouyang];
   "gpg/jichao.sec.gpg.age".publicKeys = [jcouyang];
+  "pulumi/passphase.age".publicKeys = [jcouyang];
 }

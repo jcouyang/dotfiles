@@ -67,6 +67,15 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 
 
 * Modes
+** age
+#+begin_src emacs-lisp
+        (use-package age
+             :custom
+             (age-default-identity "~/.ssh/id_ed25519")
+             (age-default-recipient '("~/.ssh/id_ed25519.pub"))
+             :config
+             (age-file-enable))
+#+end_src
 
 ** [[https://github.com/winterTTr/ace-jump-mode][ace jump mode]]
 
@@ -342,6 +351,8 @@ extract them into =/usr/local/share/LanguageTool=
 ** lsp
 #+begin_src emacs-lisp
   (use-package lsp-mode
+    :hook
+    (sh-mode . lsp)
     :config
     (setq lsp-prefer-flymake nil
           lsp-enable-file-watchers nil
@@ -530,6 +541,30 @@ extract them into =/usr/local/share/LanguageTool=
 #+RESULTS:
 : selected-window
 
+** org-roam
+#+BEGIN_SRC emacs-lisp
+  (use-package org-roam
+    :custom
+    (org-roam-directory (file-truename "~/SynologyDrive/Documents"))
+    (org-roam-capture-templates
+     '(("d" "default" plain "%?" :target
+        (file+head "notes/${slug}.org" "#+title: ${title}
+  ")
+        :unnarrowed t)
+       ("e" "encrypted" plain "%?"
+        :target (file+head "snotes/${slug}.org.age"
+                           "#+title: ${title}\n")
+        :unnarrowed t)
+       ("g" "grok" plain "%?" :target
+        (file+head "grok/%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}
+  ")
+        :unnarrowed t)
+       ))
+    )
+#+END_SRC
+
+#+RESULTS:
+
 ** prompt
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -603,8 +638,8 @@ extract them into =/usr/local/share/LanguageTool=
 
 ** [[https://github.com/atomontage/xterm-color][shell-mode]]
 #+begin_src emacs-lisp
-  (setq comint-output-filter-functions
-        (remove 'ansi-color-process-output comint-output-filter-functions))
+  ;; (setq comint-output-filter-functions
+  ;;       (remove 'ansi-color-process-output comint-output-filter-functions))
 #+end_src
 
 ** smartparens

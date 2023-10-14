@@ -18,10 +18,12 @@ let
   myEmacs = emacsWithPackages (epkgs: (with epkgs.melpaPackages; [
     ace-jump-mode
     ag
+    age
     company
     company-restclient
     dhall-mode
     direnv
+    epkgs.eat
     expand-region
     flycheck
     go-mode
@@ -47,7 +49,8 @@ let
     notmuch
     nyan-mode
     ob-restclient
-    org-bullets 
+    org-bullets
+    org-roam
     projectile
     protobuf-mode
     psc-ide
@@ -57,11 +60,13 @@ let
     restclient-helm
     restclient-jq
     smartparens
+    svelte-mode
     textmate
     typescript-mode
     unicode-fonts
     use-package
     vterm
+    web-mode
     which-key
     yaml-mode
     yasnippet
