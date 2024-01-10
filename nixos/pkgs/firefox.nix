@@ -7,6 +7,6 @@ if stdenv.isLinux then pkgs.wrapFirefox pkgs.firefox-unwrapped {
     pref("ui.key.contentAccess", 6);
     pref("ui.key.contentAccess", 6);
     pref("ui.key.menuAccessKey", -1);
-    pref("network.protocol-handler.expose.org-protocol", false);
+    pref("network.protocol-handler.expose.org-protocol", true);
   '';
 } else pkgs.firefox-bin

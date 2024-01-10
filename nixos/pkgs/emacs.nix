@@ -51,6 +51,7 @@ let
     ob-restclient
     org-bullets
     org-roam
+    ox-hugo
     projectile
     protobuf-mode
     psc-ide

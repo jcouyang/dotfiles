@@ -35,7 +35,7 @@ rec {
     };
   };
 
-  fonts.fonts = [ pkgs.jetbrains-mono pkgs.etBook ];
+  fonts.packages = [ pkgs.jetbrains-mono pkgs.etBook ];
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
 

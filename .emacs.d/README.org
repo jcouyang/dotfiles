@@ -101,6 +101,7 @@ text completion framework
   (use-package company
     :config
     (add-hook 'after-init-hook 'global-company-mode)
+    (add-to-list 'company-backends 'company-capf)
     )
 #+END_SRC
 
@@ -493,11 +494,11 @@ extract them into =/usr/local/share/LanguageTool=
     (global-set-key (kbd "C-c a") 'org-agenda)
     )
 
+  (use-package org-tempo)
 
 #+END_SRC
 
 #+RESULTS:
-| (lambda nil (variable-pitch-mode 1) (mapc (lambda (face) (set-face-attribute face nil :inherit 'fixed-pitch)) (list 'org-code 'org-link 'org-block 'org-table 'org-block-begin-line 'org-block-end-line 'org-meta-line 'org-property-value 'org-tag 'org-document-info-keyword))) | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | #<subr F616e6f6e796d6f75732d6c616d626461_anonymous_lambda_9> | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | org-bullets-mode | (lambda nil (variable-pitch-mode 1) (mapc #'(lambda (face) (set-face-attribute face nil :inherit 'fixed-pitch)) (list 'org-code 'org-link 'org-block 'org-table 'org-block-begin-line 'org-block-end-line 'org-meta-line 'org-property-value 'org-tag 'org-document-info-keyword))) | visual-line-mode |
 
 *** Bullet
 #+begin_src emacs-lisp
@@ -522,30 +523,38 @@ extract them into =/usr/local/share/LanguageTool=
 *** Org Protocol
 #+BEGIN_SRC emacs-lisp
 
-  ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
-  (use-package org-protocol
-    :config
-    (setq org-capture-templates
-          (quote (("t" "Todo" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Todos")
-                   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                  ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
-                   "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
-                  ("w" "Work" entry (file+headline (lambda () (concat org-directory "/myob.org")) "Work Notes"))
-                  ("x" "protocol" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Org Capture")
-                   "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
-                  )))
-    )
+        ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
+        (use-package org-protocol
+          :config
+          (setq org-capture-templates
+                (quote (("t" "Todo" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Todos")
+                         "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                        ("n" "Note" entry (file+headline (lambda () (concat org-directory "/notes.org")) "Notes")
+                         "* %?\n%U\n%a\n" :clock-in t :clock-resume t)
+                        ("w" "Work" entry (file+headline (lambda () (concat org-directory "/myob.org")) "Work Notes"))
+                        ("x" "protocol" entry (file+headline (lambda () (concat org-directory "/refile.org")) "Org Capture")
+                         "* %a\nCaptured On: %U\nWebsite: %l\n\n%i\n%?")
+                        )))
+          )
 
 #+END_SRC
 
 #+RESULTS:
-: selected-window
-
+: t
 ** org-roam
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
+    :bind (("C-c n l" . org-roam-buffer-toggle)
+           ("C-c n f" . org-roam-node-find)
+           ("C-c n i" . org-roam-node-insert)
+           ("C-c n c" . org-roam-capture))
+    :config
+    (org-roam-setup)
     :custom
+    (org-roam-completion-everywhere t)
     (org-roam-directory (file-truename "~/SynologyDrive/Documents"))
+    (require 'org-roam-protocol)
+    (org-roam-db-autosync-mode)
     (org-roam-capture-templates
      '(("d" "default" plain "%?" :target
         (file+head "notes/${slug}.org" "#+title: ${title}
@@ -562,6 +571,16 @@ extract them into =/usr/local/share/LanguageTool=
        ))
     )
 #+END_SRC
+
+#+RESULTS:
+: org-roam-capture
+** ox-hugo
+#+begin_src emacs-lisp
+  (use-package ox-hugo
+    :custom
+    (org-hugo-base-dir "~/Develop/1punch.dev/org")
+    (org-hugo-export-with-section-numbers nil))
+#+end_src
 
 #+RESULTS:
 

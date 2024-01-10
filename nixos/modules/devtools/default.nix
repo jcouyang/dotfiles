@@ -84,9 +84,6 @@ in {
       # (ammonite.override {jre = graalvm8-ce; })
       # (sbt.override { jre = graalvm8-ce; })
 
-      # JS
-      yarn
-
       # Dhall
       dhall
       dhall-json
@@ -101,9 +98,6 @@ in {
 
       # Rust
       cargo
-
-      # python
-      python39
     ];
   };
 }
