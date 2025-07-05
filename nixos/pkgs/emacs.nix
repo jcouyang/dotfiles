@@ -65,7 +65,7 @@ let
     textmate
     typescript-mode
     unicode-fonts
-    use-package
+    epkgs.use-package
     vterm
     web-mode
     which-key

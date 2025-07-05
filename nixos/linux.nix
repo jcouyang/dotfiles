@@ -38,7 +38,7 @@
     xserver.enable = true;
     # Enable the Plasma 5 Desktop Environment.
     xserver.displayManager.sddm.enable = true;
-    xserver.desktopManager.plasma5.enable = true;
+    xserver.desktopManager.plasma6.enable = true;
     xserver.xkbOptions = "caps:ctrl_modifier";
 
   };

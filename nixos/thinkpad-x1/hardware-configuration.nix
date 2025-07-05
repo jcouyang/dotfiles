@@ -34,8 +34,10 @@
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   # Audio
-  hardware.pulseaudio.enable = true;
+  services.pipewire.enable = true;
+  hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
+  hardware.pulseaudio.support32Bit = false;
   networking = {
     useDHCP = false;
     interfaces.wlp0s20f3.useDHCP = true;

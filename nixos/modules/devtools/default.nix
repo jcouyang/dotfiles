@@ -93,11 +93,14 @@ in {
 
       # Go
       go
-      ## gopls
       gopls
 
       # Rust
       cargo
+      rust-analyzer
+
+      # Bash
+      nodePackages.bash-language-server
     ];
   };
 }

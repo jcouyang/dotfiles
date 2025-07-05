@@ -2,9 +2,11 @@
 with lib;
 let cfg = config.secrets;
     isDarwin = builtins.hasAttr "darwinConfig" options.environment;
-    agenixurl = "https://github.com/montchr/agenix/archive/refs/heads/darwin-support.tar.gz";
+    agenixurl = "https://github.com/ryantm/agenix/archive/main.tar.gz";
 in {
-  imports = [ "${builtins.fetchTarball agenixurl}/modules/age.nix" ];
+
+  imports = [ "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/modules/age.nix" ];
+
   options.secrets = {
     enable = mkEnableOption "mount secrets";
     home = mkOption {type = types.str;};

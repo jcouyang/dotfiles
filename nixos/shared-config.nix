@@ -25,13 +25,21 @@ rec {
   nix = {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
-      trusted-substituters = ["https://jcouyang.cachix.org" "https://cache.iog.io" "s3://myob-api-nixpkgs?region=ap-southeast-2"];
+      trusted-substituters = [
+        "https://jcouyang.cachix.org"
+        "https://cache.iog.io"
+        "s3://myob-api-nixpkgs?region=ap-southeast-2"
+        "https://cache.dhall-lang.org"
+        "https://dhall.cachix.org"
+      ];
       trusted-public-keys = [
       "myob-api-nix-cache:2r+2/m5vOo/6PI1PTas0wc7OtVLv4wYXE9u3t8CEr4I="
       "jcouyang.cachix.org-1:TsD057OCpomDztwQiONvnXfLnOaGDhOAAB3C8ODLr14="
+      "cache.dhall-lang.org:I9/H18WHd60olG5GsIjolp7CtepSgJmM2CsO813VTmM="
+      "dhall.cachix.org-1:8laGciue2JBwD49ICFtg+cIF8ddDaW7OFBjDb/dHEAo="
       "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
       ];
-      substituters = ["https://jcouyang.cachix.org" "https://cache.iog.io"];
+      substituters = ["https://jcouyang.cachix.org" "https://cache.dhall-lang.org" "https://dhall.cachix.org" "https://cache.iog.io"];
     };
   };
 
