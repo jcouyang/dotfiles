@@ -29,9 +29,9 @@ let
     go-mode
     haskell-mode
     helm
-    helm-ag
+    # helm-ag
     helm-projectile
-    helm-swoop
+    # helm-swoop
     indent-guide
     jq-mode
     json-mode

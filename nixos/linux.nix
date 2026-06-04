@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 {
-  imports = [./shared-config.nix];
+  imports = [
+    ./shared-config.nix
+    ./modules/hermes.nix
+  ];
   i18n.inputMethod = {
     enabled = "ibus";
     ibus.engines = with pkgs.ibus-engines; [ libpinyin ];
@@ -36,11 +39,9 @@
   services = {
     # Enable the X11 windowing system.
     xserver.enable = true;
-    # Enable the Plasma 5 Desktop Environment.
-    xserver.displayManager.sddm.enable = true;
-    xserver.desktopManager.plasma6.enable = true;
-    xserver.xkbOptions = "caps:ctrl_modifier";
-
+    desktopManager.plasma6.enable = true;
+    displayManager.sddm.enable = true;
+    xserver.xkb.options = "caps:ctrl_modifier";
   };
 
   virtualisation = {

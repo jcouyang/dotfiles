@@ -100,7 +100,7 @@ in {
       rust-analyzer
 
       # Bash
-      nodePackages.bash-language-server
+      bash-language-server
     ];
   };
 }

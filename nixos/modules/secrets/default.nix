@@ -17,6 +17,11 @@ in {
   config = mkIf cfg.enable {
     age.identityPaths = cfg.identityPaths;
     age.secrets = {
+      "hermes/.env" = {
+        file = ./hermes/.env.age;
+        path = "${cfg.home}/.hermes/.env";
+        owner = cfg.owner;
+      };
       "pulumi/passphase" = {
         file = ./pulumi/passphase.age;
         path = "${cfg.home}/.config/pulumi/passphase";

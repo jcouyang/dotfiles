@@ -7,4 +7,5 @@ in {
   "gpg/oyanglulu.sec.gpg.age".publicKeys = [jcouyang];
   "gpg/jichao.sec.gpg.age".publicKeys = [jcouyang];
   "pulumi/passphase.age".publicKeys = [jcouyang];
+  "hermes/.env.age".publicKeys = [jcouyang];
 }
