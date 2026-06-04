@@ -186,4 +186,44 @@ git push
 看，两坨 gpg 加密过的文件
 [[https://www.evernote.com/l/ABezPtVV1YxHFrYpAsVE_G_oc5-O0bmzqYMB/image.png]]
 
+* 🤖 Hermes Agent
+最近在 NixOS 配置中加入了 [[https://github.com/NousResearch/hermes-agent][Hermes Agent]] —— Nous Research 出品的 CLI AI 助手。
+
+模块路径： =nixos/modules/hermes/=
+
+** flake 输入
+=nixos/modules/hermes/flake.nix= 把 =hermes-agent= 作为 flake input 引入，并在 =nixosModules.default= 中启用：
+#+BEGIN_SRC nix
+inputs = {
+  nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  hermes-agent.url = "github:NousResearch/hermes-agent";
+};
+#+END_SRC
+
+** 服务配置
+=nixos/modules/hermes/default.nix= 启用 =services.hermes-agent=，使用 GitHub Copilot 作为 provider，默认模型 =claude-opus-4.7=：
+#+BEGIN_SRC nix
+services.hermes-agent = {
+  enable = true;
+  settings = {
+    model = {
+      provider = "copilot";
+      default = "claude-opus-4.7";
+    };
+  };
+  environmentFiles = [ config.age.secrets."hermes/.env".path ];
+  addToSystemPackages = true;
+};
+#+END_SRC
+
+** 敏感配置
+API key 等敏感环境变量通过 [[https://github.com/ryantm/agenix][agenix]] 加密存放在 =nixos/modules/secrets/hermes/.env.age=，运行时由 systemd 解密注入。
+
+** 构建
+启用 hermes 模块后，必须使用 flake 方式构建（注意 =--impure=，因为 hermes-agent 需要读取运行时凭据）：
+#+BEGIN_SRC sh
+cd nixos
+sudo nixos-rebuild switch --flake ./modules/hermes/#thinkpad --impure
+#+END_SRC
+
 *LLAP 🖖*

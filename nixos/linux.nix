@@ -2,10 +2,11 @@
 {
   imports = [
     ./shared-config.nix
-    ./modules/hermes.nix
+    ./modules/hermes/default.nix
   ];
   i18n.inputMethod = {
-    enabled = "ibus";
+    enable = true;
+    type = "ibus";
     ibus.engines = with pkgs.ibus-engines; [ libpinyin ];
   };
   # Select internationalisation properties.

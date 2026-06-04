@@ -63,9 +63,12 @@ in {
     environment.systemPackages = with pkgs;[
       # General
       (callPackage ../../pkgs/emacs.nix {})
-      silver-searcher
+      zed-editor
+      ripgrep
+      sd
       fasd
       jq
+      fd
       ispell
       graphviz
       stow
@@ -101,6 +104,9 @@ in {
 
       # Bash
       bash-language-server
+
+      # js
+      bun
     ];
   };
 }
