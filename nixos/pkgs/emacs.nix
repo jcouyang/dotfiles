@@ -1,14 +1,11 @@
 {pkgs, runCommand}:
 
 let
-  theEmacs = if pkgs.stdenv.isDarwin then pkgs.emacsMacport else pkgs.emacs;
+  theEmacs = pkgs.emacs.override { withNativeCompilation = false; };
   # theEmacs = pkgs.emacs;
   emacsWithPackages = (pkgs.emacsPackagesFor theEmacs).emacsWithPackages;
   myEmacsConf = runCommand "default.el" {
-    src = builtins.path {
-      name = "emacsConfigSrc";
-      path = ./../.. + "/.emacs.d";
-    };
+    src = pkgs.lib.sources.cleanSource ../../.emacs.d ;
   } ''
       mkdir -p $out/share/emacs/site-lisp
       cp $src/README.org .
@@ -26,6 +23,7 @@ let
     epkgs.eat
     expand-region
     flycheck
+    forge
     go-mode
     haskell-mode
     helm
@@ -50,6 +48,7 @@ let
     org-bullets
     org-roam
     ox-hugo
+    ox-gfm
     projectile
     protobuf-mode
     psc-ide
@@ -70,7 +69,7 @@ let
     yaml-mode
     yasnippet
     yasnippet-snippets
-    zig-mode
+    # zig-mode
   ]));
 in
 myEmacs

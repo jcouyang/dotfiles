@@ -12,6 +12,9 @@
         threshold = 0.8;
       };
     };
+    documents = {
+      "SOUL.md" = ./documents/SOUL.md;
+    };
     environmentFiles = [ config.age.secrets."hermes/.env".path ];
     addToSystemPackages = true;
   };

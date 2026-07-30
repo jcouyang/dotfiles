@@ -65,6 +65,7 @@ in {
       (callPackage ../../pkgs/emacs.nix {})
       zed-editor
       ripgrep
+      rage
       sd
       fasd
       jq
@@ -72,7 +73,7 @@ in {
       ispell
       graphviz
       stow
-      awscli
+      awscli2
       fzf
       coreutils
       direnv
@@ -92,7 +93,7 @@ in {
       dhall-json
       dhall-bash
 
-      dhall-lsp-server
+#      dhall-lsp-server
 
       # Go
       go

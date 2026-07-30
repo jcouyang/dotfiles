@@ -69,13 +69,17 @@ Download [[https://www.jetbrains.com/lp/mono/][JetBrain Mono]] font.
 * Modes
 ** age
 #+begin_src emacs-lisp
-        (use-package age
-             :custom
-             (age-default-identity "~/.ssh/id_ed25519")
-             (age-default-recipient '("~/.ssh/id_ed25519.pub"))
-             :config
-             (age-file-enable))
+  (use-package age
+       :custom
+       (age-program "rage")
+       (age-default-identity "~/.ssh/id_ed25519")
+       (age-default-recipient '("~/.ssh/id_ed25519.pub"))
+       :config
+       (age-file-enable))
 #+end_src
+
+#+RESULTS:
+: t
 
 ** [[https://github.com/winterTTr/ace-jump-mode][ace jump mode]]
 
@@ -179,11 +183,12 @@ text completion framework
 
 ** forge 
 #+BEGIN_SRC emacs-lisp
-  ;;(use-package forge
-  ;;:after magit)
+  (use-package forge
+  :after magit)
 #+END_SRC
 
 #+RESULTS:
+: t
 
 ** Go
 #+begin_src emacs-lisp

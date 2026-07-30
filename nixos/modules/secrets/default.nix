@@ -2,11 +2,8 @@
 with lib;
 let cfg = config.secrets;
     isDarwin = builtins.hasAttr "darwinConfig" options.environment;
-    agenixurl = "https://github.com/ryantm/agenix/archive/main.tar.gz";
 in {
-
   imports = [ "${builtins.fetchTarball "https://github.com/ryantm/agenix/archive/main.tar.gz"}/modules/age.nix" ];
-
   options.secrets = {
     enable = mkEnableOption "mount secrets";
     home = mkOption {type = types.str;};
@@ -37,23 +34,18 @@ in {
         path = "${cfg.home}/.npmrc";
         owner = cfg.owner;
       };
-      "gh/hosts.yml" = {
-        file = ./gh_hosts.yaml.age;
-        path = "${cfg.home}/.config/gh/hosts.yml";
-        owner = cfg.owner;
-      };
       "offlineimap/gmailpass" = {
         file = ./offlineimap/gmailpass.age;
         owner = cfg.owner;
       };
-      "gpg/oyanglulu.sec.gpg" = {
-        file = ./gpg/oyanglulu.sec.gpg.age;
-        owner = cfg.owner;
-      };
-      "gpg/jichao.sec.gpg" = {
-        file = ./gpg/jichao.sec.gpg.age;
-        owner = cfg.owner;
-      };
+      # "gpg/oyanglulu.sec.gpg" = {
+      #   file = ./gpg/oyanglulu.sec.gpg.age;
+      #   owner = cfg.owner;
+      # };
+      # "gpg/jichao.sec.gpg" = {
+      #   file = ./gpg/jichao.sec.gpg.age;
+      #   owner = cfg.owner;
+      # };
     };
   };
 }
