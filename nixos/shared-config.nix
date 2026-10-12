@@ -35,7 +35,7 @@ rec {
       "dhall.cachix.org-1:8laGciue2JBwD49ICFtg+cIF8ddDaW7OFBjDb/dHEAo="
       "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
       ];
-      substituters = ["https://jcouyang.cachix.org" "https://cache.dhall-lang.org" "https://dhall.cachix.org" "https://cache.iog.io"];
+      substituters = [];
       trusted-users = [ "root" "Jichao.Ouyang" ];
     };
     buildMachines = [ {
@@ -55,6 +55,7 @@ rec {
 
   services = { 
     offlineimap.enable = true;
+    ollama.enable = true;
   };
 
   environment = {

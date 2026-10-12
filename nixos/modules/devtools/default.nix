@@ -67,7 +67,7 @@ in {
       ripgrep
       rage
       sd
-      fasd
+#      fasd
       jq
       fd
       ispell
